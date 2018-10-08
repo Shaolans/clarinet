@@ -1,5 +1,7 @@
 <html>
 <body>
-<h2>Hello Heroku!</h2>
+<script>
+window.location.replace("/connexion/connexion.jsp");
+</script>
 </body>
 </html>
