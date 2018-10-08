@@ -17,7 +17,7 @@ public class ByeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         ServletOutputStream out = resp.getOutputStream();
-        out.write("<!DOCTYPE html> <html> <head></head> <body><h1> BYE BYE</h1></body></html>".getBytes());
+        out.write("<!DOCTYPE html> <html> <head></head> <body><h1> BYE BYE clarinet</h1></body></html>".getBytes());
         out.flush();
         out.close();
     }
