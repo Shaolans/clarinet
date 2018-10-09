@@ -23,5 +23,9 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/MySQL/Connector J 8.0/mysql-connector-java-8.0.12.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/MySQL/Connector J 8.0/lib/jboss-common-jdbc-wrapper-src.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Amel^^/Desktop/mongo-2.10.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Amel^^/Desktop/postgresql-42.2.5.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -1,20 +1,29 @@
 package user;
 
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import database.ConnectionProvider;
+import javax.naming.NamingException;
+
+import com.mongodb.DB;
+
+import database.MongoDBConnectionProvider;
+import database.PostgresqlConnectionProvider;
 
 public class ConnexionCheck {
 		
-	public static boolean validate(ConnexionObject obj){
+	public static boolean validate(ConnexionObject obj) throws SQLException, NamingException, UnknownHostException{
 	
 		boolean status = false;
-		Connection con = ConnectionProvider.getCon();
 		
-		PreparedStatement pr;
+		
+		
+		Connection con = PostgresqlConnectionProvider.getCon();
+		
+		/*PreparedStatement pr;
 		try {
 			pr = con.prepareStatement("select * from user where login=? and password=?");
 			pr.setString(1, obj.getLogin());
@@ -27,7 +36,7 @@ public class ConnexionCheck {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
 		
 		
