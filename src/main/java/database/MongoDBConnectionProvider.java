@@ -2,25 +2,30 @@ package database;
 
 import java.net.UnknownHostException;
 
-import com.mongodb.DB;
-import com.mongodb.Mongo;
+
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import com.mongodb.client.MongoDatabase;
 
 public class MongoDBConnectionProvider {
 	
-	private static DB db=null;  
+	private static MongoDatabase db=null;  
 	
 	
 	  
-	@SuppressWarnings("deprecation")
-	public static DB getDB() throws UnknownHostException{
-		
-		if(db==null){
-			if(db==null){
-				Mongo m = new Mongo(Database.MONGO_URL, Database.MONGO_PORT);
-				db = m.getDB(Database.MONGO_DB);
-			}
+
+	@SuppressWarnings("resource")
+	public static MongoDatabase getDB() throws UnknownHostException{
+		if(db == null) {
+			MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://"+Database.MONGO_USERNAME
+					+":"+Database.MONGO_MDP
+					+"@"+Database.MONGO_URL
+					+":"+Database.MONGO_PORT
+					+"/"+Database.MONGO_DB));
+
+			db = mongoClient.getDatabase(Database.MONGO_DB);
 		}
-		
+
 		return db;
 	}
 
