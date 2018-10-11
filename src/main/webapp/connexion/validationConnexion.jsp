@@ -4,6 +4,7 @@
 <jsp:setProperty property="*" name="obj"/> 
 
 <%  
+
 	boolean status=ConnexionCheck.validate(obj);  
 	if(status){  
 		out.println("Vous êtes connecté");  

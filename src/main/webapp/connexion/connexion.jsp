@@ -40,13 +40,13 @@
 
 					<div class="wrap-input100 validate-input m-b-23" data-validate = "Veuillez entre un pseudo">
 						<span class="label-input100">Pseudo</span>
-						<input class="input100" type="text" name="username" placeholder="Entrez votre pseudo">
+						<input class="input100" type="text" name="login" placeholder="Entrez votre pseudo">
 						<span class="focus-input100" data-symbol="&#xf206;"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="Veuillez entrer un mot de passe">
 						<span class="label-input100">Mot de passe</span>
-						<input class="input100" type="password" name="pass" placeholder="Entrez votre mot de passe">
+						<input class="input100" type="password" name="password" placeholder="Entrez votre mot de passe">
 						<span class="focus-input100" data-symbol="&#xf190;"></span>
 					</div>
 					

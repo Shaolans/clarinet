@@ -23,9 +23,9 @@ public class ConnexionCheck {
 		
 		Connection con = PostgresqlConnectionProvider.getCon();
 		
-		/*PreparedStatement pr;
+		PreparedStatement pr;
 		try {
-			pr = con.prepareStatement("select * from user where login=? and password=?");
+			pr = con.prepareStatement("select * from users where login=? and password=crypt(?, password)");
 			pr.setString(1, obj.getLogin());
 			pr.setString(2, obj.getPassword());
 			
@@ -36,7 +36,7 @@ public class ConnexionCheck {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 		
 		
 		
