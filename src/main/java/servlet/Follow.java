@@ -3,7 +3,10 @@ package servlet;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
@@ -29,9 +32,28 @@ public class Follow extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-		ServletOutputStream out = resp.getOutputStream();
-		out.write("<!DOCTYPE html> <html> <head></head> <body><h1>FOLLOW SERVLET</h1></body></html>".getBytes());
-		out.close();
+		
+		try {
+			ServletOutputStream out = resp.getOutputStream();
+			Connection postgre = PostgresqlConnectionProvider.getCon();
+			String user = ""+req.getSession(false).getAttribute("id_user");
+	        PreparedStatement pr = postgre.prepareStatement("SELECT id_follower FROM FOLLOWERS WHERE id_user = ?");
+	        pr.setInt(1, Integer.parseInt(user));
+	        ResultSet rs = pr.executeQuery();
+	        List<Integer> res = new ArrayList<Integer>();
+	        while(rs.next()) {
+	        	res.add(rs.getInt("id_follower"));
+	        }
+			out.write("<!DOCTYPE html> <html> <head></head> <body><h1>FOLLOW SERVLET</h1></body></html>".getBytes());
+			out.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
 	}
 	@Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)

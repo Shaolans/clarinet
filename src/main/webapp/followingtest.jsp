@@ -7,7 +7,7 @@
 <title>Followertest</title>
 </head>
 <body>
-<form action="http://localhost:8080/follow" method="post">
+<form action="/follow" method="post">
 id friend: <input type="text" name="followed"><br>
 <button type="submit">Submit</button>
 <button type="submit" formmethod="post">Submit using POST</button>
