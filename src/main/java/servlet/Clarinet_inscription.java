@@ -73,14 +73,13 @@ public class Clarinet_inscription extends HttpServlet{
 			Connection postgre;
 			try {
 				postgre = PostgresqlConnectionProvider.getCon();
-				PreparedStatement pr = postgre.prepareStatement("INSERT INTO USERS VALUES (?,?,crypt(?,gen_salt('bf')),?,?,?)");
-				pr.setInt(1, 3); // à remplacer l'id
-				pr.setString(2, user_pseudo);
-		        pr.setString(3, user_pwd);
-		        pr.setString(4, user_first_name);
-		        pr.setString(5, user_last_name);
-		        pr.setString(6, user_email);
-		        //pr.executeUpdate();
+				PreparedStatement pr = postgre.prepareStatement("INSERT INTO USERS(login,password,fname,lname,mail) VALUES (?,crypt(?,gen_salt('bf')),?,?,?)");
+				pr.setString(1, user_pseudo);
+		        pr.setString(2, user_pwd);
+		        pr.setString(3, user_first_name);
+		        pr.setString(4, user_last_name);
+		        pr.setString(5, user_email);
+		        pr.executeUpdate();
 		        pr.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
