@@ -1,14 +1,20 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import database.PostgresqlConnectionProvider;
 
 @WebServlet(
 		name = "Inscription",
@@ -63,6 +69,26 @@ public class Clarinet_inscription extends HttpServlet{
 		}
 		
 		if( erreurs.isEmpty() ) {
+			
+			Connection postgre;
+			try {
+				postgre = PostgresqlConnectionProvider.getCon();
+				PreparedStatement pr = postgre.prepareStatement("INSERT INTO USERS VALUES (?,?,crypt(?,gen_salt('bf')),?,?,?)");
+				pr.setInt(1, 3); // à remplacer l'id
+				pr.setString(2, user_pseudo);
+		        pr.setString(3, user_pwd);
+		        pr.setString(4, user_first_name);
+		        pr.setString(5, user_last_name);
+		        pr.setString(6, user_email);
+		        //pr.executeUpdate();
+		        pr.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (NamingException e) {
+				e.printStackTrace();
+			}
+			
+			
 			request.setAttribute("resultat", "Inscription réussi");
 			this.getServletContext().getRequestDispatcher("/").forward(request, response);
 		}
