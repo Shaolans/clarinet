@@ -1,14 +1,16 @@
 <%@page import="user.ConnexionCheck"%>
-<jsp:useBean id="obj" class="user.ConnexionObject"/>
+<jsp:useBean id="obj" class="user.ConnexionObject" />
 
 <jsp:setProperty property="*" name="obj"/> 
 
 <%  
 
-	boolean status=ConnexionCheck.validate(obj);  
-	if(status){  
+	int id_user=ConnexionCheck.validate(obj);  
+	if(id_user>0){  
 		out.println("Vous êtes connecté");  
-		session.setAttribute("session","TRUE");  
+		session.setAttribute("session","TRUE");
+		session.setAttribute("id_user", id_user);
+		session.setMaxInactiveInterval(1800);
 	}  
 	else  
 		{  

@@ -15,10 +15,10 @@ import database.PostgresqlConnectionProvider;
 
 public class ConnexionCheck {
 		
-	public static boolean validate(ConnexionObject obj) throws SQLException, NamingException, UnknownHostException{
+	public static int validate(ConnexionObject obj) throws SQLException, NamingException, UnknownHostException{
 	
 		boolean status = false;
-		
+		int id = -1;
 		
 		
 		Connection con = PostgresqlConnectionProvider.getCon();
@@ -33,6 +33,11 @@ public class ConnexionCheck {
 			
 			status = rs.next();
 			
+			if(status){
+				
+				id = rs.getInt(1);
+			}
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -40,7 +45,7 @@ public class ConnexionCheck {
 		
 		
 		
-		return status;
+		return id;
 		
 	}
 
