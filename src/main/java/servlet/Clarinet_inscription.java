@@ -24,7 +24,6 @@ public class Clarinet_inscription extends HttpServlet{
 		String user_confirm_pwd = request.getParameter("user_confirm_pwd");
 		String user_email = request.getParameter("user_email");
 		
-		String resultat;
 		Map<String,String> erreurs = new HashMap<String, String>();
 		
 		try {
@@ -46,9 +45,15 @@ public class Clarinet_inscription extends HttpServlet{
 		}
 		
 		try {
-			validationMdp(user_pwd, user_confirm_pwd);
+			validationMdp(user_pwd);
 		} catch (Exception e) {
 			erreurs.put("pwd", e.getMessage());
+		}
+		
+		try {
+			validationConfirmMdp(user_pwd, user_confirm_pwd);
+		} catch (Exception e) {
+			erreurs.put("confirm", e.getMessage());
 		}
 		
 		try {
@@ -58,23 +63,23 @@ public class Clarinet_inscription extends HttpServlet{
 		}
 		
 		if( erreurs.isEmpty() ) {
-			resultat = "Succès";
+			request.setAttribute("resultat", "Inscription réussi");
+			this.getServletContext().getRequestDispatcher("/").forward(request, response);
 		}
 		else {
-			resultat = "Inscription échouée";
+			// Stockage du résultat et des messages d'erreur dans l'objet request 
+			request.setAttribute("erreurs", erreurs);
+			// Transmission de la paire d'objets request/response à notre JSP
+			this.getServletContext().getRequestDispatcher("/inscription/inscription.jsp").forward(request, response);
 		}
-		
-		// Stockage du résultat et des messages d'erreur dans l'objet request 
-		request.setAttribute("erreurs", erreurs);
-		request.setAttribute("resultat", resultat);
-		
-		// Transmission de la paire d'objets request/response à notre JSP
-		this.getServletContext().getRequestDispatcher("/inscription/inscription.jsp").forward(request, response);
 	}
 	
 	private void validationNom(String nom) throws Exception {
 		if(nom.isEmpty()) {
 			throw new Exception("Merci de saisir un nom.");
+		}
+		if(!(nom.length()>=1 && nom.length()<=32)) {
+			throw new Exception("Le nom doit être entre 1 à 32 caractère(s).");
 		}
 	}
 	
@@ -82,20 +87,35 @@ public class Clarinet_inscription extends HttpServlet{
 		if(prenom.isEmpty()) {
 			throw new Exception("Merci de saisir un prenom.");
 		}
+		if(!(prenom.length()>=1 && prenom.length()<=32)) {
+			throw new Exception("Le prenom doit être entre 1 à 32 caractère(s).");
+		}
 	}
 	
 	private void validationPseudo(String pseudo) throws Exception {
 		if(pseudo.isEmpty()) {
 			throw new Exception("Merci de saisir un pseudo.");
 		}
+		if(!(pseudo.length()>=1 && pseudo.length()<=32)) {
+			throw new Exception("Le pseudo doit être entre 1 à 32 caractère(s).");
+		}
 	}
 	
-	private void validationMdp(String mdp, String confirmation) throws Exception {
+	private void validationMdp(String mdp) throws Exception {
 		if(mdp.isEmpty()) {
 			throw new Exception("Merci de saisir un mot de passe.");
 		}
+		if(!(mdp.length()>=1 && mdp.length()<=32)) {
+			throw new Exception("Le mot de passe doit être entre 6 à 32 caractère(s).");
+		}
+	}
+	
+	private void validationConfirmMdp(String mdp, String confirmation) throws Exception {
 		if(confirmation.isEmpty()) {
 			throw new Exception("Merci de confirmer le mot de passe.");
+		}
+		if(!(confirmation.length()>=1 && confirmation.length()<=32)) {
+			throw new Exception("Le mot de passe doit être entre 6 à 32 caractère(s).");
 		}
 		if(!mdp.equals(confirmation)) {
 			throw new Exception("Les mots de passe entrés sont différents");
