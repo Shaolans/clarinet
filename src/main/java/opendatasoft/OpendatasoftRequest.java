@@ -15,8 +15,9 @@ public class OpendatasoftRequest {
 	
 	public static void main(String[] args) throws IOException {
 		System.out.println(eventById("48d4f4b6a3e635b38f21793a3b8c3ef2a5f17f68"));
+		System.out.println(eventsFromSearch("Mozart").size());
 		for(Event e: eventsFromSearch("Mozart")) {
-			System.out.println(e);
+			//System.out.println(e);
 		}
 	}
 	

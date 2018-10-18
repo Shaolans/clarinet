@@ -41,10 +41,14 @@ public class Follow extends HttpServlet {
 	        pr.setInt(1, Integer.parseInt(user));
 	        ResultSet rs = pr.executeQuery();
 	        List<Integer> res = new ArrayList<Integer>();
+	        out.print("<!DOCTYPE html> <html> <head></head> <body><h1>FOLLOW SERVLET</h1>");
 	        while(rs.next()) {
 	        	res.add(rs.getInt("id_follower"));
+	        	out.println(rs.getInt("id_follower"));
 	        }
-			out.write("<!DOCTYPE html> <html> <head></head> <body><h1>FOLLOW SERVLET</h1></body></html>".getBytes());
+	        out.print("</body></html>");
+	        
+			//out.write("<!DOCTYPE html> <html> <head></head> <body><h1>FOLLOW SERVLET</h1></body></html>".getBytes());
 			out.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
