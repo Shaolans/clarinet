@@ -23,6 +23,7 @@ import com.mongodb.DBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.UpdateOptions;
 
 import database.MongoDBConnectionProvider;
 @WebServlet(
@@ -54,8 +55,8 @@ public class EventInscription extends HttpServlet {
 				}
 			}
 			listevents.add(new Document().append("id_event", idevent).append("passed", false));
-			usersevents.updateOne(Filters.eq("id_user", user),
-					new BasicDBObject().append("$set", new BasicDBObject().append("events", listevents)));
+			usersevents.deleteOne(Filters.eq("id_user", user));
+			usersevents.insertOne(new Document("id_user", user).append("events", d));
 			answer.append("resp", "success");
 		}else {
 			d = new Document().append("user_id", user);
