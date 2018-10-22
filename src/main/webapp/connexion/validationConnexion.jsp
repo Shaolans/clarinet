@@ -7,17 +7,21 @@
 
 	int id_user=ConnexionCheck.validate(obj);  
 	if(id_user>0){  
-		out.println("Vous êtes connecté");  
+		//out.println("Vous êtes connecté");  
 		session.setAttribute("session","TRUE");
 		session.setAttribute("id_user", id_user);
 		session.setMaxInactiveInterval(1800);
+		
+   		 response.sendRedirect("../home/home.jsp");
+		
+		
 	}  
 	else  
 		{  
-	out.print("Pseudo ou mot de passe erroné");  
-%>  
+			out.print("Pseudo ou mot de passe erroné");  
+		%>  
 
-<jsp:include page="connexion.jsp"></jsp:include>
-<%  
+		<jsp:include page="connexion.jsp"></jsp:include>
+		<%  
 	}  
 %>   
