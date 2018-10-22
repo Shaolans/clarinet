@@ -16,9 +16,9 @@ public class OpendatasoftRequest {
 	public static void main(String[] args) throws IOException {
 		System.out.println(eventById("48d4f4b6a3e635b38f21793a3b8c3ef2a5f17f68"));
 		System.out.println(eventsFromSearch("Mozart").size());
-		for(Event e: eventsFromSearch("Mozart")) {
+		/*for(Event e: eventsFromSearch("Mozart")) {
 			//System.out.println(e);
-		}
+		}*/
 	}
 	
 	public static List<Event> eventsFromSearch(String searchInfo) throws IOException{
@@ -61,7 +61,6 @@ public class OpendatasoftRequest {
 		in.close();
 		
 		JSONObject json = new JSONObject(response.toString()).getJSONObject("record");
-		
 		return convertJsontoEvent(json);
 	}
 	
@@ -79,7 +78,8 @@ public class OpendatasoftRequest {
 		String region = fields.isNull("region")?"":fields.getString("region");
 		String price = fields.isNull("pricing_info")?"":fields.getString("pricing_info");
 		String department = fields.isNull("department")?"":fields.getString("department");
-		return new Event(idevent, freetext, city, title, price, datestart, department, dateend, desc, link, address, region);
+		String image = fields.isNull("image")?"":fields.getString("image");
+		return new Event(idevent, freetext, city, title, price, datestart, department, dateend, desc, link, address, region, image);
 	}
 	
 	public static Event convertJsontoEvent(JSONObject record) {
@@ -96,6 +96,7 @@ public class OpendatasoftRequest {
 		String region = fields.isNull("region")?"":fields.getJSONArray("region").getString(0);
 		String price = fields.isNull("pricing_info")?"":fields.getString("pricing_info");
 		String department = fields.isNull("department")?"":fields.getJSONArray("department").getString(0);
-		return new Event(idevent, freetext, city, title, price, datestart, department, dateend, desc, link, address, region);
+		String image = fields.isNull("image")?"":fields.getString("image");
+		return new Event(idevent, freetext, city, title, price, datestart, department, dateend, desc, link, address, region, image);
 	}
 }
