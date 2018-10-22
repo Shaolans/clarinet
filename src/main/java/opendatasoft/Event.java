@@ -15,6 +15,7 @@ public class Event {
 	private String link;
 	private String address;
 	private String region;
+	private String image;
 	
 	@Override
 	public String toString() {
@@ -38,7 +39,8 @@ public class Event {
 	
 	
 	public Event(String id, String freetext, String city, String title, String price, String datestart,
-			String department, String dateend, String description, String link, String address, String region) {
+			String department, String dateend, String description, String link, String address, String region,
+			String image) {
 		super();
 		this.id = id;
 		this.freetext = freetext;
@@ -52,7 +54,17 @@ public class Event {
 		this.link = link;
 		this.address = address;
 		this.region = region;
+		this.image = image;
 	}
+	
+	public String getImage() {
+		return image;
+	}
+	
+	public void setImage(String image) {
+		this.image = image;
+	}
+	
 	
 	public String getId() {
 		return id;
