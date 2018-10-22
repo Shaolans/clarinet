@@ -24,6 +24,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.UpdateOptions;
+import com.mongodb.client.result.UpdateResult;
 
 import database.MongoDBConnectionProvider;
 @WebServlet(
@@ -38,7 +39,7 @@ public class EventInscription extends HttpServlet {
 		String user = ""+req.getSession(false).getAttribute("id_user");
 		String idevent = req.getParameter("id_event");
 		MongoCollection<Document> usersevents = md.getCollection("users_events");
-		Document d = usersevents.find(Filters.eq("user_id", user)).first();
+		Document d = usersevents.find(Filters.eq("id_user", user)).first();
 		JSONObject answer = new JSONObject();
 		answer.append("id_user", user);
 		answer.append("id_event", idevent);
@@ -55,11 +56,13 @@ public class EventInscription extends HttpServlet {
 				}
 			}
 			listevents.add(new Document().append("id_event", idevent).append("passed", false));
-			usersevents.deleteOne(Filters.eq("id_user", user));
-			usersevents.insertOne(new Document("id_user", user).append("events", d));
+			
+			UpdateResult res = usersevents.updateOne(new Document("id_user", user) ,
+					new Document("$set", new Document("events", d)));
+			
 			answer.append("resp", "success");
 		}else {
-			d = new Document().append("user_id", user);
+			d = new Document().append("id_user", user);
 			List<Document> listevents = new ArrayList<Document>();
 			listevents.add(new Document().append("id_event", idevent).append("passed", false));
 			d.append("events", listevents);
