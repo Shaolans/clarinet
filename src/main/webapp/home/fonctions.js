@@ -16,8 +16,11 @@ function deconnexion(){
 
 
 function traiterReponseDeconnexion(rep){
-	if(rep.rep===undefined)
-	alert(rep.err.value);
+	if(rep.rep===undefined){
+		
+		alert(rep.err);
+	}
+	
 	else
-		alert(rep.rep.value);
+		alert(rep.rep);
 }

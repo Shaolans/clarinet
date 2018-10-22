@@ -21,12 +21,14 @@ public class Deconnexion extends HttpServlet{
             throws ServletException, IOException {
 
 		JSONObject res = new JSONObject();
-		if(req.getSession().isNew()){
+		if(req.getSession().getAttribute("session")!=null){
 			req.getSession().invalidate();
 			res.put("rep", "Vous êtes déconnecté");
 		}
 		else
 			res.put("err", "Deconnexion impossible car session inexistante");
+		
+		resp.setContentType("application/json");
 		resp.getWriter().println(res);
 	}
 	
