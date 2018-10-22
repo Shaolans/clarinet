@@ -33,6 +33,7 @@ public class Event {
 		sb.append("link: "+link+"\n");
 		sb.append("address: "+address+"\n");
 		sb.append("region: "+region+"\n");
+		sb.append("image: "+image+"\n");
 		return sb.toString();
 		
 	}
