@@ -10,6 +10,11 @@
 <form action="/event/event.jsp" method="get">
 id event : <input type="text" name="id_event"><br>
 <button type="submit" formmethod="get">Submit</button>
+
+</form>
+<form action="/event/participate" method="post">
+id event : <input type="text" name="id_event"><br>
+<button type="submit" formmethod="post">Submit</button>
 </form>
 </body>
 </html>
