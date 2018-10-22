@@ -1,3 +1,7 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"
+    import="map_geocalisation.*"%>
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -12,39 +16,39 @@
     </style>
   </head>
   <body>
-    <div id="map" class="map"></div>
-    <script>
-      var map = new ol.Map({
-        layers: [
-          new ol.layer.Tile({
-            source: new ol.source.OSM()
-          })
-        ],
-        target: 'map',
-        view: new ol.View({
-          center: ol.proj.fromLonLat([2.3551612999999634, 48.8464406]),
-          zoom: 17
-        })
-      });
-      
-      var marker = new ol.Feature({
-    	  geometry: new ol.geom.Point(
-    	    ol.proj.fromLonLat([2.3551612999999634, 48.8464406])
-    	  )
-      });
-      var iconStyle = new ol.style.Style({
-    	  image: new ol.style.Icon(({
-    		src: 'marker.png'
-    	  }))
-      });
-      marker.setStyle(iconStyle);
-      var vectorSource = new ol.source.Vector({
-    	  features: [marker]
-      });
-      var markerVectorLayer = new ol.layer.Vector({
-    	  source: vectorSource,
-      });
-      map.addLayer(markerVectorLayer);
-    </script>
+  	<div id="map"></div>
+    <script type="text/javascript">
+    	<%String lonlat = NominatimConnection.getLonLat("5 place jussieu, 75005 Paris, France");%>
+    	var map = new ol.Map({
+	        layers: [
+	          new ol.layer.Tile({
+	            source: new ol.source.OSM()
+	          })
+	        ],
+	        target: 'map',
+	        view: new ol.View({
+	          center: ol.proj.fromLonLat([<%=lonlat%>]),
+	          zoom: 17
+	        })
+	      });
+	      var marker = new ol.Feature({
+	    	  geometry: new ol.geom.Point(
+	    	    ol.proj.fromLonLat([<%=lonlat%>])
+	    	  )
+	      });
+	      var iconStyle = new ol.style.Style({
+	    	  image: new ol.style.Icon(({
+	    		src: 'marker.png'
+	    	  }))
+	      });
+	      marker.setStyle(iconStyle);
+	      var vectorSource = new ol.source.Vector({
+	    	  features: [marker]
+	      });
+	      var markerVectorLayer = new ol.layer.Vector({
+	    	  source: vectorSource,
+	      });
+	      map.addLayer(markerVectorLayer);
+   	</script>
   </body>
 </html>

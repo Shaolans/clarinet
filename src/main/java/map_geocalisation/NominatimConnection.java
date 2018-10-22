@@ -10,13 +10,16 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class NominatimConnection {
-	private String BASE_URL = "https://nominatim.openstreetmap.org/search?q=";
-	private String FORMAT = "&format=json";
-			
-    public String getLonLat(String address) { //address format: 4+place+jussieu+75005+Paris
+	private static String BASE_URL = "https://nominatim.openstreetmap.org/search?q=";
+	private static String FORMAT = "&format=json";
+	
+    public static String getLonLat(String address_non_formater) { 
+    	String address = address_non_formater.replaceAll(" ", "+");
+    	address = address.replaceAll(",", "+");//address format ex: 4+place+jussieu+75005+Paris
+    	
         HttpURLConnection con = null;
         InputStream is = null;
-
+        
         try {
             con = (HttpURLConnection) (new URL(BASE_URL + address +FORMAT)).openConnection();
             con.setRequestMethod("GET");
