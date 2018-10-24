@@ -58,11 +58,11 @@ public class EventInscription extends HttpServlet {
 			listevents.add(new Document().append("id_event", idevent).append("passed", false));
 			
 			UpdateResult res = usersevents.updateOne(new Document("id_user", user) ,
-					new Document("$set", new Document("events", d)));
+					new Document("$set", new Document("events", listevents)));
 			
 			answer.append("resp", "success");
 		}else {
-			d = new Document().append("id_user", user);
+			d = new Document().append("id_user", Integer.parseInt(user));
 			List<Document> listevents = new ArrayList<Document>();
 			listevents.add(new Document().append("id_event", idevent).append("passed", false));
 			d.append("events", listevents);

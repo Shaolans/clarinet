@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"
-    import="opendatasoft.*"%>
+    import="opendatasoft.*, bd.*, java.util.*"%>
 
 
 
@@ -54,7 +54,12 @@ Free text: <%= e.getFreetext() %> <br>
 <button id="event_sub_btn" onclick="handleEventSub(ide)">Participer</button>
 
 <h2>Participants</h2>
-
+<%
+	List<Integer> id_users = UserTools.getParticipants(id);
+	for(int i = 0; i < id_users.size(); i++){
+		
+	}
+%>
 </body>
 </html>
 
