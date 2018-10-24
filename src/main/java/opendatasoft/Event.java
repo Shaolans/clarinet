@@ -16,6 +16,7 @@ public class Event {
 	private String address;
 	private String region;
 	private String image;
+	private String timeInfo;
 	
 	@Override
 	public String toString() {
@@ -34,6 +35,7 @@ public class Event {
 		sb.append("address: "+address+"\n");
 		sb.append("region: "+region+"\n");
 		sb.append("image: "+image+"\n");
+		sb.append("timeInfo: "+timeInfo+"\n");
 		return sb.toString();
 		
 	}
@@ -41,7 +43,7 @@ public class Event {
 	
 	public Event(String id, String freetext, String city, String title, String price, String datestart,
 			String department, String dateend, String description, String link, String address, String region,
-			String image) {
+			String image, String timeInfo) {
 		super();
 		this.id = id;
 		this.freetext = freetext;
@@ -56,8 +58,19 @@ public class Event {
 		this.address = address;
 		this.region = region;
 		this.image = image;
+		this.timeInfo = timeInfo;
 	}
 	
+	public String getTimeInfo() {
+		return timeInfo;
+	}
+
+
+	public void setTimeInfo(String timeInfo) {
+		this.timeInfo = timeInfo;
+	}
+
+
 	public String getImage() {
 		return image;
 	}

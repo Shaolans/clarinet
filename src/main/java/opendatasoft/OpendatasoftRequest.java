@@ -79,7 +79,8 @@ public class OpendatasoftRequest {
 		String price = fields.isNull("pricing_info")?"":fields.getString("pricing_info");
 		String department = fields.isNull("department")?"":fields.getString("department");
 		String image = fields.isNull("image")?"":fields.getString("image");
-		return new Event(idevent, freetext, city, title, price, datestart, department, dateend, desc, link, address, region, image);
+		String timeInfo = fields.isNull("space_time_info")?"":fields.getString("space_time_info");
+		return new Event(idevent, freetext, city, title, price, datestart, department, dateend, desc, link, address, region, image, timeInfo);
 	}
 	
 	public static Event convertJsontoEvent(JSONObject record) {
@@ -97,6 +98,7 @@ public class OpendatasoftRequest {
 		String price = fields.isNull("pricing_info")?"":fields.getString("pricing_info");
 		String department = fields.isNull("department")?"":fields.getJSONArray("department").getString(0);
 		String image = fields.isNull("image")?"":fields.getString("image");
-		return new Event(idevent, freetext, city, title, price, datestart, department, dateend, desc, link, address, region, image);
+		String timeInfo = fields.isNull("space_time_info")?"":fields.getString("space_time_info");
+		return new Event(idevent, freetext, city, title, price, datestart, department, dateend, desc, link, address, region, image, timeInfo);
 	}
 }
