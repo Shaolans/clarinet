@@ -21,8 +21,8 @@ public class Deconnexion extends HttpServlet{
             throws ServletException, IOException {
 
 		JSONObject res = new JSONObject();
-		if(req.getSession().getAttribute("session")!=null){
-			req.getSession().invalidate();
+		if(req.getSession(false)!=null){
+			req.getSession(false).invalidate();
 			res.put("rep", "Vous êtes déconnecté");
 		}
 		else

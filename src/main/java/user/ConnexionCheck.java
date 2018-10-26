@@ -8,9 +8,6 @@ import java.sql.SQLException;
 
 import javax.naming.NamingException;
 
-import com.mongodb.DB;
-
-import database.MongoDBConnectionProvider;
 import database.PostgresqlConnectionProvider;
 
 public class ConnexionCheck {

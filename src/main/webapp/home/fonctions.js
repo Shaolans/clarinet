@@ -21,6 +21,24 @@ function traiterReponseDeconnexion(rep){
 		alert(rep.err);
 	}
 	
-	else
-		alert(rep.rep);
+	else{
+		window.location.href = '/connexion/connexion.jsp';
+	}
+}
+
+
+function getProfile(){
+	$.ajax({ 
+        type:"get",
+        url:"/deconnexion",
+        datatype:"json",
+        success:function(rep){
+            traiterReponseDeconnexion(rep);
+        },
+        error:function(jqXMTR, textStatus, errorThrown){
+            alert("Pb lors de la transmission des donnÃ©es", "connexion");
+        }
+    });
+	
+	
 }

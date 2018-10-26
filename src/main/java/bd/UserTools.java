@@ -1,14 +1,19 @@
 package bd;
 
+import java.io.IOException;
 import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.naming.NamingException;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.bson.Document;
 
@@ -66,6 +71,73 @@ public class UserTools {
 		}
 		return list;
 	}
+	
+	
+	public static Map<Integer, String> getFollowsName(int idUser) throws SQLException, NamingException{
+		Map<Integer, String> list = new HashMap<Integer, String>();
+		Connection postgre = PostgresqlConnectionProvider.getCon();
+        PreparedStatement pr = postgre.prepareStatement("SELECT id_follower FROM FOLLOWERS WHERE id_user = ?");
+        pr.setInt(1, idUser);
+        ResultSet rs = pr.executeQuery();
+        
+       
+        
+        while(rs.next()) {
+        	 String name = getNameUser(rs.getInt("id_follower"));
+        	list.put(rs.getInt("id_follower"), name);
+        	
+        }
+		return list;
+	}
+	
+	public static Map<Integer, String> getFollowersName(int idUser) throws SQLException, NamingException{
+		Map<Integer, String> list = new HashMap<Integer, String>();
+		Connection postgre = PostgresqlConnectionProvider.getCon();
+		PreparedStatement pr = postgre.prepareStatement("SELECT id_user FROM FOLLOWERS WHERE id_follower = ?");   
+		pr.setInt(1, idUser);
+        ResultSet rs = pr.executeQuery();
+        
+        while(rs.next()) {
+        	String name = getNameUser(rs.getInt("id_user"));
+        	list.put(rs.getInt("id_user"), name);
+        }
+		return list;
+	}
+	
+	
+	public static String getNameUser(int idUser) throws SQLException, NamingException{
+		Map<Integer, String> list = new HashMap<Integer, String>();
+		Connection postgre = PostgresqlConnectionProvider.getCon();
+		PreparedStatement pr = postgre.prepareStatement("SELECT fname, lname FROM USERS WHERE id = ?"); 
+		pr.setInt(1, idUser);
+        ResultSet rs = pr.executeQuery();
+        String name = null;
+        if(rs.next()) {
+        	
+        	name = rs.getString(2)+" "+rs.getString(1);
+        	
+        	System.out.println(name);
+        }
+        
+        
+		return name;
+	}
+	
+	public static boolean verifSessionOK(HttpSession session, HttpServletResponse response){
+		if(session==null){
+			try {
+				response.sendRedirect("/connexion/connexion.jsp");
+				return false;
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return true;
+	}
+	
+
+	
 	
 	
 	public static void main(String[] args) throws UnknownHostException {
