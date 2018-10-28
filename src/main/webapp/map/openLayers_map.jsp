@@ -18,7 +18,7 @@
   <body>
   	<div id="map"></div>
     <script type="text/javascript">
-    	<%String lonlat = NominatimConnection.getLonLat("5 place jussieu, 75005 Paris, France");%>
+    	<%String lonlat = NominatimConnection.getLonLat("5, Rue Pierre Dévoluy, 30900 Nîmes, France");%>
     	var map = new ol.Map({
 	        layers: [
 	          new ol.layer.Tile({
