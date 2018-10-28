@@ -39,7 +39,7 @@ public class EventInscription extends HttpServlet {
 		String user = ""+req.getSession(false).getAttribute("id_user");
 		String idevent = req.getParameter("id_event");
 		MongoCollection<Document> usersevents = md.getCollection("users_events");
-		Document d = usersevents.find(Filters.eq("id_user", user)).first();
+		Document d = usersevents.find(Filters.eq("id_user", Integer.parseInt(user))).first();
 		JSONObject answer = new JSONObject();
 		answer.append("id_user", user);
 		answer.append("id_event", idevent);

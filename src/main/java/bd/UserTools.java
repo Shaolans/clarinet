@@ -67,7 +67,7 @@ public class UserTools {
 		MongoCollection<Document> usersevents = md.getCollection("users_events");
 		FindIterable<Document> fid = usersevents.find(new Document().append("events", new Document("$elemMatch", new Document("id_event", idevent))));
 		for(Document d: fid) {
-			list.add(Integer.parseInt(d.getString("id_user")));
+			list.add(d.getInteger("id_user"));
 		}
 		return list;
 	}

@@ -38,22 +38,23 @@
 		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
 		
 		
-		<h2>Event</h2>
-		id event: <%= e.getId() %> <br>
-		title: <%= e.getTitle() %> <br>
-		start: <%= e.getDatestart() %> <br>
-		end: <%= e.getDateend() %> <br>
-		time_info: <%= e.getTimeInfo() %> <br>
-		Price: <%= e.getPrice() %> <br>
-		Address: <%= e.getAddress() %> <br>
-		department: <%= e.getDepartment() %> <br>
-		city: <%= e.getCity() %> <br>
-		Region: <%= e.getRegion() %> <br>
-		Description: <%= e.getDescription() %> <br>
-		Free text: <%= e.getFreetext() %> <br>
+		<h2>Évènement</h2>
+		<b class="hr"></b>
+		<b>Référence:</b> <%= e.getId() %> <br> <br>
+		<b>Titre:</b> <%= e.getTitle() %> <br> <br>
+		<b>Date de début:</b> <%= e.getDatestart() %> <br> <br>
+		<b>Date de fin:</b> <%= e.getDateend() %> <br> <br>
+		<b>Début:</b> <%= e.getTimeInfo() %> <br> <br>
+		<b>Prix:</b> <%= e.getPrice() %> <br> <br>
+		<b>Adresse:</b> <%= e.getAddress() %> <br> <br>
+		<b>Ville:</b> <%= e.getCity() %> <br> <br>
+		<b>Département:</b> <%= e.getDepartment() %> <br> <br>
+		<b>Région:</b> <%= e.getRegion() %> <br> <br>
+		<b>Description:</b> <%= e.getDescription() %> <br> <br>
+		<b>Contenu libre:</b> <%= e.getFreetext() %> <br> <br>
 		<%
 			if(e.getLink() != ""){
-				out.println("Link: <a href=\""+e.getLink()+"\" >"+e.getTitle()+"</a> <br>");
+				out.println("Lien: <a href=\""+e.getLink()+"\" >"+e.getTitle()+"</a> <br> <br>");
 			}
 		%>
 		
@@ -63,7 +64,7 @@
 				out.print("<img src=\""+e.getImage()+"\"/>");
 			}
 		%>
-		<br>
+		<br>  <br>
 		<div class="container">
 			<button id="event_sub_btn" onclick="handleEventSub(ide)" data-animation="ripple">
 			Participer
@@ -72,11 +73,17 @@
 		
 		<br>
 		<h2>Participants</h2>
+		<hr>
 		<%
 			List<Integer> id_users = UserTools.getParticipants(id);
 			for(Integer id_u: id_users){
 				String name = UserTools.getNameUser(id_u);
-				out.println(name+"<br>");
+				out.println(name);
+				out.println("<a href=\"/home/profile.jsp\" class=\"myButton\">Profile</a>");
+				out.println("<a href=\"/home/profile.jsp\" class=\"myButton\">Message</a>");
+				out.println("<button class=\"myButton\">Suivre</button>");
+				out.println("<br>");
+				out.println("<br>");
 			}
 		%>
 	</body>
