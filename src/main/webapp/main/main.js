@@ -38,3 +38,46 @@ function updateMap(map, address){
 		});
 	
 }
+
+function myFunction() {
+    var input, filter, ul, li, a, i;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("myUL");
+    li = ul.getElementsByTagName("li");
+    for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("a")[0];
+        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+}
+
+var cpt = 0;
+function loadList(){
+	$.ajax({
+		  type: "GET",
+		  url: "/get/events",
+		  data: "query="+document.getElementById("myInput").value+"&nbrows=100"+"&startrow="+(cpt*100),
+		  success: function(resp){
+			  var answer = "";
+			  var results = resp["events"];
+			  console.log(resp);
+			  for(var i = 0; i < results.length; i++){
+				  var obj = results[i];
+				  var ans = "<li>"+
+				  obj.title+" "+
+				  obj.start_date+" "+
+				  //tags+" "+
+				  "<button onclick=\"updateMap(map, '"+obj.address.replace(/,/g,'').replace(/(\r\n\t|\n|\r\t)/gm,"")+"')\">Carte</button>"+
+				  "<a href=\"/event/event.jsp?id_event="+obj.id+"\">Lien</a> "+
+				  
+				  "</li>";
+				  answer += ans
+			  }
+			  document.getElementById("myUL").innerHTML = answer;
+		 }
+		});
+}

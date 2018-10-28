@@ -17,6 +17,7 @@ public class OpendatasoftRequest {
 	public static void main(String[] args) throws IOException {
 		System.out.println(eventById("48d4f4b6a3e635b38f21793a3b8c3ef2a5f17f68"));
 		System.out.println(eventsFromSearch("Mozart").size());
+		System.out.println(eventsFromSearch("", 10000, 0).size());
 		for(Event e: eventsFromSearch("", 10, 0)) {
 			System.out.println(e.getId());
 		}
@@ -26,7 +27,7 @@ public class OpendatasoftRequest {
 		String baseurl = "https://public.opendatasoft.com/api/records/1.0/search/?dataset=evenements-publics-cibul&q="+search+
 				"&rows="+nbrow+
 				"&start="+startrow+
-				"&facet=tags&facet=placename&facet=department&facet=region&facet=city&facet=date_start&facet=date_end&facet=pricing_info&facet=updated_at&facet=city_district&refine.tags=concert&refine.tags=musique";
+				"&sort=date_start&facet=tags&facet=placename&facet=department&facet=region&facet=city&facet=date_start&facet=date_end&facet=pricing_info&facet=updated_at&facet=city_district&refine.tags=concert";
 		List<Event> events = new ArrayList<Event>();
 		URL url = new URL(baseurl);
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -53,7 +54,7 @@ public class OpendatasoftRequest {
 	
 	public static List<Event> eventsFromSearch(String searchInfo) throws IOException{
 		List<Event> events = new ArrayList<Event>();
-		String baseurl = "https://public.opendatasoft.com/api/records/1.0/search/?dataset=evenements-publics-cibul&q="+searchInfo+"&rows=1000&facet=tags&facet=placename&facet=department&facet=region&facet=city&facet=date_start&facet=date_end&facet=pricing_info&facet=updated_at&facet=city_district&refine.tags=concert&refine.tags=musique&timezone=UTC";
+		String baseurl = "https://public.opendatasoft.com/api/records/1.0/search/?dataset=evenements-publics-cibul&q="+searchInfo+"&rows=1000&sort=date_start&facet=tags&facet=placename&facet=department&facet=region&facet=city&facet=date_start&facet=date_end&facet=pricing_info&facet=updated_at&facet=city_district&refine.tags=concert&timezone=UTC";
 		URL url = new URL(baseurl);
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		con.setRequestMethod("GET");

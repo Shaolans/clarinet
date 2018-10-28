@@ -1204,14 +1204,14 @@ legend {
   list-style-type: none;
   padding: 0;
   margin: 10px;
-  height:525px;
-  width:36%;
+  height: 525px;
+  width: 36%;
   border:1px solid #ccc;
   overflow:auto;
 }
 
 
-#myUL li a {
+#myUL li {
   border: 1px solid #ddd;
   margin-top: -1px; /* Prevent double borders */
   background-color: #f6f6f6;
@@ -1241,8 +1241,30 @@ legend {
 }
       
       
-      
-      
+
+
+
+.arrow {
+  position: absolute;
+  padding: 1rem; /* Arrow size */
+          box-shadow: 1px -1px 0 1px #508ced inset;
+  -webkit-box-shadow: 2px -2px #508ced inset;
+  border: solid transparent;
+  border-width: 0 0 2rem 2rem;
+  transition: 0.2s;
+}
+
+.arrow:hover {
+          box-shadow: 2px -2px 0 2px #2869d3 inset;
+  -webkit-box-shadow: 4px -4px #2869d3 inset;
+}
+
+.arrow-up    { transform:rotate(135deg) }
+.arrow-right { transform:rotate(225deg) }
+.arrow-down  { transform:rotate(-45deg) }
+.arrow-left  { transform:rotate(45deg) }
+
+
       
       
       

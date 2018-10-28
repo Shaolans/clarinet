@@ -35,42 +35,13 @@
    	<Button onclick="search(map)">Recherche</Button>-->
    	<h2 style="margin-left:10px">Evenements</h2>
 	<div id="search_box">
-	<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Rechercher un évènement..." title="Type in a name">
-	<button id="searchbtn">Rechercher</button>
+	<!-- <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Rechercher un évènement..." title="Type in a name"> -->
+	<input type="text" id="myInput" placeholder="Rechercher un évènement..." title="Barre de recherche">
+	<button id="searchbtn" onclick="loadList()">Rechercher</button>
 	<ul id="myUL">
-	  <li><a href="#">Adele</a></li>
-	  <li><a href="#">Agnes</a></li>
-	
-	  <li><a href="#">Billy</a></li>
-	  <li><a href="#">Bob</a></li>
-	
-	  <li><a href="#">Calvin</a></li>
-	  <li><a href="#">Christina</a></li>
-	  <li><a href="#">Cindy</a></li>
-	  <li><a href="#">Adele</a></li>
-	  <li><a href="#">Agnes</a></li>
-	
-	  <li><a href="#">Billy</a></li>
-	  <li><a href="#">Bob</a></li>
-
 	</ul>
+	<a id="prev" class="arrow arrow-left" title="Previous" href="javascript:;"></a>
+	<a id="next" class="arrow arrow-right" title="Next" href="javascript:;"></a>
 	</div>
-	<script>
-	function myFunction() {
-	    var input, filter, ul, li, a, i;
-	    input = document.getElementById("myInput");
-	    filter = input.value.toUpperCase();
-	    ul = document.getElementById("myUL");
-	    li = ul.getElementsByTagName("li");
-	    for (i = 0; i < li.length; i++) {
-	        a = li[i].getElementsByTagName("a")[0];
-	        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-	            li[i].style.display = "";
-	        } else {
-	            li[i].style.display = "none";
-	        }
-	    }
-	}
-	</script>
   </body>
 </html>
