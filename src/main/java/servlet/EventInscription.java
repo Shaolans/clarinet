@@ -41,8 +41,8 @@ public class EventInscription extends HttpServlet {
 		MongoCollection<Document> usersevents = md.getCollection("users_events");
 		Document d = usersevents.find(Filters.eq("id_user", Integer.parseInt(user))).first();
 		JSONObject answer = new JSONObject();
-		answer.append("id_user", user);
-		answer.append("id_event", idevent);
+		answer.put("id_user", user);
+		answer.put("id_event", idevent);
 		if(d != null) {
 			List<Document> listevents = (List<Document>)d.get("events");
 			
@@ -50,7 +50,7 @@ public class EventInscription extends HttpServlet {
 				Document obj = listevents.get(i);
 				if(obj.getString("id_event").equals(idevent)) {
 					resp.setContentType("application/json");
-					answer.append("resp", "fail");
+					answer.put("resp", "fail");
 					resp.getWriter().write(answer.toString());
 					return;
 				}
@@ -60,14 +60,14 @@ public class EventInscription extends HttpServlet {
 			UpdateResult res = usersevents.updateOne(new Document("id_user", user) ,
 					new Document("$set", new Document("events", listevents)));
 			
-			answer.append("resp", "success");
+			answer.put("resp", "success");
 		}else {
 			d = new Document().append("id_user", Integer.parseInt(user));
 			List<Document> listevents = new ArrayList<Document>();
 			listevents.add(new Document().append("id_event", idevent).append("passed", false));
 			d.append("events", listevents);
 			usersevents.insertOne(d);
-			answer.append("resp", "success");
+			answer.put("resp", "success");
 		}
 		
 		resp.setContentType("application/json");

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,14 +17,43 @@ public class OpendatasoftRequest {
 	public static void main(String[] args) throws IOException {
 		System.out.println(eventById("48d4f4b6a3e635b38f21793a3b8c3ef2a5f17f68"));
 		System.out.println(eventsFromSearch("Mozart").size());
-		/*for(Event e: eventsFromSearch("Mozart")) {
-			//System.out.println(e);
-		}*/
+		for(Event e: eventsFromSearch("", 10, 0)) {
+			System.out.println(e.getId());
+		}
 	}
+	
+	public static List<Event> eventsFromSearch(String search, int nbrow, int startrow) throws IOException{
+		String baseurl = "https://public.opendatasoft.com/api/records/1.0/search/?dataset=evenements-publics-cibul&q="+search+
+				"&rows="+nbrow+
+				"&start="+startrow+
+				"&facet=tags&facet=placename&facet=department&facet=region&facet=city&facet=date_start&facet=date_end&facet=pricing_info&facet=updated_at&facet=city_district&refine.tags=concert&refine.tags=musique";
+		List<Event> events = new ArrayList<Event>();
+		URL url = new URL(baseurl);
+		HttpURLConnection con = (HttpURLConnection) url.openConnection();
+		con.setRequestMethod("GET");
+		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		String inputLine;
+		StringBuffer response = new StringBuffer();
+		
+		while((inputLine = in.readLine()) != null) {
+			response.append(inputLine);
+		}
+		in.close();
+		
+		JSONArray json = new JSONObject(response.toString()).getJSONArray("records");
+		for(Object entry: json) {
+			JSONObject tmp = (JSONObject)entry;
+			events.add(convertJsontoEventSearch(tmp));
+		}
+		
+		
+		return events;
+	}
+	
 	
 	public static List<Event> eventsFromSearch(String searchInfo) throws IOException{
 		List<Event> events = new ArrayList<Event>();
-		String baseurl = "https://public.opendatasoft.com/api/records/1.0/search/?dataset=evenements-publics-cibul&q="+searchInfo+"&rows=1000&facet=tags&facet=placename&facet=department&facet=region&facet=city&facet=date_start&facet=date_end&facet=pricing_info&facet=updated_at&facet=city_district&refine.tags=concert&timezone=UTC";
+		String baseurl = "https://public.opendatasoft.com/api/records/1.0/search/?dataset=evenements-publics-cibul&q="+searchInfo+"&rows=1000&facet=tags&facet=placename&facet=department&facet=region&facet=city&facet=date_start&facet=date_end&facet=pricing_info&facet=updated_at&facet=city_district&refine.tags=concert&refine.tags=musique&timezone=UTC";
 		URL url = new URL(baseurl);
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		con.setRequestMethod("GET");
@@ -81,11 +111,10 @@ public class OpendatasoftRequest {
 		String image = fields.isNull("image")?"":fields.getString("image");
 		String timeInfo = fields.isNull("space_time_info")?"":fields.getString("space_time_info");
 		List<String> tags = new ArrayList<String>();
-		JSONArray tag = fields.isNull("tags")?null:fields.getJSONArray("tags");
-		if(tag != null) {
-			for(Object t: tag) {
-				tags.add((String)t);
-			}
+		String tag = fields.isNull("tags")?null:fields.getString("tags");
+		String[] ttag = tag.split(",");
+		for(String t: ttag) {
+			tags.add((String)t);
 		}
 		return new Event(idevent, freetext, city, title, price, datestart, department, dateend, desc, link, address, region, image, timeInfo, tags);
 	}
