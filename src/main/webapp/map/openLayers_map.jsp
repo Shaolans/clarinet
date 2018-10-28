@@ -1,7 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"
-    import="map_geocalisation.*"%>
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -16,39 +12,20 @@
     </style>
   </head>
   <body>
+  	<div id="address">Faubourg de la péchoire, Saint-didier en velay</div>
+  	<button id='btn'>TEST</button>
+  	<script type="text/javascript">
+  		document.getElementById('btn').onclick = test
+  		function reload_js(src) {
+  	        $('script[src="' + src + '"]').remove();
+  	        $('<script>').attr('src', src).appendTo('head');
+  	    }
+  		function test(){
+			document.getElementById('address').innerHTML = '4 place jussieu, 75005 Paris, France';
+	  	    reload_js('map.js');
+  		}
+  	</script>
   	<div id="map"></div>
-    <script type="text/javascript">
-    	<%String lonlat = NominatimConnection.getLonLat("5, Rue Pierre Dévoluy, 30900 Nîmes, France");%>
-    	var map = new ol.Map({
-	        layers: [
-	          new ol.layer.Tile({
-	            source: new ol.source.OSM()
-	          })
-	        ],
-	        target: 'map',
-	        view: new ol.View({
-	          center: ol.proj.fromLonLat([<%=lonlat%>]),
-	          zoom: 17
-	        })
-	      });
-	      var marker = new ol.Feature({
-	    	  geometry: new ol.geom.Point(
-	    	    ol.proj.fromLonLat([<%=lonlat%>])
-	    	  )
-	      });
-	      var iconStyle = new ol.style.Style({
-	    	  image: new ol.style.Icon(({
-	    		src: 'marker.png'
-	    	  }))
-	      });
-	      marker.setStyle(iconStyle);
-	      var vectorSource = new ol.source.Vector({
-	    	  features: [marker]
-	      });
-	      var markerVectorLayer = new ol.layer.Vector({
-	    	  source: vectorSource,
-	      });
-	      map.addLayer(markerVectorLayer);
-   	</script>
+    <script type="text/javascript" src="map.js"></script>
   </body>
 </html>
