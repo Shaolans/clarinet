@@ -28,7 +28,6 @@ public class NominatimConnection {
 			e.printStackTrace();
 		}
     	
-    	System.out.println(address);
         HttpURLConnection con = null;
         InputStream is = null;
         

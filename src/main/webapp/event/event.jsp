@@ -61,10 +61,12 @@
 		<b>Tags: </b>
 		
 		<%
-			for(int i = 0; i < e.getTags().size()-1; i++){
-				out.print(e.getTags().get(i)+", ");
+			if(e.getTags().size() > 0){
+				for(int i = 0; i < e.getTags().size()-1; i++){
+					out.print(e.getTags().get(i)+", ");
+				}
+				out.println(e.getTags().get(e.getTags().size()-1));
 			}
-			out.println(e.getTags().get(e.getTags().size()-1));
 		%>
 		<br> <br>
 		<%
