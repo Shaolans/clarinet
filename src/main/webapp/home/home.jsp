@@ -10,7 +10,7 @@
 <body>
 
 <nav>
-	<a href="#">Home</a>
+	<a href="/main/main.jsp">Home</a>
 	<a href=profile.jsp>Profile</a>
 	<a href="#" onclick="javascript:{deconnexion();}">Deconnexion</a>
 	<div class="animation start-home"></div>

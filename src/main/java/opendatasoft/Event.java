@@ -1,6 +1,7 @@
 package opendatasoft;
 
 import java.util.Date;
+import java.util.List;
 
 public class Event {
 	private String id;
@@ -17,6 +18,7 @@ public class Event {
 	private String region;
 	private String image;
 	private String timeInfo;
+	private List<String> tags;
 	
 	@Override
 	public String toString() {
@@ -36,6 +38,7 @@ public class Event {
 		sb.append("region: "+region+"\n");
 		sb.append("image: "+image+"\n");
 		sb.append("timeInfo: "+timeInfo+"\n");
+		sb.append("tags: "+tags+"\n");
 		return sb.toString();
 		
 	}
@@ -43,7 +46,7 @@ public class Event {
 	
 	public Event(String id, String freetext, String city, String title, String price, String datestart,
 			String department, String dateend, String description, String link, String address, String region,
-			String image, String timeInfo) {
+			String image, String timeInfo, List<String> tags) {
 		super();
 		this.id = id;
 		this.freetext = freetext;
@@ -59,8 +62,19 @@ public class Event {
 		this.region = region;
 		this.image = image;
 		this.timeInfo = timeInfo;
+		this.tags = tags;
 	}
 	
+	public List<String> getTags() {
+		return tags;
+	}
+
+
+	public void setTags(List<String> tags) {
+		this.tags = tags;
+	}
+
+
 	public String getTimeInfo() {
 		return timeInfo;
 	}

@@ -54,11 +54,19 @@
 		<b>Contenu libre:</b> <%= e.getFreetext() %> <br> <br>
 		<%
 			if(e.getLink() != ""){
-				out.println("Lien: <a href=\""+e.getLink()+"\" >"+e.getTitle()+"</a> <br> <br>");
+				out.println("<b>Lien:</b> <a href=\""+e.getLink()+"\" >"+e.getTitle()+"</a> <br> <br>");
 			}
 		%>
 		
+		<b>Tags: </b>
 		
+		<%
+			for(int i = 0; i < e.getTags().size()-1; i++){
+				out.print(e.getTags().get(i)+", ");
+			}
+			out.println(e.getTags().get(e.getTags().size()-1));
+		%>
+		<br> <br>
 		<%
 			if(e.getImage() != ""){
 				out.print("<img src=\""+e.getImage()+"\"/>");

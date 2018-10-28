@@ -80,7 +80,12 @@ public class OpendatasoftRequest {
 		String department = fields.isNull("department")?"":fields.getString("department");
 		String image = fields.isNull("image")?"":fields.getString("image");
 		String timeInfo = fields.isNull("space_time_info")?"":fields.getString("space_time_info");
-		return new Event(idevent, freetext, city, title, price, datestart, department, dateend, desc, link, address, region, image, timeInfo);
+		List<String> tags = new ArrayList<String>();
+		JSONArray tag = fields.isNull("tags")?null:fields.getJSONArray("tags");
+		for(Object t: tag) {
+			tags.add((String)t);
+		}
+		return new Event(idevent, freetext, city, title, price, datestart, department, dateend, desc, link, address, region, image, timeInfo, tags);
 	}
 	
 	public static Event convertJsontoEvent(JSONObject record) {
@@ -99,6 +104,11 @@ public class OpendatasoftRequest {
 		String department = fields.isNull("department")?"":fields.getJSONArray("department").getString(0);
 		String image = fields.isNull("image")?"":fields.getString("image");
 		String timeInfo = fields.isNull("space_time_info")?"":fields.getString("space_time_info");
-		return new Event(idevent, freetext, city, title, price, datestart, department, dateend, desc, link, address, region, image, timeInfo);
+		List<String> tags = new ArrayList<String>();
+		JSONArray tag = fields.isNull("tags")?null:fields.getJSONArray("tags");
+		for(Object t: tag) {
+			tags.add((String)t);
+		}
+		return new Event(idevent, freetext, city, title, price, datestart, department, dateend, desc, link, address, region, image, timeInfo, tags);
 	}
 }
