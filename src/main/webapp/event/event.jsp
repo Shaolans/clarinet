@@ -1,20 +1,93 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"
-    import="opendatasoft.*"%>
+    import="opendatasoft.*, bd.*, java.util.*, user.*"%>
+
+
 
 <%
 	String id = request.getParameter("id_event");
 	Event e = OpendatasoftRequest.eventById(id);
 %>
+
+
+
+
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
-<%= id %>
-<%= e.getCity() %>
+	<script>
+		var ide = '<%=id%>';
+	</script>
 
-</body>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>    
+		<script src="eventFunctions.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/main.css">
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<meta charset="ISO-8859-1">
+		<title><%= e.getTitle() %></title>
+	</head>
+	<body>
+		<nav>
+			<a href="#">Home</a>
+			<a href=profile.jsp>Profile</a>
+			<a href="#" onclick="javascript:{deconnexion();}">Deconnexion</a>
+			<div class="animation start-home"></div>
+		</nav>
+		
+		<script type="text/javascript" src="/home/fonctions.js"></script>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+		
+		
+		<h2>Évènement</h2>
+		<b class="hr"></b>
+		<b>Référence:</b> <%= e.getId() %> <br> <br>
+		<b>Titre:</b> <%= e.getTitle() %> <br> <br>
+		<b>Date de début:</b> <%= e.getDatestart() %> <br> <br>
+		<b>Date de fin:</b> <%= e.getDateend() %> <br> <br>
+		<b>Début:</b> <%= e.getTimeInfo() %> <br> <br>
+		<b>Prix:</b> <%= e.getPrice() %> <br> <br>
+		<b>Adresse:</b> <%= e.getAddress() %> <br> <br>
+		<b>Ville:</b> <%= e.getCity() %> <br> <br>
+		<b>Département:</b> <%= e.getDepartment() %> <br> <br>
+		<b>Région:</b> <%= e.getRegion() %> <br> <br>
+		<b>Description:</b> <%= e.getDescription() %> <br> <br>
+		<b>Contenu libre:</b> <%= e.getFreetext() %> <br> <br>
+		<%
+			if(e.getLink() != ""){
+				out.println("Lien: <a href=\""+e.getLink()+"\" >"+e.getTitle()+"</a> <br> <br>");
+			}
+		%>
+		
+		
+		<%
+			if(e.getImage() != ""){
+				out.print("<img src=\""+e.getImage()+"\"/>");
+			}
+		%>
+		<br>  <br>
+		<div class="container">
+			<button id="event_sub_btn" onclick="handleEventSub(ide)" data-animation="ripple">
+			Participer
+			</button>
+		</div>
+		
+		<br>
+		<h2>Participants</h2>
+		<hr>
+		<%
+			List<Integer> id_users = UserTools.getParticipants(id);
+			for(Integer id_u: id_users){
+				String name = UserTools.getNameUser(id_u);
+				out.println(name);
+				out.println("<a href=\"/home/profile.jsp\" class=\"myButton\">Profile</a>");
+				out.println("<a href=\"/home/profile.jsp\" class=\"myButton\">Message</a>");
+				out.println("<button class=\"myButton\">Suivre</button>");
+				out.println("<br>");
+				out.println("<br>");
+			}
+		%>
+	</body>
+	<script src="css.js"></script>
 </html>
+
+
