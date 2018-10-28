@@ -1,6 +1,6 @@
 #map {
-        height: 650px;
-        width: 800px;
+        height: 98%;
+        width: 62%;
         position: absolute;
         right: 10px;
         top: 10px;
@@ -1197,7 +1197,7 @@ legend {
   border: 1px solid #ddd;
   margin-bottom: 12px;
   margin: 10px;
-  width: 300px;
+  width: 23%;
 }
 
 #myUL {
@@ -1205,7 +1205,7 @@ legend {
   padding: 0;
   margin: 10px;
   height:525px;
-  width:455px;
+  width:36%;
   border:1px solid #ccc;
   overflow:auto;
 }
