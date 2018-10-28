@@ -56,6 +56,24 @@ function myFunction() {
 }
 
 var cpt = 0;
+function nextLoad(){
+	cpt++;
+	loadList();
+}
+
+function prevLoad(){
+	cpt--;
+	if(cpt <= 0){
+		cpt = 0;
+	}
+	loadList();
+}
+
+function searchLoad(){
+	cpt = 0;
+	loadList();
+}
+
 function loadList(){
 	$.ajax({
 		  type: "GET",

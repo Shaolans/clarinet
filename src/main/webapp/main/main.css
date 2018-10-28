@@ -1264,7 +1264,15 @@ legend {
 .arrow-down  { transform:rotate(-45deg) }
 .arrow-left  { transform:rotate(45deg) }
 
+#next{
+	position:absolute;
+	right:61.5%
+}
 
+#prev{
+	position:absolute;
+	left:0%;
+}
       
       
       

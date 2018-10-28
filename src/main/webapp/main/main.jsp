@@ -40,8 +40,8 @@
 	<button id="searchbtn" onclick="loadList()">Rechercher</button>
 	<ul id="myUL">
 	</ul>
-	<a id="prev" class="arrow arrow-left" title="Previous" href="javascript:;"></a>
-	<a id="next" class="arrow arrow-right" title="Next" href="javascript:;"></a>
+	<a id="prev" class="arrow arrow-left" title="Previous" onclick="prevLoad()"></a>
+	<a id="next" class="arrow arrow-right" title="Next" onclick="nextLoad()"></a>
 	</div>
   </body>
 </html>
