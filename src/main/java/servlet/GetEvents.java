@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -24,7 +25,7 @@ public class GetEvents extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-		String query = req.getParameter("query");
+		String query = URLEncoder.encode(req.getParameter("query"), "UTF-8");
 		String nbrows = req.getParameter("nbrows");
 		String startrow = req.getParameter("startrow");
 		List<Event> events = OpendatasoftRequest.eventsFromSearch(query, Integer.parseInt(nbrows), Integer.parseInt(startrow));

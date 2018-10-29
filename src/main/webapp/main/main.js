@@ -39,6 +39,9 @@ function updateMap(map, address){
 	
 }
 
+
+
+
 function myFunction() {
     var input, filter, ul, li, a, i;
     input = document.getElementById("myInput");
@@ -56,6 +59,15 @@ function myFunction() {
 }
 
 var cpt = 0;
+
+function enterInput(){
+	if (event.keyCode === 13) {
+        document.getElementById("searchbtn").click();
+    }
+}
+
+
+
 function nextLoad(){
 	cpt++;
 	loadList();
@@ -78,7 +90,7 @@ function loadList(){
 	$.ajax({
 		  type: "GET",
 		  url: "/get/events",
-		  data: "query="+document.getElementById("myInput").value+"&nbrows=100"+"&startrow="+(cpt*100),
+		  data: "query="+encodeURI(document.getElementById("myInput").value)+"&nbrows=100"+"&startrow="+(cpt*100),
 		  success: function(resp){
 			  var answer = "";
 			  var results = resp["events"];
@@ -86,14 +98,15 @@ function loadList(){
 			  for(var i = 0; i < results.length; i++){
 				  var obj = results[i];
 				  var ans = "<li>"+
-				  obj.title+" "+
-				  obj.start_date+" "+
-				  //tags+" "+
-				  "<button onclick=\"updateMap(map, '"+obj.address.replace(/,/g,'').replace(/(\r\n\t|\n|\r\t)/gm,"")+"')\">Carte</button>"+
-				  "<a href=\"/event/event.jsp?id_event="+obj.id+"\">Lien</a> "+
-				  
-				  "</li>";
-				  answer += ans
+				  "<b>Titre: </b>"+obj.title+" "+
+				  "<b>Date: </b>"+obj.start_date+" <br>";
+				  if(!(typeof obj.tags === 'undefined')){
+					  ans += "<b>Tags: </b>"+obj.tags+"<br>";
+				  }
+				  ans +=  "<button class=\"eventbtn\" onclick=\"updateMap(map, '"+obj.address.replace(/,/g,'').replace(/(\r\n\t|\n|\r\t)/gm,"")+"')\">Carte</button>"+
+				  "<a class=\"linkbtn\" href=\"/event/event.jsp?id_event="+obj.id+"\">Lien</a> <br>";
+				  ans += "</li>";
+				  answer += ans;
 			  }
 			  document.getElementById("myUL").innerHTML = answer;
 		 }
