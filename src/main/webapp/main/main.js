@@ -98,7 +98,7 @@ function loadList(){
 			  for(var i = 0; i < results.length; i++){
 				  var obj = results[i];
 				  var ans = "<li>"+
-				  "<b>Titre: </b>"+obj.title+" "+
+				  "<b>Titre: </b>"+obj.title+" <br>"+
 				  "<b>Date: </b>"+obj.start_date+" <br>";
 				  if(!(typeof obj.tags === 'undefined')){
 					  ans += "<b>Tags: </b>"+obj.tags+"<br>";
