@@ -87,7 +87,7 @@
 		<%
 			List<Integer> id_users = UserTools.getParticipants(id);
 			for(Integer id_u: id_users){
-				String name = UserTools.getNameUser(id_u);
+				String name = UserTools.formatName(UserTools.getNameUser(id_u));
 				out.println(name);
 				out.println("<a href=\"/home/profile.jsp\" class=\"myButton\">Profile</a>");
 				out.println("<a href=\"/home/profile.jsp\" class=\"myButton\">Message</a>");
