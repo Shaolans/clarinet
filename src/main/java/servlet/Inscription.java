@@ -19,7 +19,7 @@ import database.PostgresqlConnectionProvider;
 @WebServlet(
 		name = "Inscription",
 		urlPatterns = "/inscription")
-public class Clarinet_inscription extends HttpServlet{
+public class Inscription extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
