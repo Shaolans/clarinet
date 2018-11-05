@@ -27,14 +27,7 @@
 		<title><%= e.getTitle() %></title>
 	</head>
 	<body>
-		<nav>
-			<a href="#">Home</a>
-			<a href=profile.jsp>Profile</a>
-			<a href="#" onclick="javascript:{deconnexion();}">Deconnexion</a>
-			<div class="animation start-home"></div>
-		</nav>
-		
-		<script type="text/javascript" src="/home/fonctions.js"></script>
+		<jsp:include page="/home/home.jsp"></jsp:include>
 		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
 		
 		<% 
