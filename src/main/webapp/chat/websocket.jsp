@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <title>Tomcat WebSocket Chat</title>
         <script>
-        	var url = "ws://" + location.hostname + ":" + location.port + "/clarinet/wschat";
+        	var url = "ws://" + location.hostname + ":" + location.port + "/wschat";
             var ws = new WebSocket(url);
             ws.onopen = function(){
             };
