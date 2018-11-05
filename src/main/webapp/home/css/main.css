@@ -98,3 +98,143 @@ p {
 span {
     color: #2BD6B4;
 }
+
+#box{
+	background-color:#FFFFFF;
+	width: absolute;
+	height: 1000px;
+	position: relative;
+	margin: 27px auto 0;
+}
+
+#profile{
+	
+    
+    width: 25%;
+    height:100%;
+    text-align: center;
+    font-family: 'Cherry Swash',cursive;
+    font-size: 16px;
+    background-color: #2285b0;
+}
+
+#banniere{
+	
+	 width: 100%;
+    height:25%;
+	 background-color: #106c95;
+	  box-shadow: 1px 1px 2px #000000;
+}
+
+#imageUpload{
+   position: relative;
+    
+    top: 5%;
+}
+
+
+#photo{
+	
+	 width: 50%;
+    height:65%;
+   position: relative;
+    left: 25%;
+    top: 5%;
+	 background-color: #26d39e;
+	 border-radius: 100%;
+
+}
+
+#bio{
+	width:90%;
+	position: relative;
+    left: 5%;
+	top: 5%;
+}
+
+#nom{
+	 width: 50%;
+    height:35%;
+   position: relative;
+    left: 25%;
+    top: 15%;
+    font-size: 20px;
+	color:#40d6a8;
+	text-shadow: 2px 2px 4px #000000;
+	font-family: 'Cherry Swash', cursive;
+
+}
+
+#box_listes{
+	top: 20px;
+	left: 26%;
+    width: 73%;
+    height:95%;
+   border: 3px solid #73AD21;
+    text-align: center;
+   position: absolute;
+    font-family: 'Cherry Swash',cursive;
+    font-size: 16px;
+    
+}
+
+
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700');
+@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+
+
+
+p:not(:last-child) {
+  margin: 0 0 20px;
+}
+
+
+
+section {
+  display: none;
+  padding: 20px 0 0;
+  border-top: 1px solid #abc;
+}
+
+#box_listes input {
+  display: none;
+}
+
+label {
+  display: inline-block;
+  margin: 0 0 -1px;
+  padding: 15px 25px;
+  font-weight: 600;
+  text-align: center;
+  color: #abc;
+  border: 1px solid transparent;
+}
+
+label:before {
+  font-family: fontawesome;
+  font-weight: normal;
+  margin-right: 10px;
+}
+
+
+
+label:hover {
+  color: #789;
+  cursor: pointer;
+}
+
+input:checked + label {
+  color: #0af;
+  border: 1px solid #abc;
+  border-top: 2px solid #0af;
+  border-bottom: 1px solid #fff;
+}
+
+#tab1:checked ~ #content1,
+#tab2:checked ~ #content2,
+#tab3:checked ~ #content3,
+#tab4:checked ~ #content4 {
+  display: block;
+}
+
+

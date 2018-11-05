@@ -37,6 +37,10 @@
 		<script type="text/javascript" src="/home/fonctions.js"></script>
 		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
 		
+		<% 
+			if(!UserTools.verifSessionOK(session, response)) return;
+				System.out.println((Integer)session.getAttribute("id_user"));
+	%>
 		
 		<h2>Évènement</h2>
 		<b class="hr"></b>
@@ -75,11 +79,39 @@
 			}
 		%>
 		<br>  <br>
-		<div class="container">
-			<button id="event_sub_btn" onclick="handleEventSub(ide)" data-animation="ripple">
-			Participer
-			</button>
+		
+		<%
+		int id_user = (Integer)session.getAttribute("id_user");
+		
+		if(UserTools.getEvenementId(id_user, id)){
+			%>
+			
+			<div class="container">
+			<div id="participerDiv"><button id="event_sub_btn" onclick="nePlusParticiperEvent(ide)" data-animation="ripple">
+				Ne plus participer
+			</button></div>
 		</div>
+			
+			<%
+			
+			
+		}
+		else{
+			%>
+			
+			<div class="container">
+			<div id="participerDiv"><button id="event_sub_btn" onclick="handleEventSub(ide)" data-animation="ripple">
+			Participer
+			</button></div>
+		</div>
+			
+			<%
+			
+		}
+		
+		%>
+		
+		
 		
 		<br>
 		<h2>Participants</h2>

@@ -36,6 +36,9 @@ public class GetEvents extends HttpServlet {
 		res.put("events", eventsarray);
 		JSONObject tmp;
 		for(Event e: events) {
+			
+			System.out.println(e.getId());
+			
 			tmp = new JSONObject();
 			tmp.put("id", e.getId());
 			tmp.put("title", e.getTitle());

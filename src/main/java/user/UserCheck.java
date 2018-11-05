@@ -8,8 +8,9 @@ import bd.UserTools;
 
 public class UserCheck {
 	
-	public static void chargerUserAbonnement(UserObject user){
+	public static void chargerUser(UserObject user){
 		try {
+			
 			user.setAbonnes(UserTools.getFollowersName(user.getIdUser()));
 			user.setAbonnements(UserTools.getFollowsName(user.getIdUser()));
 		} catch (SQLException e) {

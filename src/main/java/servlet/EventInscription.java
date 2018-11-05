@@ -1,8 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,68 +8,34 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.bson.BsonDocument;
-import org.bson.Document;
-import org.bson.codecs.configuration.CodecRegistry;
-import org.bson.conversions.Bson;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.mongodb.BasicDBList;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.UpdateOptions;
-import com.mongodb.client.result.UpdateResult;
-
-import database.MongoDBConnectionProvider;
+import bd.UserTools;
 @WebServlet(
 		name = "EventInscription", 
         urlPatterns = {"/event/participate"}
 )
 public class EventInscription extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-		MongoDatabase md = MongoDBConnectionProvider.getDB();
-		String user = ""+req.getSession(false).getAttribute("id_user");
-		String idevent = req.getParameter("id_event");
-		MongoCollection<Document> usersevents = md.getCollection("users_events");
-		Document d = usersevents.find(Filters.eq("id_user", Integer.parseInt(user))).first();
-		JSONObject answer = new JSONObject();
-		answer.put("id_user", user);
-		answer.put("id_event", idevent);
-		if(d != null) {
-			List<Document> listevents = (List<Document>)d.get("events");
-			
-			for(int i = 0; i < listevents.size(); i++) {
-				Document obj = listevents.get(i);
-				if(obj.getString("id_event").equals(idevent)) {
-					resp.setContentType("application/json");
-					answer.put("resp", "fail");
-					resp.getWriter().write(answer.toString());
-					return;
-				}
-			}
-			listevents.add(new Document().append("id_event", idevent).append("passed", false));
-			
-			UpdateResult res = usersevents.updateOne(new Document("id_user", Integer.parseInt(user)) ,
-					new Document("$set", new Document("events", listevents)));
-			
-			answer.put("resp", "success");
-		}else {
-			d = new Document().append("id_user", Integer.parseInt(user));
-			List<Document> listevents = new ArrayList<Document>();
-			listevents.add(new Document().append("id_event", idevent).append("passed", false));
-			d.append("events", listevents);
-			usersevents.insertOne(d);
-			answer.put("resp", "success");
+		Integer id_user = (Integer)req.getSession(false).getAttribute("id_user");
+		String id_event = req.getParameter("id_event");
+		JSONObject res = new JSONObject();
+		
+		if(UserTools.addEventParticipation(id_user,id_event)){
+			res.put("rep", "ok");
 		}
+		else
+			res.put("err", "erreur");
 		
 		resp.setContentType("application/json");
-		resp.getWriter().write(answer.toString());
+		resp.getWriter().write(res.toString());
 
 	}
 }

@@ -25,13 +25,13 @@
 						Créez votre compte
 					</span>
 					<div class="wrap-input100 m-b-23">
-						<span class="label-input">Nom <span class="requis">*</span></span>
+						<span class="label-input">Prénom <span class="requis">*</span></span>
 						<input class="input100" type="text" name="user_first_name" value="${param.user_first_name}" placeholder="1-32 caractère(s)"/>
 						<span class="focus-input100"></span>
 					</div>
 					<span class="erreur">${erreurs['nom']}</span>
 					<div class="wrap-input100 m-b-23">
-						<span class="label-input">Prénom <span class="requis">*</span></span>
+						<span class="label-input">Nom<span class="requis">*</span></span>
 						<input class="input100" type="text" name="user_last_name" value="${param.user_last_name}" placeholder="1-32 caractère(s)"/>
 						<span class="focus-input100"></span>
 					</div>
