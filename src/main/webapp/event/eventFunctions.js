@@ -20,7 +20,7 @@ function handleEventSub(eventid){
 
 function traiterReponseSuivre(res) {
 	
-	if(res.res===undefined){
+	if(res.rep===undefined){
 		alert(res.err);
 	}
 	else{
@@ -55,7 +55,7 @@ function nePlusParticiperEvent(eventid){
 
 function traiterReponseNePlusParticiper(res) {
 	
-	if(res.res===undefined){
+	if(res.rep===undefined){
 		alert(res.err);
 	}
 	else{

@@ -80,7 +80,7 @@ public class UserTools {
 	public static List<Integer> getParticipants(String idevent) throws UnknownHostException{
 		List<Integer> list = new ArrayList<Integer>();
 		MongoDatabase md = MongoDBConnectionProvider.getDB();
-		MongoCollection<Document> usersevents = md.getCollection("profile");
+		MongoCollection<Document> usersevents = md.getCollection("profiles");
 		FindIterable<Document> fid = usersevents.find(
 				new BsonDocument("evenements",new BsonString(idevent)));
 		for(Document d: fid) {
@@ -321,7 +321,7 @@ public class UserTools {
 			
 			MongoCollection<Document> col = db.getCollection("profiles");
 			
-			Document curr = col.find(Filters.eq("id", id_user)).first();
+			Document curr = col.find(new BsonDocument("id", new BsonInt32(id_user))).first();
 			if(curr!=null){
 				col.updateOne(new BsonDocument("id", new BsonInt32(id_user)),
 						new BsonDocument("$set", new BsonDocument("image", new BsonBinary(image))));
@@ -344,7 +344,7 @@ public class UserTools {
 			
 			MongoCollection<Document> col = db.getCollection("profiles");
 			
-			Document curr = col.find(Filters.eq("id", id_user)).first();
+			Document curr = col.find(new BsonDocument("id", new BsonInt32(id_user))).first();
 			
 			
 			
@@ -367,7 +367,7 @@ public class UserTools {
 			
 			MongoCollection<Document> col = db.getCollection("profiles");
 			
-			Document curr = col.find(Filters.eq("id", id_user)).first();
+			Document curr = col.find(new BsonDocument("id", new BsonInt32(id_user))).first();
 			
 			if(curr!=null){
 				col.updateOne(new BsonDocument("id", new BsonInt32(id_user)),
@@ -391,7 +391,7 @@ public class UserTools {
 			
 			MongoCollection<Document> col = db.getCollection("profiles");
 			
-			Document curr = col.find(Filters.eq("id", id_user)).first();
+			Document curr = col.find(new BsonDocument("id", new BsonInt32(id_user))).first();
 			
 			
 			if(curr!=null){
@@ -413,9 +413,9 @@ public class UserTools {
 		MongoDatabase md;
 		try {
 			md = MongoDBConnectionProvider.getDB();
-			MongoCollection<Document> col = md.getCollection("profile");
-			Document d = col.find(Filters.eq("id", id_user)).first();
-			
+			MongoCollection<Document> col = md.getCollection("profiles");
+			Document d = col.find(new BsonDocument("id", new BsonInt32(id_user))).first();
+			System.out.println(id_user);
 			if(d != null) {
 				
 				ArrayList<String> evenements = (ArrayList<String>)d.get("evenements");
@@ -446,8 +446,8 @@ public class UserTools {
 		MongoDatabase md;
 		try {
 			md = MongoDBConnectionProvider.getDB();
-			MongoCollection<Document> col = md.getCollection("profile");
-			Document d = col.find(Filters.eq("id", id_user)).first();
+			MongoCollection<Document> col = md.getCollection("profiles");
+			Document d = col.find(new BsonDocument("id", new BsonInt32(id_user))).first();
 			
 			if(d != null) {
 				ArrayList<String> evenements = (ArrayList<String>)d.get("evenements");
@@ -482,16 +482,22 @@ public class UserTools {
 		MongoDatabase md;
 		try {
 			md = MongoDBConnectionProvider.getDB();
-			MongoCollection<Document> col = md.getCollection("profile");
-			Document d = col.find(Filters.eq("id", id_user)).first();
+			MongoCollection<Document> col = md.getCollection("profiles");
+			Document d = col.find(new BsonDocument("id", new BsonInt32(id_user))).first();
 			
 			if(d != null) {
-				return true;
+				
+				ArrayList<String> events = (ArrayList<String>)d.get("evenements");
+				
+				for(String event : events){
+					if(event.equals(id_event))
+						return true;
+				}
+				
+				return false;
 			}
 			else
-				return false;
-			
-			
+				return false;	
 			
 			
 		} catch (UnknownHostException e) {
