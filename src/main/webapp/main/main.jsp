@@ -7,7 +7,7 @@
   <head>
     <meta charset=utf-8>
     <title>Clarinet</title>
-    <script src="https://openlayers.org/en/v4.4.2/build/ol.js"></script>
+    <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>    
     <script src="main.js"></script>
     <link rel="stylesheet" type="text/css" href="main.css">
@@ -35,8 +35,8 @@
    	<Button onclick="search(map)">Recherche</Button>-->
    	<h2 style="margin-left:10px">Clarinet</h2>
 	<div id="search_box">
-	<!-- <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Rechercher un évènement..." title="Type in a name"> -->
-	<input type="text" id="myInput" onkeyup="enterInput()" placeholder="Rechercher un évènement..." title="Barre de recherche">
+	<!-- <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Rechercher un Ã©vÃ¨nement..." title="Type in a name"> -->
+	<input type="text" id="myInput" onkeyup="enterInput()" placeholder="Rechercher un Ã©vÃ¨nement..." title="Barre de recherche">
 	<button id="searchbtn" onclick="loadList()">Rechercher</button>
 	<ul id="myUL">
 	</ul>
