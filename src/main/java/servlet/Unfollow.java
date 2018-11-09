@@ -17,13 +17,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONObject;
+
 import bd.UserTools;
 import database.PostgresqlConnectionProvider;
 @WebServlet(
 		name = "Unfollow", 
         urlPatterns = {"/unfollow"}
 )
-public class UnFollow extends HttpServlet {
+public class Unfollow extends HttpServlet {
 
 	/**
 	 * 
@@ -33,25 +35,19 @@ public class UnFollow extends HttpServlet {
 	@Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-		try {
-			Connection postgre = PostgresqlConnectionProvider.getCon();
-			ServletOutputStream out = resp.getOutputStream();
-	        String user = ""+req.getSession(false).getAttribute("id_user");
-	        String followed = req.getParameter("followed");
-	        PreparedStatement pr = postgre.prepareStatement("DELETE FROM FOLLOWERS WHERE id_user = ? AND id_follower = ?");
-	        pr.setInt(1, Integer.parseInt(user));
-	        pr.setInt(2, Integer.parseInt(followed));
-	        pr.executeUpdate();
-	        pr.close();
-	        String outstring = "<!DOCTYPE html> <html> <head></head> <body><h1>"+user+" "+followed+"DELETED </h1></body></html>";
-	        out.write(outstring.getBytes());
-	        out.flush();
-	        out.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}
+			
+		JSONObject res = new JSONObject();
+	        Integer id_user = (Integer)req.getSession(false).getAttribute("id_user");
+	        Integer followed = Integer.valueOf(req.getParameter("id_ami"));
+	        if(UserTools.unfollow(id_user, followed)){
+	        	res.put("id_ami", followed);
+	        }
+	        else
+	        	res.put("err","erreur de la base de données");
+	        
+	        resp.setContentType("application/json");
+			resp.getWriter().println(res);
+
     }
 	
 

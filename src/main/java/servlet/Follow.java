@@ -62,25 +62,13 @@ public class Follow extends HttpServlet {
 	@Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-		try {
-			Connection postgre = PostgresqlConnectionProvider.getCon();
-			ServletOutputStream out = resp.getOutputStream();
-	        String user = ""+req.getSession(false).getAttribute("id_user");
-	        String followed = req.getParameter("followed");
-	        PreparedStatement pr = postgre.prepareStatement("INSERT INTO FOLLOWERS VALUES (?,?)");
-	        pr.setInt(1, Integer.parseInt(user));
-	        pr.setInt(2, Integer.parseInt(followed));
-	        pr.executeUpdate();
-	        pr.close();
-	        String outstring = "<!DOCTYPE html> <html> <head></head> <body><h1>"+user+" "+followed+"</h1></body></html>";
-	        out.write(outstring.getBytes());
-	        out.flush();
-	        out.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}
+
+			Integer id_user = (Integer)req.getSession(false).getAttribute("id_user");
+			Integer id_ami = Integer.parseInt(req.getParameter("id_ami"));
+			
+			UserTools.follow(id_user, id_ami);
+			
+		
     }
 	
 

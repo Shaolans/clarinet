@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.naming.NamingException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -513,6 +514,50 @@ public class UserTools {
 		}
 		return true;
 		
+		
+	}
+
+	public static boolean unfollow(Integer id_user, Integer id_ami) {
+		Connection postgre;
+		try {
+			postgre = PostgresqlConnectionProvider.getCon();
+			  PreparedStatement pr = postgre.prepareStatement("DELETE FROM FOLLOWERS WHERE id_user = ? AND id_follower = ?");
+		        pr.setInt(1, id_user);
+		        pr.setInt(2, id_ami);
+		        pr.executeUpdate();
+		        pr.close();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+		return true;
+       
+      
+		
+	}
+
+	public static boolean follow(Integer id_user, Integer id_ami) {
+		Connection postgre;
+		try {
+			postgre = PostgresqlConnectionProvider.getCon();
+			   
+	        PreparedStatement pr = postgre.prepareStatement("INSERT INTO FOLLOWERS VALUES (?,?)");
+	        pr.setInt(1, id_user);
+	        pr.setInt(2,id_ami);
+	        pr.executeUpdate();
+	        pr.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		        
+		return true;
 		
 	}
 

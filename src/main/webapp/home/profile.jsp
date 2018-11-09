@@ -30,7 +30,22 @@ if(!UserTools.verifSessionOK(session)){
 
 UserObject user = new UserObject(Integer.parseInt(request.getParameter("id_user")));
 	%>
-
+<div id = "following"> 
+<%
+if(id_user!=user.getIdUser()){
+	if(user.getAbonnes().get(id_user)!=null){
+		%>
+		<button id="unfollow" onClick="javascript: nePlusSuivre(<%=user.getIdUser() %>)">Ne plus suivre</button>
+	<%	 
+	}
+	else{
+		%>
+		<button id="follow" onClick="javascript: suivre(<%=user.getIdUser() %>)">Suivre</button>
+		<%
+	}
+}
+%>
+</div>
 
 
 <div id="box">

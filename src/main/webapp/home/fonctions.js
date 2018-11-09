@@ -198,6 +198,61 @@ function traiterReponseGetBio(rep){
 			
 			
 		}
+}
+
+function suivre(id_ami){
+	
+	$.ajax({ 
+        type:"post",
+        url:"/follow",
+        data:"id_ami="+id_ami,
+        datatype:"json",
+        success:function(rep){
+            traiterReponseSuivre(rep);
+        },
+        error:function(jqXMTR, textStatus, errorThrown){
+            alert("Pb lors de la transmission des donnees", "connexion");
+        }
+    });
+	
+}
+
+function nePlusSuivre(id_ami){
+	$.ajax({ 
+        type:"post",
+        url:"/unfollow",
+        data:"id_ami="+id_ami,
+        datatype:"json",
+        success:function(rep){
+            traiterReponseNePlusSuivre(rep);
+        },
+        error:function(jqXMTR, textStatus, errorThrown){
+            alert("Pb lors de la transmission des donnees", "connexion");
+        }
+    });
+}
+
+
+function traiterReponseNePlusSuivre(rep){
+	if(rep.id_ami===undefined){
+		alert(rep.err);
 	}
+	else{
+		res=document.getElementById("following");
+	      res.innerHTML="<button id=\"follow\" onClick=\"javascript: suivre("+rep.id_ami+")\">Suivre</button>";
+	}
+	
+}
+
+function traiterReponseSuivre(rep){
+	if(rep.id_ami===undefined){
+		alert(rep.err);
+	}
+	else{
+		res=document.getElementById("following");
+	      res.innerHTML="<button id=\"unfollow\" onClick=\"javascript: nePlusSuivre("+rep.id_ami+")\">Ne plus suivre</button>";
+	}
+	
+}
 
 

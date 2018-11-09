@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.naming.NamingException;
+import javax.print.DocFlavor.BYTE_ARRAY;
 
 import bd.UserTools;
 import opendatasoft.Event;
@@ -18,6 +19,7 @@ public class UserObject {
 	private Map<Integer, String> abonnements = new HashMap<Integer,String>();
 	private List<Event> evenementsPasses, evenementsFuturs;
 	private String bio;
+	private byte[] image;
 	
 	public UserObject(int idUser){
 		
@@ -106,5 +108,6 @@ public class UserObject {
 	public String getBio(){
 		return bio;
 	}
+	
 
 }
