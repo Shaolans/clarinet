@@ -2,6 +2,16 @@
     pageEncoding="ISO-8859-1"
     import="opendatasoft.*, bd.*, java.util.*, user.*"%>
 
+	<% 
+if(!UserTools.verifSessionOK(session)){
+	
+	response.sendRedirect("/connexion/connexion.jsp"); return;
+	}
+	
+
+	%>
+	
+	
 
 
 <%
@@ -30,10 +40,7 @@
 		<jsp:include page="/home/home.jsp"></jsp:include>
 		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
 		
-		<% 
-			if(!UserTools.verifSessionOK(session, response)) return;
-				System.out.println((Integer)session.getAttribute("id_user"));
-	%>
+		
 		
 		<h2>Évènement</h2>
 		<b class="hr"></b>

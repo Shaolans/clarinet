@@ -78,8 +78,30 @@ function traiterReponseUpload(rep){
 		alert(rep.err);
 	}
 	else{
-		alert(rep.rep);
+		LoadImg();
 	}
+}
+
+function LoadImg() {
+    var xmlhttp;
+    if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp = new XMLHttpRequest();
+    } else { // code for IE6, IE5
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+        	  
+        	    document.getElementById('imageUser')
+        	    .setAttribute(
+        	        'src', 'data:'+xmlhttp.getResponseHeader('content-type')+';base64,'+ xmlhttp.responseText
+        	    );
+        	   
+            
+        }
+    };    
+    xmlhttp.open("GET", '/getImage');
+    xmlhttp.send(null);
 }
 
 function faireApparaitreZoneTexte(){

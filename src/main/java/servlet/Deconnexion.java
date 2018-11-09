@@ -20,16 +20,15 @@ public class Deconnexion extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-		JSONObject res = new JSONObject();
 		if(req.getSession(false)!=null){
+			req.setAttribute("id_user", null);
+			req.changeSessionId();
 			req.getSession(false).invalidate();
-			res.put("rep", "Vous êtes déconnecté");
+			
+			
 		}
-		else
-			res.put("err", "Deconnexion impossible car session inexistante");
-		
-		resp.setContentType("application/json");
-		resp.getWriter().println(res);
+
+		resp.sendRedirect("/connexion/connexion.jsp");
 	}
 	
 }

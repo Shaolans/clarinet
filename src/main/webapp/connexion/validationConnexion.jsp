@@ -12,7 +12,7 @@
 		session.setAttribute("id_user", id_user);
 		session.setMaxInactiveInterval(1800);
 		
-   		 response.sendRedirect("../home/home.jsp");
+   		 response.sendRedirect("../main/main.jsp");
 		
 		
 	}  

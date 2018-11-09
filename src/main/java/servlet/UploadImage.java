@@ -1,9 +1,17 @@
 package servlet;
 
+import java.awt.Component;
+import java.awt.Frame;
+import java.awt.Window;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import org.json.JSONObject;
+import org.postgresql.util.ReaderInputStream;
 
 import bd.UserTools;
 
@@ -38,18 +47,22 @@ public class UploadImage extends HttpServlet {
 			
 				    
 		    Part p = req.getPart("photo");
-			
+		    
+			String type = p.getContentType().split("/")[1];
 			
 			InputStream reader = p.getInputStream();
-		    
 			
-		    byte[] imageBytes = new byte[Long.BYTES];
-		    
-		    reader.read(imageBytes);
 
+		    BufferedImage bImageFromConvert = ImageIO.read(reader); 
+		    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		    ImageIO.write( bImageFromConvert, type, baos );
+		    baos.flush();
+		    byte[] imageBytes = baos.toByteArray();
+		    baos.close();
+		    
 			int id_user = (Integer)req.getSession(false).getAttribute("id_user");
-			System.out.println(id_user);
-			UserTools.uploadImage(id_user, imageBytes);
+			
+			UserTools.uploadImage(id_user, imageBytes,  p.getContentType());
 			
 			res.put("rep", "Image recue");
 		}

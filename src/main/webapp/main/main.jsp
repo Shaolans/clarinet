@@ -1,3 +1,4 @@
+<%@page import="bd.UserTools"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"
     import="map_geolocalisation.*"%>
@@ -14,9 +15,16 @@
   </head>
   <body>
   
-    
+    	<% 
+if(!UserTools.verifSessionOK(session)){
+	
+	response.sendRedirect("/connexion/connexion.jsp"); return;
+	}
 
-		<jsp:include page="../home/home.jsp"></jsp:include>
+
+	%>
+
+		<jsp:include page="/home/home.jsp"></jsp:include>
 	
   
   	<div id="map"></div>

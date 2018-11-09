@@ -13,18 +13,24 @@
 </head>
 <body>
 
-<nav>
-	<a href="home.jsp">Home</a>
-	<a href=profile.jsp>Profile</a>
-	<a href="#" onclick="javascript:{deconnexion();}">Deconnexion</a>
-	<div class="animation start-home"></div>
-</nav>
+	<% 
+if(!UserTools.verifSessionOK(session)){
+	
+	response.sendRedirect("/connexion/connexion.jsp"); return;
+	}
+	
+
+	%>
+
+
+<jsp:include page="/home/home.jsp"></jsp:include>
 
 	<% 
-if(!UserTools.verifSessionOK(session, response)) return;
-	System.out.println((Integer)session.getAttribute("id_user"));
-UserObject user = new UserObject((Integer)session.getAttribute("id_user"));
+	int id_user = (Integer)session.getAttribute("id_user");
+
+UserObject user = new UserObject(Integer.parseInt(request.getParameter("id_user")));
 	%>
+
 
 
 <div id="box">
@@ -32,14 +38,17 @@ UserObject user = new UserObject((Integer)session.getAttribute("id_user"));
 	<div id="profile" >
 		
 		<div id="banniere">
+		<%
+		if(id_user==user.getIdUser()){%>
 		<div id="imageUpload">
 			<form  action="javascript:(function(){return;})()" onsubmit="javascript: uploadImage(this)" method="post" enctype="multipart/form-data">
   					<input type="file" name="myimage"/>
     				<input type="submit" name="submit" value="submit">
 			</form>
 		</div>
+		<%} %>
 			<div id="photo">
-			
+			<img id="imageUser" src="/getImage" width="125" height ="125"  border="1">
 			</div>
 			<div id="nom"><%= user.getFormattedName() %></div>
 		
@@ -48,9 +57,11 @@ UserObject user = new UserObject((Integer)session.getAttribute("id_user"));
 		
 		
 		<div id="bio"><div id="msgBio"> <%= user.getBio() %></div>
+		<%
+		if(id_user==user.getIdUser()){%>
 		<div id="boxModif"></div>
 		<div id="divButton"><button onclick="faireApparaitreZoneTexte()">Editer</button></div>
-		</div>	
+		<%} %></div>	
 	</div>
 	
 
@@ -74,7 +85,7 @@ UserObject user = new UserObject((Integer)session.getAttribute("id_user"));
 	for(Event e : user.getEvenementsPasses()){
 		String id = e.getId();
 		%>
-		<div id = <%= id %> > <%= e.getTitle()+" "+e.getDatestart()%>	</div>
+		<div id = <%= id %> > <a href="../event/event.jsp?id_event=<%=id %>" > <%= e.getTitle()+" "+e.getDatestart() %>	</a></div>
 	<%}
 	%></div>
     
@@ -85,7 +96,7 @@ UserObject user = new UserObject((Integer)session.getAttribute("id_user"));
 			  for(Event e : user.getEvenementsFuturs()){
 					String id = e.getId();
 					%>
-					<div id = <%= id %> > <%= e.getTitle()+" "+e.getDatestart() %>	</div>
+					<div id = <%= id %> > <a href="/event/event.jsp?id_event=<%=id %>" > <%= e.getTitle()+" "+e.getDatestart() %>	</a></div>
 				<%}
 		%></div>
     
@@ -97,7 +108,7 @@ UserObject user = new UserObject((Integer)session.getAttribute("id_user"));
 	for(Integer i : user.getAbonnements().keySet()){
 		int id = i.intValue();
 		%>
-		<div id = <%= id %> > <%= user.getAbonnements().get(i) %>	</div>
+		<div id = <%= id %> ><a href="/home/profile.jsp?id_user=<%=id %>" > <%= user.getAbonnements().get(i) %></a>	</div>
 	<%}
 	%></div>
 
@@ -111,7 +122,7 @@ UserObject user = new UserObject((Integer)session.getAttribute("id_user"));
 	for(Integer i : user.getAbonnes().keySet()){
 		int id = i.intValue();
 		%>
-		<div id = <%= id %> > <%= user.getAbonnes().get(i) %>	</div>
+		<div id = <%= id %> ><a href="/home/profile.jsp?id_user=<%=id %>" > <%= user.getAbonnes().get(i) %></a>	</div>
 	<%}
 	%></div>
    

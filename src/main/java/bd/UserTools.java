@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.naming.NamingException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -26,6 +27,7 @@ import org.bson.BsonInt32;
 import org.bson.BsonString;
 import org.bson.BsonValue;
 import org.bson.Document;
+import org.bson.types.Binary;
 
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
@@ -153,16 +155,12 @@ public class UserTools {
 		return name;
 	}
 	
-	public static boolean verifSessionOK(HttpSession session, HttpServletResponse response){
-		if(session==null){
-			try {
-				response.sendRedirect("/connexion/connexion.jsp");
-				return false;
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+	public static boolean verifSessionOK(HttpSession session){
+		if(session==null || session.getAttribute("id_user")==null){
+			
+			return false;
 		}
+		
 		return true;
 	}
 	
@@ -315,7 +313,7 @@ public class UserTools {
 	 * Upload l'image de profile du user dans mongoDB
 	 * @param image
 	 */
-	public static void uploadImage(int id_user, byte[] image){
+	public static void uploadImage(int id_user, byte[] image, String type){
 		try {
 			MongoDatabase db = MongoDBConnectionProvider.getDB();
 			
@@ -324,7 +322,10 @@ public class UserTools {
 			Document curr = col.find(new BsonDocument("id", new BsonInt32(id_user))).first();
 			if(curr!=null){
 				col.updateOne(new BsonDocument("id", new BsonInt32(id_user)),
-						new BsonDocument("$set", new BsonDocument("image", new BsonBinary(image))));
+						new BsonDocument("$set", new BsonDocument("image.photo", new BsonBinary(image))));
+				
+				col.updateOne(new BsonDocument("id", new BsonInt32(id_user)),
+						new BsonDocument("$set", new BsonDocument("image.type", new BsonString(type))));
 				
 			}
 			
@@ -335,9 +336,9 @@ public class UserTools {
 		
 	}
 	
-	public static  byte[] getImage(int id_user){
+	public static  List<Object> getImageAndType(int id_user){
 		
-		 byte[] res=null;
+		 List<Object> res=new ArrayList<Object>();
 		
 		try {
 			MongoDatabase db = MongoDBConnectionProvider.getDB();
@@ -349,7 +350,13 @@ public class UserTools {
 			
 			
 			if(curr!=null){
-				res = (byte[]) curr.get("image");
+				
+				Document imageDoc = (Document)curr.get("image");
+				if(imageDoc!=null){
+					res.add(((Binary) imageDoc.get("photo")).getData());
+					res.add(imageDoc.getString("type"));
+				}
+				
 				
 			}
 			

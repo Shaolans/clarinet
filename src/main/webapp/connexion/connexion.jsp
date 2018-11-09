@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@page import="bd.UserTools"%>
 <html lang="en">
 <head>
 	<title>Connexion</title>
@@ -27,6 +28,13 @@
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
 </head>
+
+<%
+if(UserTools.verifSessionOK(session)) {
+	response.sendRedirect("/main/main.jsp");
+	return ;
+}
+%>
 
 <body>
 	<div class="limiter">
