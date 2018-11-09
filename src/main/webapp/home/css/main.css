@@ -70,11 +70,7 @@ nav .start-contact, a:nth-child(5):hover~.animation {
 	background-color: #e67e22;
 }
 
-body {
-	font-size: 12px;
-	font-family: sans-serif;
-	background: #2c3e50;
-}
+
 h1 {
 	text-align: center;
 	margin: 40px 0 40px;
@@ -100,6 +96,7 @@ span {
 }
 
 #box{
+	
 	background-color:#FFFFFF;
 	width: absolute;
 	height: 1000px;
@@ -235,6 +232,14 @@ input:checked + label {
 #tab3:checked ~ #content3,
 #tab4:checked ~ #content4 {
   display: block;
+}
+
+body{
+	font-size: 12px;
+	font-family: sans-serif;
+	background: #F0F8FF;
+	background-image: linear-gradient(90deg, violet, cyan);
+	margin-left:15px;
 }
 
 
