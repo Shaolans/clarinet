@@ -3,7 +3,7 @@
 <head>
     <title>Chatbox</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link type="text/css" rel="stylesheet" media="all" href="css/jQuery.chatbox.css">
+    <link type="text/css" rel="stylesheet" media="all" href="css/chatbox.css">
     <link type="text/css" rel="stylesheet" media="all" href="css/animate-custom.css">
     <link type="text/css" rel="stylesheet" media="all" href="css/style.css">
 </head>
@@ -25,22 +25,64 @@
 	</div>
 </div>
 <script type="text/javascript" src="js/jquery-1.10.2.js"></script>
-<script type="text/javascript" src="js/jQuery.chatbox.js"></script>
+<script type="text/javascript" src="js/chatbox.js"></script>
 <script type="text/javascript">
 	$(function(){
-	    /** For Demo **/
-	
+		var url = "ws://" + location.hostname + ":" + location.port + "/chat";
+        var ws = new WebSocket(url);
+        ws.onopen = function(){
+        	var msg = {
+        		type: 'login',
+        		from: <%=session.getAttribute("login")%>,
+        		from_id : <%=session.getAttribute("id_user")%>,
+        		/* from: 'Moi',
+        		from_id: '1000', */
+        		to: '',
+        		to_id: '',
+        		content: '',
+        		time: ''
+        	};
+        	ws.send(JSON.stringify(msg));
+        };
+        ws.onmessage = function(e){
+        	console.log(e.data);
+       		var msg = JSON.parse(e.data);
+           	if (msg.from_id == ""){
+           		$.chatbox(msg.to_id).message(e.data,'system');
+           	}
+           	else{
+           		$.chatbox(msg.to_id).message(e.data,'from');
+           	}
+        };
+        ws.onerror = function(e){};
+        ws.onclose = function(e){
+        	ws = null;
+        };
+        
 	    $.chatbox.globalOptions = {
-	        id:99999,
-	        user:'Moi',
-	        debug:true
+	        id:<%=session.getAttribute("id_user")%>,
+	        name:<%=session.getAttribute("login")%>,
+/* 	        id:'1000',
+	        name:'Moi', */
+	        debug:true,
+	        websocket: ws
 	    }
 	    
 	    $('#do-chat').click(function(){
 	        $.chatbox({
 	            id:$("#chatbox-id").val(),
-	            user:$("#chatbox-user").val(),
-	            title:'Chat with '+$("#chatbox-user").val()+'(ID:'+$("#chatbox-id").val()+')'
+	            name:$("#chatbox-user").val(),
+	            title:'Chat with '+$("#chatbox-user").val(),
+	            type:'private'
+	        });
+	    });
+	    
+	    $('#do-room-chat').click(function(){
+	        $.chatbox({
+	            id:$("#chatbox-id").val(),
+	            name:$("#chatbox-room").val(),
+	            title:'Room chat of '+$("#chatbox-room").val(),
+	            type:'room'
 	        });
 	    });
 

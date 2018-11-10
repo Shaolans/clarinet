@@ -9,6 +9,7 @@
         init: function (options){
             var self = this;
             var opts = this.opts = setOption(options);
+            var websocket = this.websocket = globalOptions.websocket;
             var boxFrame = '\
                 <div class="chatbox" id="'+opts.boxId+'">\n\
                     <div class="chatbox-header">\n\
@@ -64,7 +65,16 @@
             $elem.find('.chatbox-textarea').on('keydown',function(event){
                 if(event.keyCode == 13){
                     event.preventDefault();
-                    self.message($(this).val(),'to');
+                    var message = {
+                    	type : opts.type,
+                		from : globalOptions.name,
+                		from_id : globalOptions.id,
+                		to : opts.name,
+                		to_id : opts.id,
+    					content : $(this).val(),
+    					time : event.timeStamp
+        			};
+                    self.message(JSON.stringify(message),'to');
                     return false;
                 }
             });
@@ -88,31 +98,47 @@
                 this.message('Can not send empty message','system');
             }else{
                 msg = msg.replace(/^\s+|\s+$/g,""); // supprime les espaces
-                msg = msg.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\"/g,"&quot;"); //supprime caractere HTML
+                msg = msg.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\"/g,"&quot;"); //supprime les pb d'affichage
                 var msgItem = '\
                     <div class="chatbox-message">\n\
-                        <span class="message-by">'+globalOptions.user+'</span>\n\
+                        <span class="message-by">'+globalOptions.name+'</span>\n\
                         <span class="message-content">'+msg+'</span>\n\
                     </div>\n';
                 this.$elem.find('.chatbox-content').append(msgItem);
                 this.$elem.find('.chatbox-content').scrollTop(this.$elem.find('.chatbox-content').get(0).scrollHeight);
                 this.$elem.find('.chatbox-textarea').val('').focus();
-
+                
                 setCallback.call(this,'onMessageSend',msg);
 
                 debug('Message send',this.opts.id,':',msg);
             }
         },
-        message: function(msg,type){
-            var self = this;
+        message: function(jsonmsg,type){
+        	var json = JSON.parse(jsonmsg);
+        	var from = json.from;
+        	var msg = json.content;
+        	var timestamp = json.time;
+
+        	var self = this;
             switch (type){
                 case 'to':
                     this.messageTo(msg);
+                    var message = {
+                    	type : this.opts.type,
+                		from : globalOptions.name,
+                		from_id : globalOptions.id,
+                		to : this.opts.name,
+                		to_id : this.opts.id,
+    					content : msg,
+    					time : timestamp
+        			};
+                    this.websocket.send(JSON.stringify(message));
                     break;
                 case 'from':
+                	
                     var msgItem = '\
                         <div class="chatbox-message">\n\
-                            <span class="message-from">'+this.opts.user+'</span>\n\
+                            <span class="message-from">'+timestamp+from+'</span>\n\
                             <span class="message-content">'+msg+'</span>\n\
                         </div>\n';
                     this.$elem.find('.chatbox-content').append(msgItem);
@@ -203,7 +229,7 @@
         options.boxId = globalOptions.idPrefix + options.id;
         options.enabled = true;
         if (options.title == null) {
-            options.title = 'Chat with '+options.user;
+            options.title = 'Chat: '+options.name;
         }
         return options;
     }
@@ -235,18 +261,11 @@
 
     var globalOptionsDefault = {
         id:null,
-        user:null,
+        name:null,
         debug:false,
+        websocket:null,
         idPrefix:'chatbox_',
         animate:'bounce'
-
-        /*
-        onChatboxCreate     // methode appeler lors de la creation
-        onMessageSend       
-        onMessageEmpty      
-        onMessageReceive    
-        onChatboxDestroy    
-        */
     }
 
     $.chatbox = function(opts){
@@ -258,8 +277,9 @@
 
             var defaults = {
                 id:null,
-                user:null,
-                title:null
+                name:null,
+                title:null,
+                type:null
             };
 
             var options = $.extend(defaults, opts || {});
