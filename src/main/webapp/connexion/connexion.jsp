@@ -57,11 +57,7 @@ if(UserTools.verifSessionOK(session)) {
 						<span class="focus-input100" data-symbol="&#xf190;"></span>
 					</div>
 					
-					<div class="text-right p-t-8 p-b-31">
-						<a href="#">
-							Mot de passe oublié ?
-						</a>
-					</div>
+	
 					
 					<div class="container-login100-form-btn">
 						<div class="wrap-login100-form-btn">
@@ -72,22 +68,8 @@ if(UserTools.verifSessionOK(session)) {
 						</div>
 					</div>
 
-					<div class="txt1 text-center p-t-54 p-b-20">
-						<span>
-							Se connecter avec
-						</span>
-					</div>
+				
 
-					
-					<div class="flex-col-c p-t-155">
-						<span class="txt1 p-b-17">
-							Ou se connecter avec
-						</span>
-
-						<a href="#" class="txt2">
-							Se connecter
-						</a>
-					</div>
 				</form>
 				<form action="../inscription/inscription.jsp">
 					<div class="container-login100-form-btn">

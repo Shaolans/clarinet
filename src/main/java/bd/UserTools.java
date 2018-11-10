@@ -1,9 +1,14 @@
 package bd;
 
 import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
 import java.awt.image.ImageFilter;
+import java.awt.image.WritableRaster;
+import java.io.File;
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.naming.NamingException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -25,10 +31,12 @@ import org.bson.BasicBSONObject;
 import org.bson.BsonBinary;
 import org.bson.BsonDocument;
 import org.bson.BsonInt32;
+import org.bson.BsonObjectId;
 import org.bson.BsonString;
 import org.bson.BsonValue;
 import org.bson.Document;
 import org.bson.types.Binary;
+import org.bson.types.ObjectId;
 
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
@@ -169,10 +177,16 @@ public class UserTools {
 	
 	
 	
-	public static void main(String[] args) throws UnknownHostException {
-		System.out.println(getParticipants("e397f4c3b8213dbf75b96f91992d4b87ea76b3d1"));
-	}
+	
 
+	public static byte[] extractBytes (String ImageName) throws IOException {
+		 // open image
+		 File imgPath = new File(ImageName);
+		 byte[] fileContent = Files.readAllBytes(imgPath.toPath());
+
+		 return fileContent;
+		}
+	
 	public static String getNom(int idUser) {
 		// TODO Auto-generated method stub
 		return null;
@@ -561,6 +575,81 @@ public class UserTools {
 		
 	}
 
-	
+
+
+	public static void createUser(String user_pseudo, String user_pwd, String user_first_name, String user_last_name,
+			String user_email) {
+		
+		Connection postgre;
+		try {
+			postgre = PostgresqlConnectionProvider.getCon();
+			PreparedStatement pr = postgre.prepareStatement("INSERT INTO USERS(login,password,fname,lname,mail) VALUES (?,crypt(?,gen_salt('bf')),?,?,?)");
+			pr.setString(1, user_pseudo);
+	        pr.setString(2, user_pwd);
+	        pr.setString(3, user_first_name);
+	        pr.setString(4, user_last_name);
+	        pr.setString(5, user_email);
+	        pr.executeUpdate();
+	        
+	        pr = postgre.prepareStatement("select * from users where login=? ");
+			pr.setString(1, user_pseudo);
+			
+			ResultSet rs = pr.executeQuery();
+			
+			boolean status = rs.next();
+			int id_user;
+			 
+			if(status){
+				
+				id_user = rs.getInt(1);
+				pr.close();
+				
+				MongoDatabase db = MongoDBConnectionProvider.getDB();
+				
+				MongoCollection<Document> col = db.getCollection("profiles");
+				Document curr = new Document();
+				curr.append("id", id_user);
+				curr.append("bio", "Entrez votre bio");
+				curr.append("evenements", new ArrayList<String>());
+				
+				
+				byte[] tab = null;
+				
+			
+				
+				String type = "image/png";
+				byte[] photo = null;
+				try {
+					photo = extractBytes("index.png");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				Document imageIn = new Document();
+				imageIn.append("photo", photo );
+				imageIn.append("type", type);
+				
+				curr.append("image", imageIn);
+				
+				
+				col.insertOne(curr);
+								
+			}
+	        
+	       
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e) {
+			e.printStackTrace();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+
 
 }

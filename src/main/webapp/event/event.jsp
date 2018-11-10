@@ -127,7 +127,8 @@ if(!UserTools.verifSessionOK(session)){
 				out.println("<br>");
 				out.println("<br>");*/
 				%>
-				<div id="<%=id_u %>"><%=name %></div>
+				<div id = <%= id_u %> ><a href="/home/profile.jsp?id_user=<%=id_u %>" > <%= name %></a>	</div>
+				
 				<%
 			}
 				%>

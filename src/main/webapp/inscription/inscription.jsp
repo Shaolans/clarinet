@@ -24,36 +24,44 @@
 					<span class="login100-form-title p-b-50" style="font-size:35px;">
 						Créez votre compte
 					</span>
-					<div class="wrap-input100 m-b-23">
-						<span class="label-input">Prénom <span class="requis">*</span></span>
-						<input class="input100" type="text" name="user_first_name" value="${param.user_first_name}" placeholder="1-32 caractère(s)"/>
-						<span class="focus-input100"></span>
-					</div>
-					<span class="erreur">${erreurs['nom']}</span>
-					<div class="wrap-input100 m-b-23">
-						<span class="label-input">Nom<span class="requis">*</span></span>
-						<input class="input100" type="text" name="user_last_name" value="${param.user_last_name}" placeholder="1-32 caractère(s)"/>
-						<span class="focus-input100"></span>
-					</div>
-					<span class="erreur">${erreurs['prenom']}</span>
+					
+					
 					<div class="wrap-input100 m-b-23">
 						<span class="label-input">Pseudo <span class="requis">*</span></span>
-						<input class="input100" type="text" name="user_pseudo" value="${param.user_pseudo}" placeholder="1-32 caractère(s)"/>
+						<input class="input100" type="text" name="user_pseudo" value="${param.user_pseudo}" placeholder="3-32 caractère(s)"/>
 						<span class="focus-input100"></span>
 					</div>
 					<span class="erreur">${erreurs['pseudo']}</span>
+					
+					
 					<div class="wrap-input100 m-b-23">
 						<span class="label-input">Mot de passe <span class="requis">*</span></span>
 						<input class="input100" type="password" name="user_pwd" placeholder="6-32 caractère(s)"/>
 						<span class="focus-input100"></span>
 					</div>
 					<span class="erreur">${erreurs['pwd']}</span>
+					
+					
 					<div class="wrap-input100 m-b-23">
 						<span class="label-input">Confirmation mot de passe <span class="requis">*</span></span>
 						<input class="input100" type="password" name="user_confirm_pwd" placeholder="6-32 caractère(s)"/>
 						<span class="focus-input100"></span>
 					</div>
 					<span class="erreur">${erreurs['confirm']}</span>
+					
+					<div class="wrap-input100 m-b-23">
+						<span class="label-input">Prénom </span>
+						<input class="input100" type="text" name="user_first_name" value="${param.user_first_name}" />
+						<span class="focus-input100"></span>
+					</div>
+					<span class="erreur">${erreurs['prenom']}</span>
+					<div class="wrap-input100 m-b-23">
+						<span class="label-input">Nom</span>
+						<input class="input100" type="text" name="user_last_name" value="${param.user_last_name}" />
+						<span class="focus-input100"></span>
+					</div>
+					<span class="erreur">${erreurs['nom']}</span>
+					
 					<div class="wrap-input100 m-b-23">
 						<span class="label-input">Adresse email</span>
 						<input class="input100" type="email" name="user_email" value="${param.user_email}">

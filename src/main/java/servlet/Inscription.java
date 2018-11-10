@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bd.UserTools;
 import database.PostgresqlConnectionProvider;
 
 @WebServlet(
@@ -70,23 +71,9 @@ public class Inscription extends HttpServlet{
 		
 		if( erreurs.isEmpty() ) {
 			
-			Connection postgre;
-			try {
-				postgre = PostgresqlConnectionProvider.getCon();
-				PreparedStatement pr = postgre.prepareStatement("INSERT INTO USERS(login,password,fname,lname,mail) VALUES (?,crypt(?,gen_salt('bf')),?,?,?)");
-				pr.setString(1, user_pseudo);
-		        pr.setString(2, user_pwd);
-		        pr.setString(3, user_first_name);
-		        pr.setString(4, user_last_name);
-		        pr.setString(5, user_email);
-		        pr.executeUpdate();
-		        pr.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} catch (NamingException e) {
-				e.printStackTrace();
-			}
 			
+			
+			UserTools.createUser(user_pseudo, user_pwd, user_first_name, user_last_name,user_email);
 			
 			request.setAttribute("resultat", "Inscription réussi");
 			this.getServletContext().getRequestDispatcher("/").forward(request, response);
@@ -121,8 +108,8 @@ public class Inscription extends HttpServlet{
 		if(pseudo.isEmpty()) {
 			throw new Exception("Merci de saisir un pseudo.");
 		}
-		if(!(pseudo.length()>=1 && pseudo.length()<=32)) {
-			throw new Exception("Le pseudo doit être entre 1 à 32 caractère(s).");
+		if(!(pseudo.length()>=3 && pseudo.length()<=32)) {
+			throw new Exception("Le pseudo doit être entre 3 à 32 caractère(s).");
 		}
 	}
 	
