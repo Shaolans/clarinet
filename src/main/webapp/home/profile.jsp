@@ -167,7 +167,7 @@ if(id_user!=user.getIdUser()){
 <script type="text/javascript" src="../chat/js/chatbox.js"></script>
 <script type="text/javascript">
 	$(function(){
-		var url = "ws://" + location.hostname + ":" + location.port + "/chat";
+		var url = "wss://" + location.hostname + ":" + location.port + "/chat";
 		var ws = new WebSocket(url);
         ws.onopen = function(){
         	var msg = {
