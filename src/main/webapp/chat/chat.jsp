@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Chatbox</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link type="text/css" rel="stylesheet" media="all" href="css/chatbox.css">
     <link type="text/css" rel="stylesheet" media="all" href="css/animate-custom.css">
@@ -86,7 +85,7 @@
 	        });
 	    });
 
-	    $('#set-show').click(function(){
+/* 	    $('#set-show').click(function(){
 	        $.chatbox(Number($("#chatbox-id").val())).show();
 	    });
 	    $('#set-hide').click(function(){
@@ -100,7 +99,7 @@
 	    });
 	    $('#set-animate').click(function(){
 	        $.chatbox(Number($("#chatbox-id").val())).animate();
-	    });
+	    }); */
 	});
 </script>
 </body>

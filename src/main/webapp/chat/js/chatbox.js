@@ -65,6 +65,21 @@
             $elem.find('.chatbox-textarea').on('keydown',function(event){
                 if(event.keyCode == 13){
                     event.preventDefault();
+                    var date = new Date();
+                    var current_time = '';
+                    
+                    if(date.getHours()<10){
+                    	current_time += '0'
+                    }
+                    current_time += date.getHours() +':';
+                    if(date.getMinutes()<10){
+                    	current_time += '0'
+                    }
+                    current_time += date.getMinutes() +':';
+                    if(date.getSeconds()<10){
+                    	current_time += '0'
+                    }
+                    current_time += date.getSeconds();
                     var message = {
                     	type : opts.type,
                 		from : globalOptions.name,
@@ -72,7 +87,7 @@
                 		to : opts.name,
                 		to_id : opts.id,
     					content : $(this).val(),
-    					time : event.timeStamp
+    					time : current_time
         			};
                     self.message(JSON.stringify(message),'to');
                     return false;
@@ -93,7 +108,7 @@
         hide: function(){
             this.$elem.find('.chatbox-body').slideUp(500);
         },
-        messageTo: function(msg){
+        messageTo: function(msg,timestamp){
             if (msg == ''){
                 this.message('Can not send empty message','system');
             }else{
@@ -101,7 +116,7 @@
                 msg = msg.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\"/g,"&quot;"); //supprime les pb d'affichage
                 var msgItem = '\
                     <div class="chatbox-message">\n\
-                        <span class="message-by">'+globalOptions.name+'</span>\n\
+                        <span class="message-by">'+globalOptions.name+'('+timestamp+')'+'</span>\n\
                         <span class="message-content">'+msg+'</span>\n\
                     </div>\n';
                 this.$elem.find('.chatbox-content').append(msgItem);
@@ -122,7 +137,7 @@
         	var self = this;
             switch (type){
                 case 'to':
-                    this.messageTo(msg);
+                    this.messageTo(msg,timestamp);
                     var message = {
                     	type : this.opts.type,
                 		from : globalOptions.name,
@@ -138,7 +153,7 @@
                 	
                     var msgItem = '\
                         <div class="chatbox-message">\n\
-                            <span class="message-from">'+timestamp+from+'</span>\n\
+                            <span class="message-from">'+timestamp+'12'+from+'</span>\n\
                             <span class="message-content">'+msg+'</span>\n\
                         </div>\n';
                     this.$elem.find('.chatbox-content').append(msgItem);

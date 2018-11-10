@@ -7,6 +7,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<link type="text/css" rel="stylesheet" media="all" href="../chat/css/chatbox.css">
+<link type="text/css" rel="stylesheet" media="all" href="../chat/css/animate-custom.css">
+<link type="text/css" rel="stylesheet" media="all" href="../chat/css/style.css">
 <link rel="stylesheet" type="text/css" href="css/main.css">
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Profile</title>
@@ -128,8 +131,12 @@ if(id_user!=user.getIdUser()){
   	<div id="abonnements"> <%
 	for(Integer i : user.getAbonnements().keySet()){
 		int id = i.intValue();
+		String user_name = user.getAbonnements().get(i);
 		%>
-		<div id = <%= id %> ><a href="/home/profile.jsp?id_user=<%=id %>" > <%= user.getAbonnements().get(i) %></a>	</div>
+		<div id = <%= id %> >
+		<a href="/home/profile.jsp?id_user=<%=id %>" > <%= user.getAbonnements().get(i) %></a>	
+		<button onclick="doChat('<%=user_name%>',<%=id%>)">Chat</button>
+		</div>
 	<%}
 	%></div>
 
@@ -153,8 +160,60 @@ if(id_user!=user.getIdUser()){
 	</div>
 
 </div>
-
 <script type="text/javascript" src="fonctions.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+
+<script type="text/javascript" src="../chat/js/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="../chat/js/chatbox.js"></script>
+<script type="text/javascript">
+	$(function(){
+		var url = "ws://" + location.hostname + ":" + location.port + "/chat";
+        var ws = new WebSocket(url);
+        ws.onopen = function(){
+        	var msg = {
+        		type: 'login',
+        		from: <%=session.getAttribute("login")%>,
+        		from_id : <%=session.getAttribute("id_user")%>,
+        		/* from: 'Moi',
+        		from_id: '1000', */
+        		to: '',
+        		to_id: '',
+        		content: '',
+        		time: ''
+        	};
+        	ws.send(JSON.stringify(msg));
+        };
+        ws.onmessage = function(e){
+        	console.log(e.data);
+       		var msg = JSON.parse(e.data);
+           	if (msg.from_id == ""){
+           		$.chatbox(msg.to_id).message(e.data,'system');
+           	}
+           	else{
+           		$.chatbox(msg.to_id).message(e.data,'from');
+           	}
+        };
+        
+	    $.chatbox.globalOptions = {
+	        id:id_user,
+	        name:user_name,
+/* 	        id:'1000',
+	        name:'Moi', */
+	        debug:true,
+	        websocket: ws
+	    }
+	});
+</script>
+<script type="text/javascript">
+	function doChat(user_name, user_id){
+		console.log(user_name);
+		$.chatbox({
+            id:100,
+            name:user_name,
+            title:'Chat with '+user_name,
+            type:'private'
+        });
+	}
+</script>
 </body>
 </html>
