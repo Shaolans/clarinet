@@ -137,23 +137,26 @@
         	var self = this;
             switch (type){
                 case 'to':
-                    this.messageTo(msg,timestamp);
-                    var message = {
-                    	type : this.opts.type,
-                		from : globalOptions.name,
-                		from_id : globalOptions.id,
-                		to : this.opts.name,
-                		to_id : this.opts.id,
-    					content : msg,
-    					time : timestamp
-        			};
-                    this.websocket.send(JSON.stringify(message));
+                	console.log(this.websocket.readyState);
+                	if(this.websocket!=null ){
+                		this.messageTo(msg,timestamp);
+                        var message = {
+                        	type : this.opts.type,
+                    		from : globalOptions.name,
+                    		from_id : globalOptions.id,
+                    		to : this.opts.name,
+                    		to_id : this.opts.id,
+        					content : msg,
+        					time : timestamp
+            			};
+                        this.websocket.send(JSON.stringify(message));
+                    }
                     break;
                 case 'from':
                 	
                     var msgItem = '\
                         <div class="chatbox-message">\n\
-                            <span class="message-from">'+timestamp+'12'+from+'</span>\n\
+                            <span class="message-from">'+from+'('+timestamp+')'+'</span>\n\
                             <span class="message-content">'+msg+'</span>\n\
                         </div>\n';
                     this.$elem.find('.chatbox-content').append(msgItem);

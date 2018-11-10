@@ -32,10 +32,10 @@
         ws.onopen = function(){
         	var msg = {
         		type: 'login',
-        		from: <%=session.getAttribute("login")%>,
-        		from_id : <%=session.getAttribute("id_user")%>,
-        		/* from: 'Moi',
-        		from_id: '1000', */
+        	<%-- 	from: <%=session.getAttribute("login")%>,
+        		from_id : <%=session.getAttribute("id_user")%>, --%>
+        		from: 'Moi',
+        		from_id: '1000',
         		to: '',
         		to_id: '',
         		content: '',
@@ -59,10 +59,10 @@
         };
         
 	    $.chatbox.globalOptions = {
-	        id:<%=session.getAttribute("id_user")%>,
-	        name:<%=session.getAttribute("login")%>,
-/* 	        id:'1000',
-	        name:'Moi', */
+	        <%-- id:<%=session.getAttribute("id_user")%>,
+	        name:<%=session.getAttribute("login")%>, --%>
+	        id:'1000',
+	        name:'Moi', 
 	        debug:true,
 	        websocket: ws
 	    }
@@ -85,7 +85,8 @@
 	        });
 	    });
 
-/* 	    $('#set-show').click(function(){
+	    $('#set-show').click(function(){
+	    	console.log(Number($("#chatbox-id").val()));
 	        $.chatbox(Number($("#chatbox-id").val())).show();
 	    });
 	    $('#set-hide').click(function(){
@@ -99,7 +100,7 @@
 	    });
 	    $('#set-animate').click(function(){
 	        $.chatbox(Number($("#chatbox-id").val())).animate();
-	    }); */
+	    });
 	});
 </script>
 </body>

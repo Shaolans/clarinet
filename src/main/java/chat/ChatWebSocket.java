@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.bson.Document;
+
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -31,8 +32,9 @@ public class ChatWebSocket {
 	
 	@OnMessage
 	public void onMessage(Session session, String JSONmsg){
-		Message message = gson.fromJson(JSONmsg, Message.class);
 		
+		Message message = gson.fromJson(JSONmsg, Message.class);
+
 		String strMsg = message.getContent();
 		String strFrom = message.getFrom();
 		String strFrom_id = message.getFrom_id();
@@ -119,7 +121,7 @@ public class ChatWebSocket {
 			try {
 				adverse.getBasicRemote().sendText(gson.toJson(message));
 			} catch (IOException e) {
-				e.printStackTrace();
+				log.info("Error: "+e.getMessage());
 			}
 		}
 	}
@@ -131,6 +133,5 @@ public class ChatWebSocket {
 	
 	@OnError
 	public void onError(Session session, Throwable ex) {
-		log.info("Error: "+ex.getMessage());
 	}
 }

@@ -167,38 +167,39 @@ if(id_user!=user.getIdUser()){
 <script type="text/javascript" src="../chat/js/chatbox.js"></script>
 <script type="text/javascript">
 	$(function(){
-		var url = "wss://" + location.hostname + ":" + location.port + "/chat";
-        var ws = new WebSocket(url);
+		var url = "ws://" + location.hostname + ":" + location.port + "/chat";
+		var ws = new WebSocket(url);
         ws.onopen = function(){
         	var msg = {
         		type: 'login',
-        		from: <%=session.getAttribute("login")%>,
-        		from_id : <%=session.getAttribute("id_user")%>,
-        		/* from: 'Moi',
-        		from_id: '1000', */
+        		from: user_name,
+        		from_id : id_user,
         		to: '',
         		to_id: '',
         		content: '',
         		time: ''
         	};
+        	console.log(JSON.stringify(msg));
         	ws.send(JSON.stringify(msg));
         };
         ws.onmessage = function(e){
         	console.log(e.data);
        		var msg = JSON.parse(e.data);
            	if (msg.from_id == ""){
-           		$.chatbox(msg.to_id).message(e.data,'system');
+           		$.chatbox(Number(msg.from_id)).message(e.data,'system');
            	}
            	else{
-           		$.chatbox(msg.to_id).message(e.data,'from');
+           		$.chatbox(Number(msg.from_id)).message(e.data,'from');
            	}
+        };
+        ws.onerror = function(e){};
+        ws.onclose = function(e){
+        	console.log('Close: '+e.code+' '+e.reason+' '+ e.wasClean);
         };
         
 	    $.chatbox.globalOptions = {
 	        id:id_user,
 	        name:user_name,
-/* 	        id:'1000',
-	        name:'Moi', */
 	        debug:true,
 	        websocket: ws
 	    }
@@ -206,9 +207,8 @@ if(id_user!=user.getIdUser()){
 </script>
 <script type="text/javascript">
 	function doChat(user_name, user_id){
-		console.log(user_name);
 		$.chatbox({
-            id:100,
+            id:user_id,
             name:user_name,
             title:'Chat with '+user_name,
             type:'private'
