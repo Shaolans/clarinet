@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONObject;
+
 import bd.UserTools;
 import database.PostgresqlConnectionProvider;
 @WebServlet(
@@ -62,11 +64,19 @@ public class Follow extends HttpServlet {
 	@Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-
+		
+			JSONObject res = new JSONObject();
 			Integer id_user = (Integer)req.getSession(false).getAttribute("id_user");
 			Integer id_ami = Integer.parseInt(req.getParameter("id_ami"));
 			
-			UserTools.follow(id_user, id_ami);
+			if(UserTools.follow(id_user, id_ami)){
+	        	res.put("id_ami", id_ami);
+	        }
+	        else
+	        	res.put("err","erreur de la base de données");
+	        
+	        resp.setContentType("application/json");
+			resp.getWriter().println(res);
 			
 		
     }

@@ -30,6 +30,12 @@ if(!UserTools.verifSessionOK(session)){
 
 UserObject user = new UserObject(Integer.parseInt(request.getParameter("id_user")));
 	%>
+	
+	<script>
+		var id_user = '<%=id_user%>';
+		var user_name = '<%=UserTools.formatName(UserTools.getNameUser(id_user)) %>';
+	</script>
+	
 <div id = "following"> 
 <%
 if(id_user!=user.getIdUser()){

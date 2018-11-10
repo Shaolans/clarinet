@@ -240,6 +240,8 @@ function traiterReponseNePlusSuivre(rep){
 	else{
 		res=document.getElementById("following");
 	      res.innerHTML="<button id=\"follow\" onClick=\"javascript: suivre("+rep.id_ami+")\">Suivre</button>";
+	      element = document.getElementById(id_user);
+	      element.parentNode.removeChild(element);
 	}
 	
 }
@@ -251,6 +253,8 @@ function traiterReponseSuivre(rep){
 	else{
 		res=document.getElementById("following");
 	      res.innerHTML="<button id=\"unfollow\" onClick=\"javascript: nePlusSuivre("+rep.id_ami+")\">Ne plus suivre</button>";
+	      res=document.getElementById("abonnes");
+	      res.innerHTML+="<div id = "+id_user+" ><a href=\"/home/profile.jsp?id_user="+id_user+"\" > "+user_name+"</a>	</div>";
 	}
 	
 }
