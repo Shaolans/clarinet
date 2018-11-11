@@ -1,7 +1,7 @@
 <html>
 <body>
 <script>
-window.location.replace("/connexion/connexion.jsp");
+window.location.replace("/connexion.jsp");
 </script>
 </body>
 </html>

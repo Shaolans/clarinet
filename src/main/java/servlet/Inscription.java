@@ -29,7 +29,7 @@ public class Inscription extends HttpServlet{
 		String user_pseudo = request.getParameter("user_pseudo");
 		String user_pwd = request.getParameter("user_pwd");
 		String user_confirm_pwd = request.getParameter("user_confirm_pwd");
-		String user_email = request.getParameter("user_email");
+		//String user_email = request.getParameter("user_email");
 		
 		Map<String,String> erreurs = new HashMap<String, String>();
 		
@@ -63,17 +63,17 @@ public class Inscription extends HttpServlet{
 			erreurs.put("confirm", e.getMessage());
 		}
 		
-		try {
+	/*	try {
 			validationEmail(user_email);
 		} catch (Exception e) {
 			erreurs.put("email", e.getMessage());
-		}
+		}*/
 		
 		if( erreurs.isEmpty() ) {
 			
 			
 			
-			UserTools.createUser(user_pseudo, user_pwd, user_first_name, user_last_name,user_email);
+			UserTools.createUser(user_pseudo, user_pwd, user_first_name, user_last_name,"");
 			
 			request.setAttribute("resultat", "Inscription réussi");
 			this.getServletContext().getRequestDispatcher("/").forward(request, response);
@@ -82,7 +82,7 @@ public class Inscription extends HttpServlet{
 			// Stockage du résultat et des messages d'erreur dans l'objet request 
 			request.setAttribute("erreurs", erreurs);
 			// Transmission de la paire d'objets request/response à notre JSP
-			this.getServletContext().getRequestDispatcher("/inscription/inscription.jsp").forward(request, response);
+			this.getServletContext().getRequestDispatcher("/inscription.jsp").forward(request, response);
 		}
 	}
 	
@@ -111,6 +111,11 @@ public class Inscription extends HttpServlet{
 		if(!(pseudo.length()>=3 && pseudo.length()<=32)) {
 			throw new Exception("Le pseudo doit être entre 3 à 32 caractère(s).");
 		}
+		
+		if(!UserTools.pseudoLibre(pseudo)){
+			throw new Exception("Ce pseudo est d�j� pris");
+		}
+		
 	}
 	
 	private void validationMdp(String mdp) throws Exception {

@@ -650,6 +650,27 @@ public class UserTools {
 		
 	}
 
+	public static boolean pseudoLibre(String pseudo) {
+		
+        
+        try {
+        	Connection postgre = PostgresqlConnectionProvider.getCon();
+    		PreparedStatement pr = postgre.prepareStatement("select * from users where login=? ");   
+    		pr.setString(1, pseudo);
+            ResultSet rs = pr.executeQuery();
+			if(rs.next()) 
+				return false;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+		return true;
+	}
+
 
 
 }

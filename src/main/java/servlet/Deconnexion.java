@@ -28,7 +28,7 @@ public class Deconnexion extends HttpServlet{
 			
 		}
 
-		resp.sendRedirect("/connexion/connexion.jsp");
+		resp.sendRedirect("/connexion.jsp");
 	}
 	
 }
