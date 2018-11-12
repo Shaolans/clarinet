@@ -1,10 +1,10 @@
-package user;
+package authentification;
 
 import java.sql.SQLException;
 
 import javax.naming.NamingException;
 
-import bd.UserTools;
+import database.utils.UserTools;
 
 public class UserCheck {
 	

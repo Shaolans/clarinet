@@ -1,5 +1,5 @@
-<%@page import="user.ConnexionCheck"%>
-<jsp:useBean id="obj" class="user.ConnexionObject" />
+<%@page import="authentification.ConnexionCheck"%>
+<jsp:useBean id="obj" class="authentification.ConnexionObject" />
 
 <jsp:setProperty property="*" name="obj"/> 
 

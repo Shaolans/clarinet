@@ -1,4 +1,4 @@
-package user;
+package authentification;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -8,7 +8,7 @@ import java.util.Map;
 import javax.naming.NamingException;
 import javax.print.DocFlavor.BYTE_ARRAY;
 
-import bd.UserTools;
+import database.utils.UserTools;
 import opendatasoft.Event;
 
 public class UserObject {

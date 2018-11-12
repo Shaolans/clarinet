@@ -1,4 +1,4 @@
-package user;
+package authentification;
 
 import java.net.UnknownHostException;
 import java.sql.Connection;

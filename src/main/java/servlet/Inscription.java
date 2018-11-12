@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import bd.UserTools;
 import database.PostgresqlConnectionProvider;
+import database.utils.UserTools;
 
 @WebServlet(
 		name = "Inscription",
@@ -113,7 +113,7 @@ public class Inscription extends HttpServlet{
 		}
 		
 		if(!UserTools.pseudoLibre(pseudo)){
-			throw new Exception("Ce pseudo est déjà pris");
+			throw new Exception("Ce pseudo est dï¿½jï¿½ pris");
 		}
 		
 	}

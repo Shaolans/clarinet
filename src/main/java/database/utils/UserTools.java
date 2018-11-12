@@ -1,4 +1,4 @@
-package bd;
+package database.utils;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -139,7 +139,7 @@ public class UserTools {
 	/**
 	 * 
 	 * @param idUser
-	 * @return le pseudo, le prénom puis le nom dans une liste
+	 * @return le pseudo, le prï¿½nom puis le nom dans une liste
 	 * @throws SQLException
 	 * @throws NamingException
 	 */
@@ -218,8 +218,8 @@ public class UserTools {
 	
 	
 	/**
-	 * Renvoie en position 0 la liste des évéments passés
-	 * et en position 1 la liste des évéments futurs
+	 * Renvoie en position 0 la liste des ï¿½vï¿½ments passï¿½s
+	 * et en position 1 la liste des ï¿½vï¿½ments futurs
 	 * @param id_user
 	 * @return
 	 */
