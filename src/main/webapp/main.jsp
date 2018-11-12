@@ -77,9 +77,47 @@ if(!UserTools.verifSessionOK(session)){
                   <button id="searchbtn" class="btn btn-secondary" onclick="loadList()" type="submit">Go !</button>
                 </span>
               </div>
+              <div class="form-inline">
+			    <label for="exampleFormControlSelect1">Jour</label>
+			    <select class="form-control" id="day">
+			    	<option value="-1"></option>
+			    	<%
+				    	for(int i = 1; i <= 31; i++){
+				    		out.println("<option value=\""+i+"\">"+i+"</option>");
+				    	}
+			    	%>
+				    
+			    </select>
+			    <label for="exampleFormControlSelect1">Mois</label>
+			    <select class="form-control" id="month" onchange="onChangeMonth()">
+			    	<option onClick="disableSelect('day')" value="-1"></option>
+			    	<%
+				    	for(int i = 1; i <= 12; i++){
+				    		out.println("<option value=\""+i+"\">"+i+"</option>");
+				    	}
+			    	%>
+			    </select>
+			    <label for="exampleFormControlSelect1">Année</label>
+			    <select class="form-control" id="year" onchange="onChangeYear()">
+			    	<option value="-1"></option>
+			      	<%
+				    	for(int i = 1; i <= 31; i++){
+				    		if(i >= 10){
+				    			out.println("<option value=\"20"+i+"\">20"+i+"</option>");
+				    		}else{
+				    			out.println("<option value=\"200"+i+"\">200"+i+"</option>");
+				    		}
+				    	}
+				    %>
+			    </select>
+			  </div>
             </div>
           </div>
-   	 
+          <script>
+          	disableSelectAll()
+          </script>
+          
+          
           <div id="events" class="list-group">
                        
           </div>

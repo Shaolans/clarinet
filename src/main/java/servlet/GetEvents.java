@@ -28,7 +28,13 @@ public class GetEvents extends HttpServlet {
 		String query = URLEncoder.encode(req.getParameter("query"), "UTF-8");
 		String nbrows = req.getParameter("nbrows");
 		String startrow = req.getParameter("startrow");
-		List<Event> events = OpendatasoftRequest.eventsFromSearch(query, Integer.parseInt(nbrows), Integer.parseInt(startrow));
+		String date = req.getParameter("date");
+		List<Event> events;
+		if("".equals(date)) {
+			events = OpendatasoftRequest.eventsFromSearch(query, Integer.parseInt(nbrows), Integer.parseInt(startrow));
+		}else {
+			events = OpendatasoftRequest.eventsFromSearch(query, Integer.parseInt(nbrows), Integer.parseInt(startrow), date);
+		}
 		JSONObject res = new JSONObject();
 		
 		res.put("query", query).put("nbrows", nbrows).put("startrow", startrow);

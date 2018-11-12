@@ -51,6 +51,35 @@ public class OpendatasoftRequest {
 		return events;
 	}
 	
+	public static List<Event> eventsFromSearch(String search, int nbrow, int startrow, String date) throws IOException{
+		String baseurl = "https://public.opendatasoft.com/api/records/1.0/search/?dataset=evenements-publics-cibul&q="+search+
+				"&rows="+nbrow+
+				"&start="+startrow+
+				"&sort=date_start&facet=tags&facet=placename&facet=department&facet=region&facet=city&facet=date_start&facet=date_end&facet=pricing_info&facet=updated_at&facet=city_district&refine.tags=concert"+
+				"&refine.date_start="+date;
+		List<Event> events = new ArrayList<Event>();
+		URL url = new URL(baseurl);
+		HttpURLConnection con = (HttpURLConnection) url.openConnection();
+		con.setRequestMethod("GET");
+		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		String inputLine;
+		StringBuffer response = new StringBuffer();
+		
+		while((inputLine = in.readLine()) != null) {
+			response.append(inputLine);
+		}
+		in.close();
+		
+		JSONArray json = new JSONObject(response.toString()).getJSONArray("records");
+		for(Object entry: json) {
+			JSONObject tmp = (JSONObject)entry;
+			events.add(convertJsontoEventSearch(tmp));
+		}
+		
+		
+		return events;
+	}
+	
 	
 	public static List<Event> eventsFromSearch(String searchInfo) throws IOException{
 		List<Event> events = new ArrayList<Event>();

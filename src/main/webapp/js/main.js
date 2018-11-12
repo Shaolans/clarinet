@@ -88,11 +88,64 @@ function searchLoad(){
 	loadList();
 }
 
+function disableSelect(name){
+	document.getElementById(name).disabled=true
+}
+
+function enableSelect(name){
+	document.getElementById(name).disabled=false
+}
+
+function disableSelectAll(){
+	document.getElementById("month").disabled=true
+	document.getElementById("day").disabled=true
+}
+
+function onChangeYear() {
+    var selectBox = document.getElementById("year");
+    var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+    if(selectedValue == -1){
+    	disableSelectAll();
+    	document.getElementById("month").value = -1;
+    	document.getElementById("day").value = -1;
+    }else{
+    	enableSelect("month");
+    }
+}
+
+function onChangeMonth() {
+    var selectBox = document.getElementById("month");
+    var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+    if(selectedValue == -1){
+    	disableSelect("day");
+    	document.getElementById("day").value = -1;
+    }else{
+    	enableSelect("day");
+    }
+}
+
 function loadList(){
+	var date = "";
+	var year = document.getElementById("year");
+	var value = year.options[year.selectedIndex].value;
+	if(value != -1){
+		date += value;
+	}
+	var month = document.getElementById("month");
+	value = month.options[month.selectedIndex].value;
+	if(value != -1){
+		date += "-"+value;
+	}
+	var day = document.getElementById("day");
+	value = day.options[day.selectedIndex].value;
+	if(value != -1){
+		date += "-"+value;
+	}
+		
 	$.ajax({
 		  type: "GET",
 		  url: "/get/events",
-		  data: "query="+encodeURI(document.getElementById("myInput").value)+"&nbrows=5"+"&startrow="+(cpt*5),
+		  data: "query="+encodeURI(document.getElementById("myInput").value)+"&nbrows=5"+"&startrow="+(cpt*5)+"&date="+date,
 		  success: function(resp){
 			  var answer = "";
 			  var allRes ="";
