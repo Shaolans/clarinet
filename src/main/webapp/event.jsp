@@ -5,7 +5,7 @@
 	<% int id_user;
 if(!UserTools.verifSessionOK(session)){
 	
-	response.sendRedirect("/connexion/connexion.jsp"); return;
+	response.sendRedirect("/connexion.jsp"); return;
 	}
 else
 	id_user = (Integer)session.getAttribute("id_user");
@@ -170,7 +170,7 @@ else
 				String name = UserTools.formatName(UserTools.getNameUser(id_u));
 
 				%>
-				<li id = <%= id_u %> ><a href="/home/profile.jsp?id_user=<%=id_u %>" > <%= name %></a>	</li>
+				<li id = <%= id_u %> ><a href="/profile.jsp?id_user=<%=id_u %>" > <%= name %></a>	</li>
 				
 				<%
 			}

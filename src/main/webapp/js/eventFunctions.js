@@ -30,7 +30,7 @@ function traiterReponseSuivre(res) {
 			</button>";
 		document.getElementById("participerDiv").innerHTML = s;
 		res=document.getElementById("participants");
-	      res.innerHTML+="<li id = "+id_user+" ><a href=\"/home/profile.jsp?id_user="+id_user+"\" > "+user_name+"</a>	</li>";
+	      res.innerHTML+="<li id = "+id_user+" ><a href=\"/profile.jsp?id_user="+id_user+"\" > "+user_name+"</a>	</li>";
 	}
 	
 }
