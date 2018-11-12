@@ -23,7 +23,7 @@
                     <div class="chatbox-body">\n\
                         <div class="chatbox-content"></div>\n\
                         <div class="chatbox-input">\n\
-                            <textarea class="chatbox-textarea"></textarea>\n\
+                            <textarea class="chatbox-textarea" resize: none></textarea>\n\
                         </div>\n\
                     </div>\n\
                 </div>\n';
@@ -98,8 +98,6 @@
 
             $elem.data('chatbox',this);
 
-            setCallback.call(this,'onChatboxCreate');
-
             debug('Chatbox create','[',this,$elem,']');
         },
         show: function(){
@@ -116,15 +114,13 @@
                 msg = msg.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\"/g,"&quot;"); //supprime les pb d'affichage
                 var msgItem = '\
                     <div class="chatbox-message">\n\
-                        <span class="message-by">'+globalOptions.name+'('+timestamp+')'+'</span>\n\
+                        <span class="message-by">'+globalOptions.name+'('+timestamp+')'+'<br/></span>\n\
                         <span class="message-content">'+msg+'</span>\n\
                     </div>\n';
                 this.$elem.find('.chatbox-content').append(msgItem);
                 this.$elem.find('.chatbox-content').scrollTop(this.$elem.find('.chatbox-content').get(0).scrollHeight);
                 this.$elem.find('.chatbox-textarea').val('').focus();
                 
-                setCallback.call(this,'onMessageSend',msg);
-
                 debug('Message send',this.opts.id,':',msg);
             }
         },
@@ -137,7 +133,6 @@
         	var self = this;
             switch (type){
                 case 'to':
-                	console.log(this.websocket.readyState);
                 	if(this.websocket!=null ){
                 		this.messageTo(msg,timestamp);
                         var message = {
@@ -156,15 +151,13 @@
                 	
                     var msgItem = '\
                         <div class="chatbox-message">\n\
-                            <span class="message-from">'+from+'('+timestamp+')'+'</span>\n\
+                            <span class="message-from">'+from+'('+timestamp+')'+'<br/></span>\n\
                             <span class="message-content">'+msg+'</span>\n\
                         </div>\n';
                     this.$elem.find('.chatbox-content').append(msgItem);
                     this.$elem.find('.chatbox-content').scrollTop(this.$elem.find('.chatbox-content').get(0).scrollHeight);
                     this.blink();
                     this.animate();
-
-                    setCallback.call(this,'onMessageReceive',msg);
 
                     debug('Message receive',this.opts.id,':',msg);
                     break;
@@ -177,8 +170,6 @@
                     this.$elem.find('.chatbox-content').scrollTop(this.$elem.find('.chatbox-content').get(0).scrollHeight);
                     this.blink();
                     this.animate();
-
-                    setCallback.call(this,'onMessageSystem',msg);
 
                     debug('System message',this.opts.id,':',msg);
                     break;
@@ -219,11 +210,7 @@
                 $(this).remove();
                 boxInstance[self.opts.id] = null;
                 delete boxInstance[self.opts.id];
-
-                setCallback.call(self,'onChatboxDestroy');
-
                 debug('Chatbox close','[',self,self.$elem,']');
-
                 layout();
             });
         }
@@ -252,20 +239,6 @@
         return options;
     }
         
-    // rangement des boites de dialogues
-    function setCallback(callback){
-        if (typeof this.opts[callback] === 'function'){
-            this.opts[callback].apply(this, Array.prototype.slice.call(arguments, 1));
-            debug(callback,this.opts[callback]);
-        }else if (typeof globalOptions[callback] === 'function'){
-            globalOptions[callback].apply(this, Array.prototype.slice.call(arguments, 1));
-            debug(callback,globalOptions[callback]);
-        }else{
-            debug(callback,'No callback function set');
-            return false;
-        }
-    }
-
     function debug(){
         if (globalOptions.debug == true){
             var logger = window.console['debug'];

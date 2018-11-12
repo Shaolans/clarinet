@@ -34,7 +34,6 @@ public class ChatWebSocket {
 	public void onMessage(Session session, String JSONmsg){
 		
 		Message message = gson.fromJson(JSONmsg, Message.class);
-
 		String strMsg = message.getContent();
 		String strFrom = message.getFrom();
 		String strFrom_id = message.getFrom_id();
@@ -42,6 +41,14 @@ public class ChatWebSocket {
 		String strTo_id = message.getTo_id();
 		String strType = message.getType();
 		String strTime = message.getTime();
+		// verifier qu'on recoit les bonnes informations
+//		log.info(strMsg);
+//		log.info(strFrom);
+//		log.info(strFrom_id);
+//		log.info(strTo);
+//		log.info(strTo_id);
+//		log.info(strType);
+//		log.info(strTime);
 		
 		if(strType.equals("room")) {
 			sendRoomMessage(strTo_id, strMsg, strTime, session);
@@ -81,7 +88,7 @@ public class ChatWebSocket {
 	private void joinRoom(String room_name, String room_id, String msg, String time, Session session) {
 		ChatRoom room = rooms.get(room_id);
 		if(room == null) {
-			room = new ChatRoom(room_name, room_id);
+			room = new ChatRoom(room_id, room_name);
 			rooms.put(room_id, room);
 		}
 		room.join(session);

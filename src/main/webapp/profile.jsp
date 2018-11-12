@@ -42,15 +42,10 @@ if(!UserTools.verifSessionOK(session)){
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="css/modern-business.css" rel="stylesheet">		
-	
-	
 	<link type="text/css" rel="stylesheet" media="all" href="/chat/css/chatbox.css">
-<link type="text/css" rel="stylesheet" media="all" href="/chat/css/animate-custom.css">
-<link type="text/css" rel="stylesheet" media="all" href="/chat/css/style.css">
-
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-
-	
+	<link type="text/css" rel="stylesheet" media="all" href="/chat/css/animate-custom.css">
+	<link type="text/css" rel="stylesheet" media="all" href="/chat/css/style.css">
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 </head>
 <body>
 			<!-- Navigation -->
@@ -164,7 +159,10 @@ if(id_user!=user.getIdUser()){
 		%>
 		<div id = <%= id %> > <a href="/event.jsp?id_event=<%=id %>" > <%= e.getTitle()+" "+e.getDatestart() %>	</a></div>
 	<%}
-	%></div>
+            
+	%>
+	<button onclick="doRoomChat('abcdef','ChatRoomTest')">Room Chat</button>
+	</div>
             </div>
           </div>
         </div>
@@ -199,10 +197,11 @@ if(id_user!=user.getIdUser()){
 	for(Integer i : user.getAbonnements().keySet()){
 		int id = i.intValue();
 		String user_name = user.getAbonnements().get(i);
+		String login = UserTools.getNameUser(id).get(0);
 		%>
 		<div id = <%= id %> >
 		<a href="/profile.jsp?id_user=<%=id %>" > <%= user.getAbonnements().get(i) %></a>	
-		<button onclick="doChat('<%=user_name%>',<%=id%>)">Chat</button>
+		<button onclick="doChat(<%=id%>,'<%=login%>')">Chat</button>
 		</div>
 	<%}
 	%>
@@ -236,7 +235,7 @@ if(id_user!=user.getIdUser()){
 
 
 <script type="text/javascript" src="fonctions.js"></script>
-<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-latest.js"></script>
 
 <script type="text/javascript" src="/chat/js/jquery-1.10.2.js"></script>
 <script type="text/javascript" src="/chat/js/chatbox.js"></script>
@@ -252,7 +251,7 @@ if(id_user!=user.getIdUser()){
         ws.onopen = function(){
         	var msg = {
         		type: 'login',
-        		from: user_name,
+        		from: '<%=user.getLogin()%>',
         		from_id : id_user,
         		to: '',
         		to_id: '',
@@ -265,11 +264,27 @@ if(id_user!=user.getIdUser()){
         ws.onmessage = function(e){
         	console.log(e.data);
        		var msg = JSON.parse(e.data);
-           	if (msg.from_id == ""){
-           		$.chatbox(Number(msg.from_id)).message(e.data,'system');
+       		
+           	if (msg.from_id == ""){ // message de system (user leave / user join)
+           		if($.chatbox(msg.to_id) != null){
+           			$.chatbox(msg.to_id).message(e.data,'system');
+           		}
            	}
            	else{
-           		$.chatbox(Number(msg.from_id)).message(e.data,'from');
+           		if(msg.type == 'private'){
+           			if($.chatbox(Number(msg.from_id)) != null){
+           				$.chatbox(Number(msg.from_id)).message(e.data,'from');
+           			}
+           			else{
+           				doChat(msg.from_id, msg.from);
+           				$.chatbox(Number(msg.from_id)).message(e.data,'from');
+           			}
+           		}
+           		if(msg.type == 'room'){
+           			if($.chatbox(msg.to_id) != null){
+           				$.chatbox(msg.to_id).message(e.data,'from');
+           			}
+           		}
            	}
         };
         ws.onerror = function(e){};
@@ -279,20 +294,58 @@ if(id_user!=user.getIdUser()){
         
 	    $.chatbox.globalOptions = {
 	        id:id_user,
-	        name:user_name,
-	        debug:true,
+	        name:'<%=user.getLogin()%>',
+	        debug:false,
 	        websocket: ws
 	    }
 	});
 </script>
 <script type="text/javascript">
-	function doChat(user_name, user_id){
+	function doChat(user_id, user_login){
 		$.chatbox({
             id:user_id,
-            name:user_name,
-            title:'Chat with '+user_name,
+            name:user_login,
+            title:'Chat with '+user_login,
             type:'private'
         });
+	}
+	
+	function doRoomChat(room_id, room_name){
+		console.log(room_id);
+		console.log(room_name);
+		$.chatbox({
+            id:room_id,
+            name:room_name,
+            title:room_name,
+            type:'room'
+        });
+		var date = new Date();
+        var current_time = '';
+        
+        if(date.getHours()<10){
+        	current_time += '0'
+        }
+        current_time += date.getHours() +':';
+        if(date.getMinutes()<10){
+        	current_time += '0'
+        }
+        current_time += date.getMinutes() +':';
+        if(date.getSeconds()<10){
+        	current_time += '0'
+        }
+        current_time += date.getSeconds();
+        var name_user = '<%=user.getLogin()%>'
+		var msg = {
+       		type: 'joinroom',
+       		from: name_user,
+       		from_id : id_user,
+       		to: room_name,
+       		to_id: room_id,
+       		content: name_user+' join the room',
+       		time: current_time
+       	};
+       	console.log(JSON.stringify(msg));
+       	$.chatbox(room_id).websocket.send(JSON.stringify(msg));
 	}
 </script>
 
