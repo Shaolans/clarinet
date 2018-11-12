@@ -319,33 +319,8 @@ if(id_user!=user.getIdUser()){
             title:room_name,
             type:'room'
         });
-		var date = new Date();
-        var current_time = '';
-        
-        if(date.getHours()<10){
-        	current_time += '0'
-        }
-        current_time += date.getHours() +':';
-        if(date.getMinutes()<10){
-        	current_time += '0'
-        }
-        current_time += date.getMinutes() +':';
-        if(date.getSeconds()<10){
-        	current_time += '0'
-        }
-        current_time += date.getSeconds();
-        var name_user = '<%=user.getLogin()%>'
-		var msg = {
-       		type: 'joinroom',
-       		from: name_user,
-       		from_id : id_user,
-       		to: room_name,
-       		to_id: room_id,
-       		content: name_user+' join the room',
-       		time: current_time
-       	};
-       	console.log(JSON.stringify(msg));
-       	$.chatbox(room_id).websocket.send(JSON.stringify(msg));
+		var name_user = '<%=user.getLogin()%>';
+		$.chatbox(room_id).joinRoom(id_user,name_user);
 	}
 </script>
 

@@ -23,7 +23,7 @@
                     <div class="chatbox-body">\n\
                         <div class="chatbox-content"></div>\n\
                         <div class="chatbox-input">\n\
-                            <textarea class="chatbox-textarea" resize: none></textarea>\n\
+                            <textarea class="chatbox-textarea" resize="none"></textarea>\n\
                         </div>\n\
                     </div>\n\
                 </div>\n';
@@ -65,31 +65,45 @@
             $elem.find('.chatbox-textarea').on('keydown',function(event){
                 if(event.keyCode == 13){
                     event.preventDefault();
-                    var date = new Date();
-                    var current_time = '';
-                    
-                    if(date.getHours()<10){
-                    	current_time += '0'
+                    if ($(this).val() == ''){
+                    	var message = {
+                        	type : '',
+                    		from : '',
+                    		from_id : '',
+                    		to : '',
+                    		to_id : '',
+        					content : 'Can not send empty message',
+        					time : ''
+            			};
+                        self.message(JSON.stringify(message),'system');
                     }
-                    current_time += date.getHours() +':';
-                    if(date.getMinutes()<10){
-                    	current_time += '0'
+                    else{
+                    	var date = new Date();
+                        var current_time = '';
+                        
+                        if(date.getHours()<10){
+                        	current_time += '0'
+                        }
+                        current_time += date.getHours() +':';
+                        if(date.getMinutes()<10){
+                        	current_time += '0'
+                        }
+                        current_time += date.getMinutes() +':';
+                        if(date.getSeconds()<10){
+                        	current_time += '0'
+                        }
+                        current_time += date.getSeconds();
+                        var message = {
+                        	type : opts.type,
+                    		from : globalOptions.name,
+                    		from_id : globalOptions.id,
+                    		to : opts.name,
+                    		to_id : opts.id,
+        					content : $(this).val(),
+        					time : current_time
+            			};
+                        self.message(JSON.stringify(message),'to');
                     }
-                    current_time += date.getMinutes() +':';
-                    if(date.getSeconds()<10){
-                    	current_time += '0'
-                    }
-                    current_time += date.getSeconds();
-                    var message = {
-                    	type : opts.type,
-                		from : globalOptions.name,
-                		from_id : globalOptions.id,
-                		to : opts.name,
-                		to_id : opts.id,
-    					content : $(this).val(),
-    					time : current_time
-        			};
-                    self.message(JSON.stringify(message),'to');
                     return false;
                 }
             });
@@ -110,8 +124,6 @@
             if (msg == ''){
                 this.message('Can not send empty message','system');
             }else{
-                msg = msg.replace(/^\s+|\s+$/g,""); // supprime les espaces
-                msg = msg.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\"/g,"&quot;"); //supprime les pb d'affichage
                 var msgItem = '\
                     <div class="chatbox-message">\n\
                         <span class="message-by">'+globalOptions.name+'('+timestamp+')'+'<br/></span>\n\
@@ -213,6 +225,66 @@
                 debug('Chatbox close','[',self,self.$elem,']');
                 layout();
             });
+        },
+        joinRoom: function(id, name){
+        	if(this.opts.type == 'room'){
+        		var date = new Date();
+                var current_time = '';
+                
+                if(date.getHours()<10){
+                	current_time += '0'
+                }
+                current_time += date.getHours() +':';
+                if(date.getMinutes()<10){
+                	current_time += '0'
+                }
+                current_time += date.getMinutes() +':';
+                if(date.getSeconds()<10){
+                	current_time += '0'
+                }
+                current_time += date.getSeconds();
+        		var msg = {
+               		type: 'joinroom',
+               		from: name,
+               		from_id : id,
+               		to: this.opts.name,
+               		to_id: this.opts.id,
+               		content: name+' join the room',
+               		time: current_time
+               	};
+               	console.log(JSON.stringify(msg));
+               	this.websocket.send(JSON.stringify(msg));
+        	}
+        },
+        leaveRoom: function(id, name){
+        	if(this.opts.type == 'room'){
+        		var date = new Date();
+                var current_time = '';
+                
+                if(date.getHours()<10){
+                	current_time += '0'
+                }
+                current_time += date.getHours() +':';
+                if(date.getMinutes()<10){
+                	current_time += '0'
+                }
+                current_time += date.getMinutes() +':';
+                if(date.getSeconds()<10){
+                	current_time += '0'
+                }
+                current_time += date.getSeconds();
+        		var msg = {
+               		type: 'leaveroom',
+               		from: name,
+               		from_id : id,
+               		to: this.opts.name,
+               		to_id: this.opts.id,
+               		content: name+' leave the room',
+               		time: current_time
+               	};
+               	console.log(JSON.stringify(msg));
+               	this.websocket.send(JSON.stringify(msg));
+        	}
         }
     };
 

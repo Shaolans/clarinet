@@ -38,7 +38,7 @@ public class ChatRoom {
 		msg.setType("room");
 		msg.setTime(time);
 		for(Session session: sessions) {
-			if(session.isOpen() && session.getId()!=sender.getId()) {
+			if(session.isOpen() && (String)session.getUserProperties().get("id")!=(String)sender.getUserProperties().get("id")) {
 				try {
 					session.getBasicRemote().sendText(gson.toJson(msg));
 				} catch(IOException e) {

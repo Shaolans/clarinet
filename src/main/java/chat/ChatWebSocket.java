@@ -17,6 +17,7 @@ import javax.websocket.server.ServerEndpoint;
 
 import com.google.gson.Gson;
 
+import database.utils.EventMessageTools;
 import database.utils.UsersMessageTools;
 
 
@@ -96,7 +97,16 @@ public class ChatWebSocket {
 	}
 	
 	private void sendRoomMessage(String room_id, String msg, String time, Session session) {
-		// TODO: remote msg to dataBase
+		int id = Integer.parseInt((String)session.getUserProperties().get("id"));
+		//database
+//		try {
+//			Document msg_doc = UsersMessageTools.makeMessage(time, id, msg);
+//			EventMessageTools.addEventMessage(room_id, msg_doc);
+//		} catch (NumberFormatException e1) {
+//			e1.printStackTrace();
+//		} catch (UnknownHostException e1) {
+//			e1.printStackTrace();
+//		}
 		ChatRoom room = rooms.get(room_id);
 		room.sendMessageToRoom(msg, time, session);
 	}
@@ -114,17 +124,15 @@ public class ChatWebSocket {
 //			e1.printStackTrace();
 //		}
 		Session adverse = onlineSessions.get(to_user_id);
-		
-		Message message = new Message();
-		message.setContent(msg);
-		message.setFrom(name);
-		message.setFrom_id(id+"");
-		message.setTo(to_user);
-		message.setTo_id(to_user_id);
-		message.setType("private");
-		message.setTime(time);
-		
 		if(adverse != null) {
+			Message message = new Message();
+			message.setContent(msg);
+			message.setFrom(name);
+			message.setFrom_id(id+"");
+			message.setTo(to_user);
+			message.setTo_id(to_user_id);
+			message.setType("private");
+			message.setTime(time);
 			try {
 				adverse.getBasicRemote().sendText(gson.toJson(message));
 			} catch (IOException e) {
