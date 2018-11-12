@@ -19,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONObject;
 
-import bd.UserTools;
 import database.PostgresqlConnectionProvider;
+import database.utils.UserTools;
 @WebServlet(
 		name = "Unfollow", 
         urlPatterns = {"/unfollow"}
@@ -43,7 +43,7 @@ public class Unfollow extends HttpServlet {
 	        	res.put("id_ami", followed);
 	        }
 	        else
-	        	res.put("err","erreur de la base de données");
+	        	res.put("err","erreur de la base de donnï¿½es");
 	        
 	        resp.setContentType("application/json");
 			resp.getWriter().println(res);

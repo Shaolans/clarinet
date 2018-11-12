@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"
-    import="opendatasoft.*, bd.*, java.util.*, user.*"%>
+    import="opendatasoft.*,database.utils.*, java.util.*,authentification.*"%>
 
 	<% int id_user;
 if(!UserTools.verifSessionOK(session)){

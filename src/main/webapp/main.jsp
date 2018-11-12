@@ -1,4 +1,4 @@
-<%@page import="bd.UserTools"%>
+<%@page import="database.utils.UserTools"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"
     import="map_geolocalisation.*"%>

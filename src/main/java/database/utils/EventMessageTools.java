@@ -1,4 +1,4 @@
-package bd;
+package database.utils;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package user;
+package authentification;
 
 public class ConnexionObject {
 	

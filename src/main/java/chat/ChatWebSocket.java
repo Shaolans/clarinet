@@ -17,7 +17,7 @@ import javax.websocket.server.ServerEndpoint;
 
 import com.google.gson.Gson;
 
-import bd.UsersMessageTools;
+import database.utils.UsersMessageTools;
 
 
 @ServerEndpoint(value = "/chat")
