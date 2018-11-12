@@ -44,10 +44,11 @@ if(!UserTools.verifSessionOK(session)){
     <link href="css/modern-business.css" rel="stylesheet">		
 	
 	
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<link type="text/css" rel="stylesheet" media="all" href="../chat/css/chatbox.css">
-	<link type="text/css" rel="stylesheet" media="all" href="../chat/css/animate-custom.css">
-	<link type="text/css" rel="stylesheet" media="all" href="../chat/css/style.css">
+	<link type="text/css" rel="stylesheet" media="all" href="/chat/css/chatbox.css">
+<link type="text/css" rel="stylesheet" media="all" href="/chat/css/animate-custom.css">
+<link type="text/css" rel="stylesheet" media="all" href="/chat/css/style.css">
+
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 
 	
 </head>
@@ -147,7 +148,7 @@ if(id_user!=user.getIdUser()){
 	
 
 	
-	<div class="mb-8" id="accordion" role="tablist" aria-multiselectable="true">
+	<div class="col-lg-8" id="accordion" role="tablist" aria-multiselectable="true">
         <div class="card">
           <div class="card-header" role="tab" id="headingOne">
             <h5 class="mb-0">
@@ -237,8 +238,8 @@ if(id_user!=user.getIdUser()){
 <script type="text/javascript" src="fonctions.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
 
-<script type="text/javascript" src="../chat/js/jquery-1.10.2.js"></script>
-<script type="text/javascript" src="../chat/js/chatbox.js"></script>
+<script type="text/javascript" src="/chat/js/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="/chat/js/chatbox.js"></script>
 <script type="text/javascript">
 	$(function(){
 		if (window.location.protocol == "https:") {
@@ -296,7 +297,7 @@ if(id_user!=user.getIdUser()){
 </script>
 
  <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
+   <!-- Ne fait pas fonctionner le chat  <script src="vendor/jquery/jquery.min.js"></script> -->
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 </body>
