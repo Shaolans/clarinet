@@ -47,6 +47,8 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.UpdateResult;
 
+import authentification.UserObject;
+import authentification.UserPrimitiveContainer;
 import database.MongoDBConnectionProvider;
 import database.PostgresqlConnectionProvider;
 import opendatasoft.Event;
@@ -162,6 +164,19 @@ public class UserTools {
         
         
 		return name;
+	}
+	
+	public static List<UserPrimitiveContainer> getUsers() throws SQLException, NamingException{
+		Connection postgre = PostgresqlConnectionProvider.getCon();
+		PreparedStatement pr = postgre.prepareStatement("SELECT id, login, fname, lname FROM USERS"); 
+        ResultSet rs = pr.executeQuery();
+        List<UserPrimitiveContainer> res = new ArrayList<UserPrimitiveContainer>();
+  
+        while(rs.next()) {
+        	res.add(new UserPrimitiveContainer(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4)));
+        }
+        
+		return res;
 	}
 	
 	public static boolean verifSessionOK(HttpSession session){

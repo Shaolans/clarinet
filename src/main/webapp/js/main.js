@@ -44,7 +44,8 @@ function updateMap(map, address){
 
 function myFunction() {
     var input, filter, ul, li, a, i;
-    input = document.getElementById("myInput");
+    input = document.getElementById("searchuser");
+    console.log(input.value)
     filter = input.value.toUpperCase();
     ul = document.getElementById("myUL");
     li = ul.getElementsByTagName("li");

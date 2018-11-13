@@ -1,7 +1,7 @@
 <%@page import="database.utils.UserTools"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"
-    import="map_geolocalisation.*"%>
+    import="map_geolocalisation.*, java.util.*, authentification.UserPrimitiveContainer"%>
 
 <!DOCTYPE html>
 <html>
@@ -16,11 +16,43 @@
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="css/modern-business.css" rel="stylesheet">
-
    <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>    
     <script src="js/main.js"></script>
-    
+    <style>
+	    #myInput {
+	    background-image: url('/css/searchicon.png'); /* Add a search icon to input */
+	    background-position: 10px 12px; /* Position the search icon */
+	    background-repeat: no-repeat; /* Do not repeat the icon image */
+	    width: 100%; /* Full-width */
+	    font-size: 16px; /* Increase font-size */
+	    padding: 12px 20px 12px 40px; /* Add some padding */
+	    border: 1px solid #ddd; /* Add a grey border */
+	    margin-bottom: 12px; /* Add some space below the input */
+		}
+		
+		#myUL {
+		    /* Remove default list styling */
+		    list-style-type: none;
+		    padding: 0;
+		    margin: 0;
+		}
+		
+		#myUL li a {
+		    border: 1px solid #ddd; /* Add a border to all links */
+		    margin-top: -1px; /* Prevent double borders */
+		    background-color: #f6f6f6; /* Grey background color */
+		    padding: 12px; /* Add some padding */
+		    text-decoration: none; /* Remove default text underline */
+		    font-size: 18px; /* Increase the font-size */
+		    color: black; /* Add a black text color */
+		    display: block; /* Make it into a block element to fill the whole list */
+		}
+		
+		#myUL li a:hover:not(.header) {
+		    background-color: #eee; /* Add a hover effect to all links, except for headers */
+		}
+    </style>
   </head>
   <body>
   
@@ -139,8 +171,29 @@ if(!UserTools.verifSessionOK(session)){
       </ul>
           
         </div>
-  
-  	<div class="col-lg-8" id="map"></div>
+        
+        
+        
+  	<div class="col-lg-6" id="map"></div>
+  	<div class="sidebar-nav-fixed col-lg-2">
+    <div class="column">
+		<input type="text" id="searchuser" onkeyup="myFunction()" placeholder="Rechercher par nom.." title="Taper un nom">
+
+		<ul id="myUL">
+			<%
+        	List<UserPrimitiveContainer> users = UserTools.getUsers();
+        	for(UserPrimitiveContainer u: users){
+        		List<String> format = new ArrayList<String>();
+        		format.add(u.getLogin());
+        		format.add(u.getFname());
+        		format.add(u.getLname());
+        		out.println("<li><a href=\"profile.jsp?id_user="+u.getId()+"\">"+UserTools.formatName(format)+"</a></li>");
+        	}
+        	%>
+		</ul>
+    </div>
+
+  	</div>
     <script type="text/javascript">
     	<%String lonlat = NominatimConnection.getLonLat("France");%>
     	var map = new ol.Map({
