@@ -112,8 +112,8 @@ if(id_user!=user.getIdUser()){
 	
 	<!-- Blog Post -->
           <div class="card mb-4"  id="profile">
-          
-            <img class="card-img-top" id="imageUser" src="/getImage" width="125" height ="125"  border="1" alt="Image de l'événement">
+          <% String getImage = "/getImage?id_user="+user.getIdUser(); %>
+            <img class="card-img-top" id="imageUser" src=<%=getImage %> width="125" height ="125"  border="1" alt="Image de l'événement">
             <div class="card-body">
               <h2 class="card-title"><%= user.getFormattedName() %></h2>
               <p class="card-text"><%= user.getBio() %><%

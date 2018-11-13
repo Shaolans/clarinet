@@ -22,7 +22,7 @@ public class GetImage extends HttpServlet {
      public void doGet(HttpServletRequest request, 
              HttpServletResponse response) throws ServletException, IOException{
     	 
-    	 int id_user = (Integer)request.getSession(false).getAttribute("id_user");
+    	 int id_user = Integer.parseInt(request.getParameter("id_user"));
              
     	 try{ 
     	 List<Object> res =  UserTools.getImageAndType(id_user);
