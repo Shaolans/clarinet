@@ -3,6 +3,7 @@
 <%@page import="database.utils.UserTools"%>
 <%@page import="authentification.UserCheck"%>
 <%@page import="authentification.UserObject"%>
+<%@page import="org.apache.commons.lang.StringEscapeUtils" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -80,6 +81,9 @@ if(!UserTools.verifSessionOK(session)){
 <% 
 List<String> list = UserTools.getNameUser(id_user);
 String userFormattedName =  UserTools.formatName(list);
+userFormattedName = StringEscapeUtils.escapeHtml(userFormattedName);
+userFormattedName = userFormattedName.replaceAll("\"","&quote;");
+userFormattedName = userFormattedName.replaceAll("\'", "\\\\'");
 %>
 	
 	<script>
@@ -156,7 +160,7 @@ if(id_user!=user.getIdUser()){
             <div id="evenements_passes"> <%
 	for(Event e : user.getEvenementsPasses()){
 		String id = e.getId();
-		String title = e.getTitle().replaceAll("\"","&quote;");
+		String title= StringEscapeUtils.escapeHtml(e.getTitle());
 		%>
 		<div id = <%= id %> > <a href="/event.jsp?id_event=<%=id %>" > <%= title+" "+e.getDatestart() %>	</a>
 		<%if(id_user==user.getIdUser()){ %>
@@ -181,9 +185,11 @@ if(id_user!=user.getIdUser()){
             <div id="evenements_futurs"> <%
 			  for(Event e : user.getEvenementsFuturs()){
 					String id = e.getId();
-					String title = e.getTitle().replaceAll("\"","&quot");
+					String title= StringEscapeUtils.escapeHtml(e.getTitle());
+					title = title.replaceAll("\"","&quote;");
+					title = title.replaceAll("\'", "\\\\'");
 					%>
-					<div id = <%= id %> > <a href="/event.jsp?id_event=<%=id %>" > <%= title+" "+e.getDatestart() %>	</a>
+					<div id = <%= id %> > <a href="/event.jsp?id_event=<%=id %>" > <%= e.getTitle()+" "+e.getDatestart() %>	</a>
 					<%if(id_user==user.getIdUser()){ %>
 					<input type="button" value="Rejoindre le salon" onclick="doRoomChat('<%=id %>','<%=title%>')">
 					<%} %>

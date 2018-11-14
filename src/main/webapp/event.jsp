@@ -1,3 +1,4 @@
+<%@page import="org.apache.commons.lang.StringEscapeUtils" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"
     import="opendatasoft.*,database.utils.*, java.util.*,authentification.*"%>
@@ -26,8 +27,14 @@ else
 <!DOCTYPE html>
 <html>
 	<script>
+	<% 
+	String userFormattedName =  UserTools.formatName(UserTools.getNameUser(id_user));
+	userFormattedName = StringEscapeUtils.escapeHtml(userFormattedName);
+	userFormattedName = userFormattedName.replaceAll("\"","&quote;");
+	userFormattedName = userFormattedName.replaceAll("\'", "\\\\'");
+	%>
 	var id_user = '<%=id_user%>';
-	var user_name = '<%=UserTools.formatName(UserTools.getNameUser(id_user)) %>';
+	var user_name = '<%=userFormattedName %>';
 		var ide = '<%=id%>';
 	</script>
 	

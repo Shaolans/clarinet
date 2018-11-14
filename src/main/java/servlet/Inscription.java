@@ -1,20 +1,17 @@
 package servlet;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import database.PostgresqlConnectionProvider;
+import org.apache.commons.lang.StringEscapeUtils;
+
 import database.utils.UserTools;
 
 @WebServlet(
@@ -71,7 +68,10 @@ public class Inscription extends HttpServlet{
 		
 		if( erreurs.isEmpty() ) {
 			
-			
+			user_pseudo = StringEscapeUtils.escapeHtml(user_pseudo);
+			user_pwd = StringEscapeUtils.escapeHtml(user_pwd);
+			user_first_name = StringEscapeUtils.escapeHtml(user_first_name);
+			user_last_name = StringEscapeUtils.escapeHtml(user_last_name);
 			
 			UserTools.createUser(user_pseudo, user_pwd, user_first_name, user_last_name,"");
 			
@@ -139,11 +139,11 @@ public class Inscription extends HttpServlet{
 		}
 	}
 	
-	private void validationEmail(String email) throws Exception {
-		if( !email.isEmpty()) {
-			if( !email.matches( "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)" ) ) {
-				throw new Exception("Merci de saisir une adresse email valide.");
-			}
-		}
-	}
+//	private void validationEmail(String email) throws Exception {
+//		if( !email.isEmpty()) {
+//			if( !email.matches( "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)" ) ) {
+//				throw new Exception("Merci de saisir une adresse email valide.");
+//			}
+//		}
+//	}
 }
