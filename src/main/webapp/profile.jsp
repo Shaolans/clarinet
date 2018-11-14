@@ -156,12 +156,15 @@ if(id_user!=user.getIdUser()){
             <div id="evenements_passes"> <%
 	for(Event e : user.getEvenementsPasses()){
 		String id = e.getId();
+		String title = e.getTitle().replaceAll("\"","&quote;");
 		%>
-		<div id = <%= id %> > <a href="/event.jsp?id_event=<%=id %>" > <%= e.getTitle()+" "+e.getDatestart() %>	</a></div>
+		<div id = <%= id %> > <a href="/event.jsp?id_event=<%=id %>" > <%= title+" "+e.getDatestart() %>	</a>
+		<%if(id_user==user.getIdUser()){ %>
+			<input type="button" value="Rejoindre le salon" onclick="doRoomChat('<%=id %>','<%=title%>')">
+		<%} %>
+		</div>
 	<%}
-            
 	%>
-	<button onclick="doRoomChat('abcdef','ChatRoomTest')">Room Chat</button>
 	</div>
             </div>
           </div>
@@ -178,8 +181,13 @@ if(id_user!=user.getIdUser()){
             <div id="evenements_futurs"> <%
 			  for(Event e : user.getEvenementsFuturs()){
 					String id = e.getId();
+					String title = e.getTitle().replaceAll("\"","&quot");
 					%>
-					<div id = <%= id %> > <a href="/event.jsp?id_event=<%=id %>" > <%= e.getTitle()+" "+e.getDatestart() %>	</a></div>
+					<div id = <%= id %> > <a href="/event.jsp?id_event=<%=id %>" > <%= title+" "+e.getDatestart() %>	</a>
+					<%if(id_user==user.getIdUser()){ %>
+					<input type="button" value="Rejoindre le salon" onclick="doRoomChat('<%=id %>','<%=title%>')">
+					<%} %>
+					</div>
 				<%}
 		%></div>
             </div>
@@ -196,12 +204,13 @@ if(id_user!=user.getIdUser()){
              <%
 	for(Integer i : user.getAbonnements().keySet()){
 		int id = i.intValue();
-		String user_name = user.getAbonnements().get(i);
 		String login = UserTools.getNameUser(id).get(0);
 		%>
 		<div id = <%= id %> >
 		<a href="/profile.jsp?id_user=<%=id %>" > <%= user.getAbonnements().get(i) %></a>	
-		<button onclick="doChat(<%=id%>,'<%=login%>')">Chat</button>
+		<%if(id_user==user.getIdUser()){ %>
+		<input type="button" value="Chat" onclick="doChat(<%=id%>,'<%=login%>')">
+		<%} %>
 		</div>
 	<%}
 	%>
@@ -220,8 +229,13 @@ if(id_user!=user.getIdUser()){
             <%
 	for(Integer i : user.getAbonnes().keySet()){
 		int id = i.intValue();
+		String login = UserTools.getNameUser(id).get(0);
 		%>
-		<div id = <%= id %> ><a href="/profile.jsp?id_user=<%=id %>" > <%= user.getAbonnes().get(i) %></a>	</div>
+		<div id = <%= id %> ><a href="/profile.jsp?id_user=<%=id %>" > <%= user.getAbonnes().get(i) %></a>	
+		<%if(id_user==user.getIdUser()){ %>
+		<input type="button" value="Chat" onclick="doChat(<%=id%>,'<%=login%>')">
+		<%} %>
+		</div>
 	<%}
 	%>
             </div>
@@ -239,6 +253,8 @@ if(id_user!=user.getIdUser()){
 
 <script type="text/javascript" src="/chat/js/jquery-1.10.2.js"></script>
 <script type="text/javascript" src="/chat/js/chatbox.js"></script>
+<%
+if(id_user==user.getIdUser()){ %>
 <script type="text/javascript">
 	$(function(){
 		if (window.location.protocol == "https:") {
@@ -258,16 +274,21 @@ if(id_user!=user.getIdUser()){
         		content: '',
         		time: ''
         	};
-        	console.log(JSON.stringify(msg));
+        	//console.log(JSON.stringify(msg));
         	ws.send(JSON.stringify(msg));
         };
         ws.onmessage = function(e){
-        	console.log(e.data);
+        	//console.log(e.data);
        		var msg = JSON.parse(e.data);
        		
-           	if (msg.from_id == ""){ // message de system (user leave / user join)
+           	if (msg.from_id == ""){
            		if($.chatbox(msg.to_id) != null){
-           			$.chatbox(msg.to_id).message(e.data,'system');
+           			if(msg.type == 'system'){
+           				$.chatbox(msg.to_id).message(e.data,'system');
+           			}
+           			if(msg.type == 'historic' && msg.content != null){
+           				$.chatbox(msg.to_id).message(e.data,'historic');
+           			}
            		}
            	}
            	else{
@@ -277,7 +298,7 @@ if(id_user!=user.getIdUser()){
            			}
            			else{
            				doChat(msg.from_id, msg.from);
-           				$.chatbox(Number(msg.from_id)).message(e.data,'from');
+           				//$.chatbox(Number(msg.from_id)).message(e.data,'from');
            			}
            		}
            		if(msg.type == 'room'){
@@ -290,6 +311,9 @@ if(id_user!=user.getIdUser()){
         ws.onerror = function(e){};
         ws.onclose = function(e){
         	console.log('Close: '+e.code+' '+e.reason+' '+ e.wasClean);
+        	if(e.code != '1001'){
+        		ws.close();
+        	}
         };
         
 	    $.chatbox.globalOptions = {
@@ -300,27 +324,32 @@ if(id_user!=user.getIdUser()){
 	    }
 	});
 </script>
+<%} %>
 <script type="text/javascript">
 	function doChat(user_id, user_login){
-		$.chatbox({
-            id:user_id,
-            name:user_login,
-            title:'Chat with '+user_login,
-            type:'private'
-        });
+		if($.chatbox(user_id) == null){
+			$.chatbox({
+	            id:user_id,
+	            name:user_login,
+	            title:'Chat with '+user_login,
+	            type:'private'
+	        });
+			$.chatbox(user_id).requestHistoric();
+		}
 	}
 	
 	function doRoomChat(room_id, room_name){
-		console.log(room_id);
-		console.log(room_name);
-		$.chatbox({
-            id:room_id,
-            name:room_name,
-            title:room_name,
-            type:'room'
-        });
-		var name_user = '<%=user.getLogin()%>';
-		$.chatbox(room_id).joinRoom(id_user,name_user);
+		if($.chatbox(room_id) == null){
+			$.chatbox({
+	            id:room_id,
+	            name:room_name,
+	            title:room_name,
+	            type:'room'
+	        });
+			$.chatbox(room_id).requestHistoric();
+			var name_user = '<%=user.getLogin()%>';
+			$.chatbox(room_id).joinRoom(id_user,name_user);
+		}
 	}
 </script>
 

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.Document;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -27,7 +29,7 @@ public class UsersMessageTools {
 		}
 		
 	}
-	public static Document makeMessage(String timestamp, int sender, String content) {
+	public static Document makeMessage(String timestamp, String sender, String content) {
 		Document message = new Document("timestamp", timestamp)
 				.append("sender", sender)
 				.append("content", content);
@@ -45,11 +47,20 @@ public class UsersMessageTools {
 	}
 	
 	
-	public static List<Document> getMessages(int user1, int user2) throws UnknownHostException{
+	public static String getMessages(int user1, int user2) throws UnknownHostException{
 		Document d = findConversation(user1, user2);
 		if(d == null) return null;
 		List<Document> messages = (List<Document>)d.get("messages");
-		return messages;
+		JSONArray js_messages = new JSONArray();
+		for(Document doc : messages) {
+			JSONObject msg = new JSONObject();
+			msg.put("timestamp", doc.get("timestamp"));
+			msg.put("sender", doc.get("sender"));
+			msg.put("content", doc.get("content"));
+			js_messages.put(msg);
+		}
+		
+		return js_messages.toString();
 	}
 	
 	public static void addMessage(int user1, int user2, Document message) throws UnknownHostException {

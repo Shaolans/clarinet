@@ -23,7 +23,7 @@
                     <div class="chatbox-body">\n\
                         <div class="chatbox-content"></div>\n\
                         <div class="chatbox-input">\n\
-                            <textarea class="chatbox-textarea" resize="none"></textarea>\n\
+                            <textarea class="chatbox-textarea"></textarea>\n\
                         </div>\n\
                     </div>\n\
                 </div>\n';
@@ -51,6 +51,11 @@
             });
 
             $elem.find('.close').on('click',function(event){
+            	if(opts.type == 'room'){
+            		console.log(globalOptions.id);
+            		console.log(globalOptions.name);
+            		self.leaveRoom(globalOptions.id, globalOptions.name);
+            	}
                 event.preventDefault();
                 self.destroy();
                 return false;
@@ -185,6 +190,19 @@
 
                     debug('System message',this.opts.id,':',msg);
                     break;
+                case 'historic':
+                	var array = JSON.parse(msg);
+                	for(var i = 0; i < array.length; i++) {
+                	    var msg = array[i];
+                	    var msgItem = '\
+                            <div class="chatbox-message">\n\
+                                <span class="message-from">'+msg.sender+'('+msg.timestamp+')'+'<br/></span>\n\
+                                <span class="message-content">'+msg.content+'</span>\n\
+                            </div>\n';
+                        this.$elem.find('.chatbox-content').append(msgItem);
+                        this.$elem.find('.chatbox-content').scrollTop(this.$elem.find('.chatbox-content').get(0).scrollHeight);
+                	}
+                	break;
             }
         },
         blink: function(){
@@ -252,7 +270,7 @@
                		content: name+' join the room',
                		time: current_time
                	};
-               	console.log(JSON.stringify(msg));
+               	//console.log(JSON.stringify(msg));
                	this.websocket.send(JSON.stringify(msg));
         	}
         },
@@ -282,9 +300,22 @@
                		content: name+' leave the room',
                		time: current_time
                	};
-               	console.log(JSON.stringify(msg));
+               	//console.log(JSON.stringify(msg));
                	this.websocket.send(JSON.stringify(msg));
         	}
+        },
+        requestHistoric: function(){
+        	var msg = {
+           		type: 'historic',
+           		from: globalOptions.name,
+           		from_id : globalOptions.id,
+           		to: this.opts.name,
+           		to_id: this.opts.id,
+           		content: this.opts.type,
+           		time: ''
+           	};
+           	//console.log(JSON.stringify(msg));
+           	this.websocket.send(JSON.stringify(msg));
         }
     };
 

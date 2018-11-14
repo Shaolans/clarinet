@@ -20,8 +20,14 @@ public class ChatRoom {
 	}
 	
 	// synchronized car il y aura plusieurs utilisateurs dans un chatroom
-	public synchronized void join(Session session) {
+	public synchronized boolean join(Session session) {
+		for(Session s : sessions) {
+			if(s.getUserProperties().get("id").equals(session.getUserProperties().get("id"))) {
+				return false;
+			}
+		}
 		sessions.add(session);
+		return true;
 	}
 	
 	public synchronized void leave(Session session) {
@@ -55,7 +61,7 @@ public class ChatRoom {
 		msg.setFrom_id("");
 		msg.setTo(this.name);
 		msg.setTo_id(this.id);
-		msg.setType("room");
+		msg.setType("system");
 		msg.setTime(time);
 		for(Session session: sessions) {
 			if(session.isOpen()) {

@@ -66,15 +66,69 @@ public class ChatWebSocket {
 		else if (strType.equals("login")) {
 			login(strFrom, strFrom_id, session);
 		}
+		else if (strType.equals("historic")) {
+			sendHistoric(strFrom_id, strTo_id, strTo, strMsg, session);
+		}
 		else {
 			log.info("Error: Invalid message type");
 		}
 	}
 	
+	private void sendHistoric(String user1, String user2, String user2_name, String strMsg, Session session) {
+		if(strMsg.equals("private")) {
+			try {
+				String msg = UsersMessageTools.getMessages(Integer.parseInt(user1), Integer.parseInt(user2));
+				Message message = new Message();
+				message.setContent(msg);
+				message.setFrom("");
+				message.setFrom_id("");
+				message.setTo(user2_name);
+				message.setTo_id(user2);
+				message.setType("historic");
+				message.setTime("");
+				session.getBasicRemote().sendText(gson.toJson(message));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if(strMsg.equals("room")) {
+			try {
+				String msg = EventMessageTools.getEventMessages(user2);
+				Message message = new Message();
+				message.setContent(msg);
+				message.setFrom("");
+				message.setFrom_id("");
+				message.setTo(user2_name);
+				message.setTo_id(user2);
+				message.setType("historic");
+				message.setTime("");
+				session.getBasicRemote().sendText(gson.toJson(message));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	private void login(String user_name, String user_id, Session session) {
-		session.getUserProperties().put("id", user_id);
-		session.getUserProperties().put("name", user_name);
-		onlineSessions.put(user_id, session);
+		if(onlineSessions.get(user_id) == null) {
+			session.getUserProperties().put("id", user_id);
+			session.getUserProperties().put("name", user_name);
+			onlineSessions.put(user_id, session);
+		}
 	}
 	
 	private void leaveRoom(String room_id, String msg, String time, Session session) {
@@ -92,21 +146,22 @@ public class ChatWebSocket {
 			room = new ChatRoom(room_id, room_name);
 			rooms.put(room_id, room);
 		}
-		room.join(session);
-		room.systemMessage(msg, time);
+		if(room.join(session)) {
+			room.systemMessage(msg, time);
+		}
 	}
 	
 	private void sendRoomMessage(String room_id, String msg, String time, Session session) {
-		int id = Integer.parseInt((String)session.getUserProperties().get("id"));
+		String name = (String)session.getUserProperties().get("name");
 		//database
-//		try {
-//			Document msg_doc = UsersMessageTools.makeMessage(time, id, msg);
-//			EventMessageTools.addEventMessage(room_id, msg_doc);
-//		} catch (NumberFormatException e1) {
-//			e1.printStackTrace();
-//		} catch (UnknownHostException e1) {
-//			e1.printStackTrace();
-//		}
+		try {
+			Document msg_doc = UsersMessageTools.makeMessage(time, name, msg);
+			EventMessageTools.addEventMessage(room_id, msg_doc);
+		} catch (NumberFormatException e1) {
+			e1.printStackTrace();
+		} catch (UnknownHostException e1) {
+			e1.printStackTrace();
+		}
 		ChatRoom room = rooms.get(room_id);
 		room.sendMessageToRoom(msg, time, session);
 	}
@@ -115,14 +170,14 @@ public class ChatWebSocket {
 		int id = Integer.parseInt((String)session.getUserProperties().get("id"));
 		String name = (String)session.getUserProperties().get("name");
 		// database
-//		try {
-//			Document msg_doc = UsersMessageTools.makeMessage(time, id, msg);
-//			UsersMessageTools.addMessage(id, Integer.parseInt(to_user_id), msg_doc);
-//		} catch (NumberFormatException e1) {
-//			e1.printStackTrace();
-//		} catch (UnknownHostException e1) {
-//			e1.printStackTrace();
-//		}
+		try {
+			Document msg_doc = UsersMessageTools.makeMessage(time, name, msg);
+			UsersMessageTools.addMessage(id, Integer.parseInt(to_user_id), msg_doc);
+		} catch (NumberFormatException e1) {
+			e1.printStackTrace();
+		} catch (UnknownHostException e1) {
+			e1.printStackTrace();
+		}
 		Session adverse = onlineSessions.get(to_user_id);
 		if(adverse != null) {
 			Message message = new Message();
