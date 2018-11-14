@@ -211,6 +211,8 @@ if(id_user!=user.getIdUser()){
 	for(Integer i : user.getAbonnements().keySet()){
 		int id = i.intValue();
 		String login = UserTools.getNameUser(id).get(0);
+		login = login.replaceAll("\"","&quote;");
+		login = login.replaceAll("\'", "\\\\'");
 		%>
 		<div id = <%= id %> >
 		<a href="/profile.jsp?id_user=<%=id %>" > <%= user.getAbonnements().get(i) %></a>	
@@ -236,6 +238,8 @@ if(id_user!=user.getIdUser()){
 	for(Integer i : user.getAbonnes().keySet()){
 		int id = i.intValue();
 		String login = UserTools.getNameUser(id).get(0);
+		login = login.replaceAll("\"","&quote;");
+		login = login.replaceAll("\'", "\\\\'");
 		%>
 		<div id = <%= id %> ><a href="/profile.jsp?id_user=<%=id %>" > <%= user.getAbonnes().get(i) %></a>	
 		<%if(id_user==user.getIdUser()){ %>
@@ -259,6 +263,10 @@ if(id_user!=user.getIdUser()){
 
 <script type="text/javascript" src="/chat/js/jquery-1.10.2.js"></script>
 <script type="text/javascript" src="/chat/js/chatbox.js"></script>
+
+<% String escapeLogin = user.getLogin();
+		escapeLogin = escapeLogin.replaceAll("\"","\\\"");
+		escapeLogin = escapeLogin.replaceAll("\'", "\\\\'");%>
 <%
 if(id_user==user.getIdUser()){ %>
 <script type="text/javascript">
@@ -273,7 +281,7 @@ if(id_user==user.getIdUser()){ %>
         ws.onopen = function(){
         	var msg = {
         		type: 'login',
-        		from: '<%=user.getLogin()%>',
+        		from: '<%=escapeLogin%>',
         		from_id : id_user,
         		to: '',
         		to_id: '',
@@ -324,7 +332,7 @@ if(id_user==user.getIdUser()){ %>
         
 	    $.chatbox.globalOptions = {
 	        id:id_user,
-	        name:'<%=user.getLogin()%>',
+	        name:'<%=escapeLogin%>',
 	        debug:false,
 	        websocket: ws
 	    }
@@ -353,7 +361,7 @@ if(id_user==user.getIdUser()){ %>
 	            type:'room'
 	        });
 			$.chatbox(room_id).requestHistoric();
-			var name_user = '<%=user.getLogin()%>';
+			var name_user = '<%=escapeLogin%>';
 			$.chatbox(room_id).joinRoom(id_user,name_user);
 		}
 	}

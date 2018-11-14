@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringEscapeUtils;
-
 import database.utils.UserTools;
 
 @WebServlet(
@@ -67,11 +65,6 @@ public class Inscription extends HttpServlet{
 		}*/
 		
 		if( erreurs.isEmpty() ) {
-			
-			user_pseudo = StringEscapeUtils.escapeHtml(user_pseudo);
-			user_pwd = StringEscapeUtils.escapeHtml(user_pwd);
-			user_first_name = StringEscapeUtils.escapeHtml(user_first_name);
-			user_last_name = StringEscapeUtils.escapeHtml(user_last_name);
 			
 			UserTools.createUser(user_pseudo, user_pwd, user_first_name, user_last_name,"");
 			
