@@ -265,7 +265,7 @@
                		from_id : id,
                		to: this.opts.name,
                		to_id: this.opts.id,
-               		content: name+' join the room',
+               		content: name+' joint le salon.',
                		time: current_time
                	};
                	//console.log(JSON.stringify(msg));
@@ -295,7 +295,7 @@
                		from_id : id,
                		to: this.opts.name,
                		to_id: this.opts.id,
-               		content: name+' leave the room',
+               		content: name+' quitte le salon.',
                		time: current_time
                	};
                	//console.log(JSON.stringify(msg));

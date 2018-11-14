@@ -343,7 +343,7 @@ if(id_user==user.getIdUser()){ %>
 			$.chatbox({
 	            id:user_id,
 	            name:user_login,
-	            title:'Chat with '+user_login,
+	            title:'Chat avec '+user_login,
 	            type:'private'
 	        });
 			$.chatbox(user_id).requestHistoric();
