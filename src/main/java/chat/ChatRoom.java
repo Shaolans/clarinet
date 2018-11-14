@@ -20,14 +20,8 @@ public class ChatRoom {
 	}
 	
 	// synchronized car il y aura plusieurs utilisateurs dans un chatroom
-	public synchronized boolean join(Session session) {
-		for(Session s : sessions) {
-			if(s.getUserProperties().get("id").equals(session.getUserProperties().get("id"))) {
-				return false;
-			}
-		}
+	public synchronized void join(Session session) {
 		sessions.add(session);
-		return true;
 	}
 	
 	public synchronized void leave(Session session) {

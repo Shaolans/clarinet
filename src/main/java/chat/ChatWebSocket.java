@@ -146,9 +146,8 @@ public class ChatWebSocket {
 			room = new ChatRoom(room_id, room_name);
 			rooms.put(room_id, room);
 		}
-		if(room.join(session)) {
-			room.systemMessage(msg, time);
-		}
+		room.join(session);
+		room.systemMessage(msg, time);
 	}
 	
 	private void sendRoomMessage(String room_id, String msg, String time, Session session) {

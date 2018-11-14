@@ -46,6 +46,7 @@ if(!UserTools.verifSessionOK(session)){
 	<link type="text/css" rel="stylesheet" media="all" href="/chat/css/chatbox.css">
 	<link type="text/css" rel="stylesheet" media="all" href="/chat/css/animate-custom.css">
 	<link type="text/css" rel="stylesheet" media="all" href="/chat/css/style.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 </head>
 <body>
@@ -264,9 +265,9 @@ if(id_user!=user.getIdUser()){
 <script type="text/javascript" src="/chat/js/jquery-1.10.2.js"></script>
 <script type="text/javascript" src="/chat/js/chatbox.js"></script>
 
-<% String escapeLogin = user.getLogin();
-		escapeLogin = escapeLogin.replaceAll("\"","\\\"");
-		escapeLogin = escapeLogin.replaceAll("\'", "\\\\'");%>
+<% String login = user.getLogin();
+login = login.replaceAll("\"","\\\"");
+login = login.replaceAll("\'", "\\\\'");%>
 <%
 if(id_user==user.getIdUser()){ %>
 <script type="text/javascript">
@@ -281,7 +282,7 @@ if(id_user==user.getIdUser()){ %>
         ws.onopen = function(){
         	var msg = {
         		type: 'login',
-        		from: '<%=escapeLogin%>',
+        		from: '<%=login%>',
         		from_id : id_user,
         		to: '',
         		to_id: '',
@@ -325,14 +326,11 @@ if(id_user==user.getIdUser()){ %>
         ws.onerror = function(e){};
         ws.onclose = function(e){
         	console.log('Close: '+e.code+' '+e.reason+' '+ e.wasClean);
-        	if(e.code != '1001'){
-        		ws.close();
-        	}
         };
         
 	    $.chatbox.globalOptions = {
 	        id:id_user,
-	        name:'<%=escapeLogin%>',
+	        name:'<%=login%>',
 	        debug:false,
 	        websocket: ws
 	    }
@@ -361,7 +359,7 @@ if(id_user==user.getIdUser()){ %>
 	            type:'room'
 	        });
 			$.chatbox(room_id).requestHistoric();
-			var name_user = '<%=escapeLogin%>';
+			var name_user = '<%=login%>';
 			$.chatbox(room_id).joinRoom(id_user,name_user);
 		}
 	}

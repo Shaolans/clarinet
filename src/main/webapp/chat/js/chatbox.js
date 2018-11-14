@@ -15,15 +15,15 @@
                     <div class="chatbox-header">\n\
                         <div class="chatbox-title">'+opts.title+'</div>\n\
                         <div class="chatbox-options">\n\
-                            <a class="minimize" href="#">-</a>\n\
-                            <a class="close" href="#">X</a>\n\
+                            <a href="#"><span class="glyphicon glyphicon-minus minimize"></span></a>\n\
+                            <a href="#"><span class="glyphicon glyphicon-remove close"></span></a>\n\
                         </div>\n\
                         <br clear="all">\n\
                     </div>\n\
                     <div class="chatbox-body">\n\
                         <div class="chatbox-content"></div>\n\
                         <div class="chatbox-input">\n\
-                            <textarea class="chatbox-textarea"></textarea>\n\
+                            <textarea class="chatbox-textarea" placeholder="Entrer vos messages ici"></textarea>\n\
                         </div>\n\
                     </div>\n\
                 </div>\n';
@@ -52,8 +52,6 @@
 
             $elem.find('.close').on('click',function(event){
             	if(opts.type == 'room'){
-            		console.log(globalOptions.id);
-            		console.log(globalOptions.name);
             		self.leaveRoom(globalOptions.id, globalOptions.name);
             	}
                 event.preventDefault();
