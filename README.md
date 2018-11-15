@@ -1,24 +1,13 @@
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-# Create a Java Web Application using Embedded Tomcat
 
-This tutorial will show you how to create a simple Java web application using embedded Tomcat.
+# Clarinet
 
-## Prerequisites
+## Qu'est-ce Clarinet ?
 
-* Basic Java knowledge, including an installed version of the JVM and Maven.
-* Basic Git knowledge, including an installed version of Git.
-* A Java web application. If you don't have one follow the first step to create an example. Otherwise skip that step.
+Dans le cadre du projet de DAR 2018 à Sorbonne Université, nous devions développer totalement une application web ayant une dimension social. Clarinet est donc une application web social basé sur la participations d'événements musicaux et a été développé en J2EE sous un serveur Tomcat et déployé sur Heroku. L'application est disponible sur le lien suivant https://clarinet.herokuapp.com.
 
-## Skip The Application Creation
-
-If you want to skip the creation steps you can clone the finished sample and then skip to the 'Deploy Your Application to Heroku' section:
-
-```
-$ git clone git@github.com:heroku/devcenter-embedded-tomcat.git
-```
-
-## Follow the Guide
-
-If you would like to create the application yourself, then follow the Dev Center guide on how to [Create a Java Web Application using Embedded Tomcat](https://devcenter.heroku.com/articles/create-a-java-web-application-using-embedded-tomcat).
+## Contributeurs
+Amel ARKOUB
+Chao LIN
+Ling-Chun SO
 
 
