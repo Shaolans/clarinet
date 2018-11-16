@@ -46,11 +46,11 @@ if(!UserTools.verifSessionOK(session)){
 	<link type="text/css" rel="stylesheet" media="all" href="/chat/css/chatbox.css">
 	<link type="text/css" rel="stylesheet" media="all" href="/chat/css/animate-custom.css">
 	<link type="text/css" rel="stylesheet" media="all" href="/chat/css/style.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 </head>
 <body>
-			<!-- Navigation -->
+
+		<!-- Navigation -->
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
         <a class="navbar-brand" href="/index.jsp">Clarinet</a>
@@ -65,7 +65,7 @@ if(!UserTools.verifSessionOK(session)){
             </li>
           	
           	
-          	<li class="nav-item active">
+          	<li class="nav-item" active>
               <a class="nav-link" href="/profile.jsp">Mon profil</a>
             </li>
           
@@ -78,6 +78,9 @@ if(!UserTools.verifSessionOK(session)){
         </div>
       </div>
     </nav>
+		
+
+	
 		
 <% 
 List<String> list = UserTools.getNameUser(id_user);
@@ -121,7 +124,7 @@ if(id_user!=user.getIdUser()){
             <img class="card-img-top" id="imageUser" src=<%=getImage %> width="125" height ="125"  border="1" alt="Image de l'événement">
             <div class="card-body">
               <h2 class="card-title"><%= user.getFormattedName() %></h2>
-              <p class="card-text"><%= user.getBio() %><%
+              <p class="card-text" id=msgBio><%= user.getBio() %><%
 		if(id_user==user.getIdUser()){%>
 		<div id="boxModif"></div>
 		<div id="divButton"><button onclick="faireApparaitreZoneTexte()">Editer</button></div>

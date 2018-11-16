@@ -15,8 +15,8 @@
                     <div class="chatbox-header">\n\
                         <div class="chatbox-title">'+opts.title+'</div>\n\
                         <div class="chatbox-options">\n\
-                            <a href="#"><span class="glyphicon glyphicon-minus minimize"></span></a>\n\
-                            <a href="#"><span class="glyphicon glyphicon-remove close"></span></a>\n\
+                            <a href="#"><span class="glyphicon glyphicon-minus minimize">-</span></a>\n\
+                            <a href="#"><span class="glyphicon glyphicon-remove close">X</span></a>\n\
                         </div>\n\
                         <br clear="all">\n\
                     </div>\n\
