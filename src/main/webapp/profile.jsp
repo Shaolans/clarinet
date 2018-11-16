@@ -60,8 +60,14 @@ if(!UserTools.verifSessionOK(session)){
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
           	
+          	
+          	
           	<li class="nav-item">
               <a class="nav-link" href="/main.jsp">Carte</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="/users.jsp">Utilisateurs</a>
             </li>
           	
           	
@@ -95,22 +101,7 @@ userFormattedName = userFormattedName.replaceAll("\'", "\\\\'");
 		var user_name = '<%=userFormattedName%>';
 	</script>
 	
-<div id = "following"> 
-<%
-if(id_user!=user.getIdUser()){
-	if(user.getAbonnes().get(id_user)!=null){
-		%>
-		<button id="unfollow" onClick="javascript: nePlusSuivre(<%=user.getIdUser() %>)">Ne plus suivre</button>
-	<%	 
-	}
-	else{
-		%>
-		<button id="follow" onClick="javascript: suivre(<%=user.getIdUser() %>)">Suivre</button>
-		<%
-	}
-}
-%>
-</div>
+
 
 
 
@@ -121,7 +112,7 @@ if(id_user!=user.getIdUser()){
 	<!-- Blog Post -->
           <div class="card mb-4"  id="profile">
           <% String getImage = "/getImage?id_user="+user.getIdUser(); %>
-            <img class="card-img-top" id="imageUser" src=<%=getImage %> width="125" height ="125"  border="1" alt="Image de l'événement">
+            <img class="card-img-top" id="imageUser" src=<%=getImage %> width="125" height ="125"  border="1" alt="Image de profil">
             <div class="card-body">
               <h2 class="card-title"><%= user.getFormattedName() %></h2>
               <p class="card-text" id=msgBio><%= user.getBio() %><%
@@ -139,6 +130,23 @@ if(id_user!=user.getIdUser()){
 					</form>
 				</div>
 				<%} %>
+				
+				<div id = "following"> 
+<%
+if(id_user!=user.getIdUser()){
+	if(user.getAbonnes().get(id_user)!=null){
+		%>
+		<button id="unfollow" onClick="javascript: nePlusSuivre(<%=user.getIdUser() %>)">Ne plus suivre</button>
+	<%	 
+	}
+	else{
+		%>
+		<button id="follow" onClick="javascript: suivre(<%=user.getIdUser() %>)">Suivre</button>
+		<%
+	}
+}
+%>
+</div>
               
             
             </div>
@@ -166,10 +174,15 @@ if(id_user!=user.getIdUser()){
 		String id = e.getId();
 		String title= StringEscapeUtils.escapeHtml(e.getTitle());
 		%>
-		<div id = <%= id %> > <a href="/event.jsp?id_event=<%=id %>" > <%= title+" "+e.getDatestart() %>	</a>
+		<div class="row">
+		<div class="col-lg-9" id = <%= id %> > <a href="/event.jsp?id_event=<%=id %>" > <%= title+" "+e.getDatestart() %>	</a>
+		
+		</div>
+		<div class = "col-lg-2">
 		<%if(id_user==user.getIdUser()){ %>
 			<input type="button" value="Rejoindre le salon" onclick="doRoomChat('<%=id %>','<%=title%>')">
 		<%} %>
+		</div>
 		</div>
 	<%}
 	%>
@@ -193,11 +206,18 @@ if(id_user!=user.getIdUser()){
 					title = title.replaceAll("\"","&quote;");
 					title = title.replaceAll("\'", "\\\\'");
 					%>
-					<div id = <%= id %> > <a href="/event.jsp?id_event=<%=id %>" > <%= e.getTitle()+" "+e.getDatestart() %>	</a>
+					
+					<div class="row">
+					<div class="col-lg-9" id = <%= id %> > <a href="/event.jsp?id_event=<%=id %>" > <%= e.getTitle()+" "+e.getDatestart() %>	</a>
+					
+					</div>
+					<div class = "col-lg-2">
 					<%if(id_user==user.getIdUser()){ %>
-					<input type="button" value="Rejoindre le salon" onclick="doRoomChat('<%=id %>','<%=title%>')">
+						<input type="button" value="Rejoindre le salon" onclick="doRoomChat('<%=id %>','<%=title%>')">
 					<%} %>
 					</div>
+					</div>
+					
 				<%}
 		%></div>
             </div>
@@ -218,11 +238,17 @@ if(id_user!=user.getIdUser()){
 		login = login.replaceAll("\"","&quote;");
 		login = login.replaceAll("\'", "\\\\'");
 		%>
-		<div id = <%= id %> >
+		
+		<div class="row">
+		
+		<div class="col-lg-10" id = <%= id %> >
 		<a href="/profile.jsp?id_user=<%=id %>" > <%= user.getAbonnements().get(i) %></a>	
 		<%if(id_user==user.getIdUser()){ %>
-		<input type="button" value="Chat" onclick="doChat(<%=id%>,'<%=login%>')">
-		<%} %>
+		
+		</div>
+		
+		<div class="col-lg-2"><input type="button" value="Chat" onclick="doChat(<%=id%>,'<%=login%>')">
+		<%} %></div> 
 		</div>
 	<%}
 	%>
@@ -245,10 +271,16 @@ if(id_user!=user.getIdUser()){
 		login = login.replaceAll("\"","&quote;");
 		login = login.replaceAll("\'", "\\\\'");
 		%>
-		<div id = <%= id %> ><a href="/profile.jsp?id_user=<%=id %>" > <%= user.getAbonnes().get(i) %></a>	
+		
+		<div class="row">
+		
+		<div class="col-lg-10" id = <%= id %> ><a href="/profile.jsp?id_user=<%=id %>" > <%= user.getAbonnes().get(i) %></a>	
 		<%if(id_user==user.getIdUser()){ %>
-		<input type="button" value="Chat" onclick="doChat(<%=id%>,'<%=login%>')">
+		</div>
+		<div class="col-lg-2"> <input type="button" value="Chat" onclick="doChat(<%=id%>,'<%=login%>')">
 		<%} %>
+		</div>
+		
 		</div>
 	<%}
 	%>

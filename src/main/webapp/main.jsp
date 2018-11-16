@@ -19,40 +19,7 @@
    <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>    
     <script src="js/main.js"></script>
-    <style>
-	    #myInput {
-	    background-image: url('/css/searchicon.png'); /* Add a search icon to input */
-	    background-position: 10px 12px; /* Position the search icon */
-	    background-repeat: no-repeat; /* Do not repeat the icon image */
-	    width: 100%; /* Full-width */
-	    font-size: 16px; /* Increase font-size */
-	    padding: 12px 20px 12px 40px; /* Add some padding */
-	    border: 1px solid #ddd; /* Add a grey border */
-	    margin-bottom: 12px; /* Add some space below the input */
-		}
-		
-		#myUL {
-		    /* Remove default list styling */
-		    list-style-type: none;
-		    padding: 0;
-		    margin: 0;
-		}
-		
-		#myUL li a {
-		    border: 1px solid #ddd; /* Add a border to all links */
-		    margin-top: -1px; /* Prevent double borders */
-		    background-color: #f6f6f6; /* Grey background color */
-		    padding: 12px; /* Add some padding */
-		    text-decoration: none; /* Remove default text underline */
-		    font-size: 18px; /* Increase the font-size */
-		    color: black; /* Add a black text color */
-		    display: block; /* Make it into a block element to fill the whole list */
-		}
-		
-		#myUL li a:hover:not(.header) {
-		    background-color: #eee; /* Add a hover effect to all links, except for headers */
-		}
-    </style>
+    
   </head>
   <body>
   
@@ -76,9 +43,15 @@ if(!UserTools.verifSessionOK(session)){
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
           	
+          	
           	<li class="nav-item active">
               <a class="nav-link" href="/main.jsp">Carte</a>
             </li>
+          	
+          	<li class="nav-item">
+              <a class="nav-link" href="/users.jsp">Utilisateurs</a>
+            </li>
+          	
           	
           	
           	<li class="nav-item">
@@ -97,7 +70,7 @@ if(!UserTools.verifSessionOK(session)){
 	
 	<div class="row">
 	
-	 	 <div class="col-lg-4 mb-4">
+	 	 <div class="col-lg-5 mb-4">
    	 		
    	 		<!-- Search Widget -->
           <div class="card mb-4">
@@ -170,28 +143,12 @@ if(!UserTools.verifSessionOK(session)){
         </li>
       </ul>
           
-        </div>
+     </div>
         
         
         
-  	<div class="col-lg-6" id="map"></div>
-  	<div class="sidebar-nav-fixed col-lg-2">
-    <div class="column">
-		<input type="text" id="searchuser" onkeyup="myFunction()" placeholder="Rechercher par nom.." title="Taper un nom">
-
-		<ul id="myUL">
-			<%
-        	List<UserPrimitiveContainer> users = UserTools.getUsers();
-        	for(UserPrimitiveContainer u: users){
-        		List<String> format = new ArrayList<String>();
-        		format.add(u.getLogin());
-        		format.add(u.getFname());
-        		format.add(u.getLname());
-        		out.println("<li><a href=\"profile.jsp?id_user="+u.getId()+"\">"+UserTools.formatName(format)+"</a></li>");
-        	}
-        	%>
-		</ul>
-    </div>
+  	<div class="col-lg-7" id="map"></div>
+  	
 
   	</div>
     <script type="text/javascript">
