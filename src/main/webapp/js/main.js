@@ -158,7 +158,7 @@ function loadList(){
 				  var res="<div class=\"list-group-item\">"+
 				  		"<a href=\"/event.jsp?id_event="+obj.id+"\">"+obj.title+"</a>"+
 				  		"<div class=\"row\">" +
-				  "<p  >Date : "+obj.start_date+" </p> <div class =\"col-lg-4\"></div><button class=\"btn btn-primary\" onclick=\"updateMap(map, '"+obj.address.replace(/,/g,'').replace(/(\r\n\t|\n|\r\t)/gm,"")+"')\">Carte</button>"
+				  "<p  >Date : "+obj.start_date+" </p> <div class =\"col-lg-4\"></div><button class=\"btn btn-primary\" onclick=\"updateMap(map, '"+obj.address.replace(/,/g,'').replace(/(\r\n\t|\n|\r\t)/gm,"").replace(/'/g,"")+"')\">Carte</button>"
 				  +"</div></div>";
 				  allRes +=res;
 				  var ans = "<li>"+
