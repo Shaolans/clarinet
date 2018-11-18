@@ -73,6 +73,9 @@ else
               <a class="nav-link" href="/main.jsp">Carte</a>
             </li>
           	
+          	<li class="nav-item">
+              <a class="nav-link" href="/users.jsp">Utilisateurs</a>
+            </li>
           	
           	<li class="nav-item">
               <a class="nav-link" href="/profile.jsp">Mon profil</a>
@@ -168,7 +171,7 @@ else
             <h5 class="card-header">Participants</h5>
             <div class="card-body">
               <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-12">
                   <ul id="participants" class="list-unstyled mb-0">
                   
                   <%

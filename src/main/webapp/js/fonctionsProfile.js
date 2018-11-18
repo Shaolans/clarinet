@@ -78,7 +78,8 @@ function traiterReponseUpload(rep){
 		alert(rep.err);
 	}
 	else{
-		LoadImg();
+		alert("Upload reussi : veuillez recharcher la page pour faire apparaitre l'image ! (cf : " +
+				"Extensions et Ameliorations du rapport)");
 	}
 }
 
@@ -254,7 +255,7 @@ function traiterReponseSuivre(rep){
 		res=document.getElementById("following");
 	      res.innerHTML="<button id=\"unfollow\" onClick=\"javascript: nePlusSuivre("+rep.id_ami+")\">Ne plus suivre</button>";
 	      res=document.getElementById("abonnes");
-	      res.innerHTML+="<div id = "+id_user+" ><a href=\"/home/profile.jsp?id_user="+id_user+"\" > "+user_name+"</a>	</div>";
+	      res.innerHTML+="<div id = "+id_user+" ><a href=\"/profile.jsp?id_user="+id_user+"\" > "+user_name+"</a>	</div>";
 	}
 	
 }

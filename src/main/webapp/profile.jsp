@@ -112,7 +112,7 @@ userFormattedName = userFormattedName.replaceAll("\'", "\\\\'");
 	<!-- Blog Post -->
           <div class="card mb-4"  id="profile">
           <% String getImage = "/getImage?id_user="+user.getIdUser(); %>
-            <img class="card-img-top" id="imageUser" src=<%=getImage %> width="125" height ="125"  border="1" alt="Image de profil">
+            <img class="card-img-top" id="imageUser" src=<%=getImage %> height ="250"  border="1" alt="Image de profil">
             <div class="card-body">
               <h2 class="card-title"><%= user.getFormattedName() %></h2>
               <p class="card-text" id=msgBio><%= user.getBio() %><%
@@ -403,6 +403,7 @@ if(id_user==user.getIdUser()){ %>
  <!-- Bootstrap core JavaScript -->
    <!-- Ne fait pas fonctionner le chat  <script src="vendor/jquery/jquery.min.js"></script> -->
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/fonctionsProfile.js"></script>
 
 </body>
 </html>
