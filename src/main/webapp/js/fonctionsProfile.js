@@ -78,8 +78,7 @@ function traiterReponseUpload(rep){
 		alert(rep.err);
 	}
 	else{
-		alert("Upload reussi : veuillez recharcher la page pour faire apparaitre l'image ! (cf : " +
-				"Extensions et Ameliorations du rapport)");
+		location.reload();
 	}
 }
 
