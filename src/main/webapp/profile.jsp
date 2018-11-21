@@ -163,7 +163,7 @@ if(id_user!=user.getIdUser()){
         <div class="card">
           <div class="card-header" role="tab" id="headingOne">
             <h5 class="mb-0">
-              <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Evénements passés</a>
+              <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">EvÃ©nements passÃ©s</a>
             </h5>
           </div>
 
@@ -193,7 +193,7 @@ if(id_user!=user.getIdUser()){
         <div class="card">
           <div class="card-header" role="tab" id="headingTwo">
             <h5 class="mb-0">
-              <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Evénements futurs
+              <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">EvÃ©nements futurs
               </a>
             </h5>
           </div>
@@ -259,7 +259,7 @@ if(id_user!=user.getIdUser()){
         <div class="card">
           <div class="card-header" role="tab" id="headingFour">
             <h5 class="mb-0">
-              <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">Abonnés</a>
+              <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">AbonnÃ©s</a>
             </h5>
           </div>
           <div id="collapseFour" class="collapse" role="tabpanel" aria-labelledby="headingFour">
@@ -294,7 +294,7 @@ if(id_user!=user.getIdUser()){
 </div>
 
 
-<script type="text/javascript" src="fonctions.js"></script>
+<script type="text/javascript" src="/js/fonctionsProfile.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-latest.js"></script>
 
 <script type="text/javascript" src="/chat/js/jquery-1.10.2.js"></script>
