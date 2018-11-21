@@ -360,6 +360,7 @@ if(id_user==user.getIdUser()){ %>
         ws.onerror = function(e){};
         ws.onclose = function(e){
         	console.log('Close: '+e.code+' '+e.reason+' '+ e.wasClean);
+		alert("L'un des chats a fermé par mesure de sécurité, veuillez recharger la page et rouvrir le chat pour continuer à discuter.");
         };
         
 	    $.chatbox.globalOptions = {
