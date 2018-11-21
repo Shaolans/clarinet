@@ -361,7 +361,7 @@ if(id_user==user.getIdUser()){ %>
         ws.onclose = function(e){
         	console.log('Close: '+e.code+' '+e.reason+' '+ e.wasClean);
 		if(e.code == 1006){
-			alert("L'un des chats a fermé par mesure de sécurité, veuillez recharger la page et rouvrir le chat pour continuer à discuter.");
+			//alert("L'un des chats a fermé par mesure de sécurité, veuillez recharger la page et rouvrir le chat pour continuer à discuter.");
 		}
         };
         
