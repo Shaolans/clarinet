@@ -294,7 +294,6 @@ if(id_user!=user.getIdUser()){
 </div>
 
 
-<script type="text/javascript" src="/js/fonctionsProfile.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-latest.js"></script>
 
 <script type="text/javascript" src="/chat/js/jquery-1.10.2.js"></script>
