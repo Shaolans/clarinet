@@ -10,6 +10,9 @@
             var self = this;
             var opts = this.opts = setOption(options);
             var websocket = this.websocket = globalOptions.websocket;
+            websocket.onerror = function(){
+                alert("L'un des chats a fermé par mesure de sécurité, veuillez recharger la page et rouvrir le chat pour continuer à discuter.");
+            }
             var boxFrame = '\
                 <div class="chatbox" id="'+opts.boxId+'">\n\
                     <div class="chatbox-header">\n\
