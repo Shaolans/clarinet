@@ -285,12 +285,15 @@ public class UserTools {
 						
 						calendar.setTime(currentDate);
 						
-						if(calendar.get(Calendar.YEAR)>=Integer.valueOf(splittedDate[0])){
+						
+						
+						if(calendar.get(Calendar.YEAR)>Integer.valueOf(splittedDate[0])){
 							evenements_passes.add(e);
 						}
 						else{
 							if(calendar.get(Calendar.YEAR)==Integer.valueOf(splittedDate[0])){
 								if(calendar.get(Calendar.MONTH)+1>Integer.valueOf(splittedDate[1])){
+									
 									evenements_passes.add(e);
 								}
 								
@@ -298,6 +301,7 @@ public class UserTools {
 									
 									if(calendar.get(Calendar.MONTH)+1==Integer.valueOf(splittedDate[1])){
 										if(calendar.get(Calendar.DAY_OF_MONTH)>=Integer.valueOf(splittedDate[2])){
+											
 											evenements_passes.add(e);
 										}
 										else{
